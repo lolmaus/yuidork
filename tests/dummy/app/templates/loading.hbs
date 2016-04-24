@@ -1,1 +1,19 @@
 Loading...
+
+{{#if loadingStages.length}}
+  <ul>
+    {{#each loadingStages as |stage|}}
+      <li>
+        {{stage.name}}
+
+        {{#if stage.totalCount}}
+          {{stage.completeCount}}/{{stage.totalCount}}
+        {{/if}}
+
+        {{#if stage.complete}}
+          ✓
+        {{/if}}
+      </li>
+    {{/each}}
+  </ul>
+{{/if}}
