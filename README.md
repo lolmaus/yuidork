@@ -10,6 +10,7 @@ Allows viewing docs for *any* branch/tag/commit, does not require generated docs
 
 * [emberjs/ember.js](https://lolmaus.github.io/ember-yuidoc-frontend/#/emberjs/ember.js/master)
 * [emberjs/data](https://lolmaus.github.io/ember-yuidoc-frontend/#/emberjs/data/master)
+* [simplabs/ember-simple-auth](https://lolmaus.github.io/ember-yuidoc-frontend/#/simplabs/ember-simple-auth/master)
 * [cibernox/ember-cpm](https://lolmaus.github.io/ember-yuidoc-frontend/#/cibernox/ember-cpm/master)
 * [yuidoc/master](https://lolmaus.github.io/ember-yuidoc-frontend/#/yuidoc/master/master)
 
@@ -59,9 +60,10 @@ Allows viewing docs for *any* branch/tag/commit, does not require generated docs
   * :white_circle: Options
     * :white_circle: Versions
     * :white_circle: Extensions
-    * :white_circle: Path to JSDoc's `data.json`.
-    * :white_circle: Project info: name, desc, URL.
-    * :white_circle: Disable/enable project switcher.
+    * :white_circle: Path to JSDoc's `data.json`
+    * :white_circle: Project info: name, desc, URL
+    * :white_circle: Disable/enable project switcher
+    * :white_circle: Hide menu sections
 * :white_circle: Styling
 * :white_circle: Authentication
   * :white_circle: GitHub auth
