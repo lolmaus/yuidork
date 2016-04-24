@@ -255,7 +255,7 @@ export default AjaxService.extend({
   },
 
   populateStore ({data, files, versionRecord}) {
-    console.log({data, files, versionRecord})
+    console.log('Parsing result', {data, files, versionRecord});
 
     const store = this.get('store');
 

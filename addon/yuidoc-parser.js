@@ -1116,7 +1116,6 @@ export default EmberObject.extend({
     const REGEX_START_COMMENT = this.get(`REGEX_START_COMMENTS.${extension}`);
     const REGEX_END_COMMENT   = this.get(`REGEX_END_COMMENTS.${extension}`);
     const code                = file.content;
-    if (!code.split || !code.split.call) { debugger }
     const lines               = code.split(REGEX_LINES);
     const len                 = lines.length;
     const comments            = file.comments = [];
