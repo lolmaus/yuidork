@@ -6,6 +6,7 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
+  this.route('repo', {path: '/:owner/:repo/:tree'});
 });
 
 export default Router;
