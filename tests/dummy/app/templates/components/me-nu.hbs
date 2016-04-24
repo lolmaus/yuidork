@@ -1,31 +1,35 @@
-<h2>Modules</h2>
+{{#if versionRecord.modulesSorted.length}}
+  <h2>Modules</h2>
 
-<ul>
-  {{#each versionRecord.modulesSorted as |module|}}
-    <li>
-      {{link-to module.name 'version.module' module.id}}
-    </li>
-  {{/each}}
-</ul>
+  <ul>
+    {{#each versionRecord.modulesSorted as |module|}}
+      <li>
+        {{link-to module.name 'version.module' module.id}}
+      </li>
+    {{/each}}
+  </ul>
+{{/if}}
 
+{{#if versionRecord.namespacesSorted.length}}
+  <h2>Namespaces</h2>
 
-<h2>Namespaces</h2>
+  <ul>
+    {{#each versionRecord.namespacesSorted as |namespace|}}
+      <li>
+        {{namespace.name}}
+      </li>
+    {{/each}}
+  </ul>
+{{/if}}
 
-<ul>
-  {{#each versionRecord.namespacesSorted as |namespace|}}
-    <li>
-      {{namespace.name}}
-    </li>
-  {{/each}}
-</ul>
+{{#if versionRecord.classesSorted.length}}
+  <h2>Classes</h2>
 
-
-<h2>Classes</h2>
-
-<ul>
-  {{#each versionRecord.classesSorted as |klass|}}
-    <li>
-      {{klass.name}}
-    </li>
-  {{/each}}
-</ul>
+  <ul>
+    {{#each versionRecord.classesSorted as |klass|}}
+      <li>
+        {{klass.name}}
+      </li>
+    {{/each}}
+  </ul>
+{{/if}}
