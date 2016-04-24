@@ -28,8 +28,9 @@ Examples:
     * :black_circle: Class
     * :black_circle: Class Item
     * :black_circle: Namespace
-    * :no_entry: Element (don't know what that is, need a project that uses it)
-    * :no_entry: For     (don't know what that is, need a project that uses it)
+    * :no_entry: Project (conflicts with the multiple versions feature, need overriding?)
+    * :no_entry: Element (don't know what that is, need a reference project)
+    * :no_entry: For     (don't know what that is, need a reference project)
   * :black_circle: Parse YUIDoc JSON format and populate store 
   * :black_circle: Generate documentation live for any project on GitHub
     * :black_circle: Port YUIDoc.DocParser (aww yiss! :sunglasses:)
@@ -46,10 +47,35 @@ Examples:
   * :white_circle: Reload model when changing URL params
   * :white_circle: Versions switcher
   * :white_circle: Search options
+  * :white_circle: Linking to viewed project
 * :white_circle: Configuration
-  * :white_circle: Basic configuration via query params
-  * :white_circle: Full configuration via dotfile
+  * :white_circle: Source
+    * :white_circle: Via query params
+    * :white_circle: Via dotfile
+  * :white_circle: Options
+    * :white_circle: Versions
+    * :white_circle: Extensions
+    * :white_circle: Path to JSDoc's `data.json`.
+    * :white_circle: Project info: name, desc, URL.
 * :white_circle: Styling
+* :white_circle: Authentication
+  * :white_circle: GitHub auth
+  * :white_circle: Error handling
+    * :white_circle: API limit
+    * :white_circle: Network failure
+* :white_circle: Advanced features
+  * Parsing docs from file system
+    * :white_circle: Figure out how to serve and access files on disk
+    * :white_circle: Implement
+    * :no_entry: Livereloading (would be a fantastic feature, but it's too tricky to implement)
+
+
+
+## Project structure
+
+ember-yuidoc-frontend is distributed as an Ember addon, you can use it to build your own app or to include documentation into an existing Ember app.
+
+But ember-yuidoc-frontend also bundles a dummy app which aims to be a universal and fully functional YUIDoc@GitHub viewer.
 
 
 ## License
