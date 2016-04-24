@@ -3,6 +3,7 @@
 import Ember from 'ember';
 
 const {
+  A,
   inject: {service},
   Route,
   RSVP
@@ -18,9 +19,13 @@ export default Route.extend({
 
   // ----- Overridden methods -----
   model ({owner, repo, version}) {
+    const loadingStages = A();
+
+    this.controllerFor('loading').set('loadingStages', loadingStages);
+
     return this
       .get('ajaxYuidoc')
-      .retrieve({owner, repo, version})
+      .retrieve({owner, repo, version, loadingStages})
       .then(yuiStuff => ({
         ...yuiStuff,
         owner,

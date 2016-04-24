@@ -4,6 +4,8 @@ const {
   A,
   RSVP,
   inject: {service},
+  Object: EObject,
+  run: {later}
 } = Ember;
 
 import AjaxService from 'ember-ajax/services/ajax';
@@ -37,7 +39,16 @@ export default AjaxService.extend({
 
 
   // ----- Custom methods -----
+  laterPromise (callback) {
+    const deferred = RSVP.defer();
 
+    later(() => {
+      const result = callback();
+      deferred.resolve(result);
+    });
+
+    return deferred.promise;
+  },
 
 
 
@@ -57,8 +68,26 @@ export default AjaxService.extend({
     );
   },
 
-  retrieveFiles ({owner, repo, version, files}) {
-    const promises = files.map(file => this.retrieveFile({owner, repo, version, file}));
+  retrieveFiles ({owner, repo, version, files, loadingStages}) {
+    let stage;
+    if (loadingStages) {
+      stage = loadingStages.get('lastObject');
+      stage.set('completeCount', 0);
+      stage.set('totalCount',    files.length);
+    }
+
+    const promises =
+      files
+        .map(file =>
+          this
+            .retrieveFile({owner, repo, version, file})
+            .then(result => {
+              const completeCount = stage.get('completeCount');
+              stage.set('completeCount', completeCount + 1);
+              return result;
+            })
+        );
+
     return RSVP.all(promises);
   },
 
@@ -249,21 +278,39 @@ export default AjaxService.extend({
   },
 
 
+  nextLoadingStage (loadingStages, name) {
+    if (!loadingStages) {
+      return;
+    }
+
+    const last = loadingStages.get('lastObject');
+    if (last) {
+      last.set('complete', true);
+    }
+
+    loadingStages.pushObject(EObject.create({name}));
+  },
 
 
-  retrieve ({owner, repo, version}) {
+  retrieve ({owner, repo, version, loadingStages}) {
     const {versionRecord, existing} = this.getVersionRecord(version);
 
     if (existing) {
       return RSVP.resolve(versionRecord);
     }
 
+    this.nextLoadingStage(loadingStages, 'Retrieving list of files from GitHub...');
+
     return this
       .requestTrees({owner, repo, version})
-      .then(response        => this.filterFiles(response.tree))
-      .then(files           => this.retrieveFiles({owner, repo, version, files}))
-      .then(files           => files.filter(({content}) => typeof content === 'string'))
-      .then(files           => this.transformFiles(files))
-      .then(({data, files}) => this.populateStore({data, files, versionRecord}));
+      .then(({tree})        => this.filterFiles(tree))
+      .then(result          => (this.nextLoadingStage(loadingStages, 'Retrieving files from GitHub...'), result))
+      .then(files           => this.retrieveFiles({owner, repo, version, files, loadingStages}))
+      .then(result          => (this.nextLoadingStage(loadingStages, 'Filtering files...'), result))
+      .then(files           => this.laterPromise(() => files.filter(({content}) => typeof content === 'string')))
+      .then(result          => (this.nextLoadingStage(loadingStages, 'Extracting documentation...'), result))
+      .then(files           => this.laterPromise(() => this.transformFiles(files)))
+      .then(result          => (this.nextLoadingStage(loadingStages, 'Loading documentation into the store...'), result))
+      .then(({data, files}) => this.laterPromise(() => this.populateStore({data, files, versionRecord})));
   },
 });
