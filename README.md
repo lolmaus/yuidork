@@ -70,6 +70,8 @@ Live demos:
     * :white_circle: Figure out how to serve and access files on disk
     * :white_circle: Implement
     * :no_entry: Livereloading (would be a fantastic feature, but it's too tricky to implement)
+* :white_circle: Some tests maybe
+* :white_circle: Document with YUIDoc :trollface:
 
 
 
