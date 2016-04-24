@@ -3,6 +3,7 @@
 import Ember from 'ember';
 
 const {
+  A,
   inject: {service},
   Route,
   RSVP
@@ -17,15 +18,13 @@ export default Route.extend({
 
 
   // ----- Overridden methods -----
-  model ({owner, repo, version}) {
-    return this
-      .get('ajaxYuidoc')
-      .retrieve({owner, repo, version})
-      .then(yuiStuff => ({
-        ...yuiStuff,
-        owner,
-        repo,
-        versionName: version
-      }));
+  model ({moduleId}) {
+    const parentModel   = this.modelFor('version');
+    const currentModule = A(parentModel.modules).findBy('id', moduleId);
+    
+    return RSVP.hash({
+      ...parentModel,
+      currentModule
+    })
   }
 });

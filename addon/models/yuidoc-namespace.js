@@ -1,5 +1,13 @@
+import Ember from 'ember';
+
+const {
+  computed: {alias}
+} = Ember;
+
 import Model                from 'ember-data/model';
 import {belongsTo, hasMany} from 'ember-data/relationships';
+
+
 
 export default Model.extend({
 
@@ -13,5 +21,10 @@ export default Model.extend({
   
   classes:    hasMany('yuidoc-class',      {async: false}),
   classItems: hasMany('yuidoc-class-item', {async: false}),
+  
+  
+  
+  // ----- Computed properties -----
+  name: alias('id')
   
 });

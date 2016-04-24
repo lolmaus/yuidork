@@ -6,7 +6,12 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
-  this.route('version', {path: '/:owner/:repo/:version'});
+  this.route('version', {path: '/:owner/:repo/:version'}, function() {
+    this.route('module',    {path: 'modules/:moduleId'});
+    this.route('namespace', {path: 'namespaces/:namespaceId'});
+    this.route('class',     {path: 'classes/:classId'});
+  });
+  this.route('loading');
 });
 
 export default Router;

@@ -51,9 +51,10 @@ export default AjaxService.extend({
   },
 
   shouldIncludeFile (path) {
-    return this
-      .get('extensions')
-      .any(ext => endsWith(path, `.${ext}`));
+    return (
+      this.get('extensions').any(ext => endsWith(path, `.${ext}`))
+      && !A(path.split('/')).contains('tests')
+    );
   },
 
   retrieveFiles ({owner, repo, version, files}) {
@@ -238,7 +239,7 @@ export default AjaxService.extend({
 
     return {
       store,
-      version:    versionRecord,
+      versionRecord,
       files:      this.populateFiles     ({files,      version}),
       modules:    this.populateModules   ({modules,    version}),
       classes:    this.populateClasses   ({classes,    version}),
@@ -261,8 +262,8 @@ export default AjaxService.extend({
       .requestTrees({owner, repo, version})
       .then(response        => this.filterFiles(response.tree))
       .then(files           => this.retrieveFiles({owner, repo, version, files}))
+      .then(files           => files.filter(({content}) => typeof content === 'string'))
       .then(files           => this.transformFiles(files))
-      .then(({data, files}) => this.populateStore({data, files, versionRecord}))
-      .then(data => {console.log({data});});
+      .then(({data, files}) => this.populateStore({data, files, versionRecord}));
   },
 });

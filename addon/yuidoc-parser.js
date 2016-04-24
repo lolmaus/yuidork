@@ -4,6 +4,7 @@ const {
   A,
   assign,
   isArray,
+  isFunction,
   Object: EmberObject,
   String: {capitalize}
 } = Ember;
@@ -972,17 +973,17 @@ export default EmberObject.extend({
     this.set('CURRENT_NAMESPACE', val);
     return val;
   },
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
 
   getExtension(path) {
     return A(path.split('.')).get('lastObject');
   },
-  
+
   implodeString (str) {
     const REGEX_GLOBAL_LINES = this.get('REGEX_GLOBAL_LINES');
     return str.replace(REGEX_GLOBAL_LINES, '!~YUIDOC_LINE~!');
@@ -1031,10 +1032,10 @@ export default EmberObject.extend({
 
     return value;
   },
-  
-  
-  
-  
+
+
+
+
 
   // http://yui.github.io/yuidoc/api/files/lib_docparser.js.html#l1220
   handleComment ({commentRaw, path, lineNum}) {
@@ -1115,6 +1116,7 @@ export default EmberObject.extend({
     const REGEX_START_COMMENT = this.get(`REGEX_START_COMMENTS.${extension}`);
     const REGEX_END_COMMENT   = this.get(`REGEX_END_COMMENTS.${extension}`);
     const code                = file.content;
+    if (!code.split || !code.split.call) { debugger }
     const lines               = code.split(REGEX_LINES);
     const len                 = lines.length;
     const comments            = file.comments = [];
@@ -1235,7 +1237,7 @@ export default EmberObject.extend({
 
   processComments (file) {
     this.extractComment(file);
-    
+
     this.setCurrentFile(file.path);
 
     file
@@ -1243,7 +1245,7 @@ export default EmberObject.extend({
       .forEach(comment => this.processComment(comment));
 
     return file;
-  },  
+  },
 
   processModules () {
     const MODULES = this.get('MODULES');
@@ -1351,7 +1353,7 @@ export default EmberObject.extend({
       }
     });
   },
-  
+
   parse (files) {
     this.setProperties({
       PROJECT:    {},

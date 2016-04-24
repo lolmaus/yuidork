@@ -1,0 +1,55 @@
+{{#with model.currentModule as |module|}}
+  <h1>Module {{module.name}}</h1>
+
+  {{#with module.parentModule as |parent|}}
+    <p>
+      Parent: {{link-to parent.name 'version.module' parent.id}}
+    </p>
+  {{/with}}
+
+
+  {{#if module.description}}
+    {{md-text text=module.description}}
+  {{/if}}
+
+
+  {{#if module.submodules.length}}
+    <h2>Submodules</h2>
+
+    <ul>
+      {{#each module.submodules as |submodule|}}
+        <li>
+          {{link-to submodule.name 'version.module' submodule.id}}
+        </li>
+      {{/each}}
+    </ul>
+  {{/if}}
+
+
+  {{#if module.namespaces.length}}
+    <h2>Namespaces</h2>
+
+    <ul>
+      {{#each module.namespaces as |namespace|}}
+        <li>
+          {{link-to namespace.name 'version.namespace' namespace.id}}
+        </li>
+      {{/each}}
+    </ul>
+  {{/if}}
+
+
+  {{#if module.classes.length}}
+    <h2>Classes</h2>
+
+    <ul>
+      {{#each module.classes as |klass|}}
+        <li>
+          {{link-to klass.name 'version.class' klass.id}}
+        </li>
+      {{/each}}
+    </ul>
+  {{/if}}
+
+
+{{/with}}

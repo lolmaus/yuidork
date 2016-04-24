@@ -1,0 +1,31 @@
+<h2>Modules</h2>
+
+<ul>
+  {{#each versionRecord.modulesSorted as |module|}}
+    <li>
+      {{link-to module.name 'version.module' module.id}}
+    </li>
+  {{/each}}
+</ul>
+
+
+<h2>Namespaces</h2>
+
+<ul>
+  {{#each versionRecord.namespacesSorted as |namespace|}}
+    <li>
+      {{namespace.name}}
+    </li>
+  {{/each}}
+</ul>
+
+
+<h2>Classes</h2>
+
+<ul>
+  {{#each versionRecord.classesSorted as |klass|}}
+    <li>
+      {{klass.name}}
+    </li>
+  {{/each}}
+</ul>
