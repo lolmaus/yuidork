@@ -2,6 +2,8 @@
 
 View YUIDoc (and probably JSDoc) documentation generated realtime from any GitHub sources.
 
+Allows viewing docs for *any* branch/tag/commit, does not require generated docs to be uploaded.
+
 **Work in progress! See the roadmap below.**
 
 Live demos:
@@ -9,6 +11,7 @@ Live demos:
 * [emberjs/ember.js](https://lolmaus.github.io/ember-yuidoc-frontend/#/emberjs/ember.js/master)
 * [emberjs/data](https://lolmaus.github.io/ember-yuidoc-frontend/#/emberjs/data/master)
 * [cibernox/ember-cpm](https://lolmaus.github.io/ember-yuidoc-frontend/#/cibernox/ember-cpm/master)
+* [yuidoc/master](https://lolmaus.github.io/ember-yuidoc-frontend/#/yuidoc/master/master)
 
 
 ## Roadmap
