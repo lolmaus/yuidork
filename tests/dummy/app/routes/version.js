@@ -14,9 +14,9 @@ export default Route.extend({
 
 
   // ----- Overridden methods -----
-  model ({owner, repo, tree}) {
+  model ({owner, repo, version}) {
     return this
       .get('ajaxYuidoc')
-      .retrieve({owner, repo, tree});
+      .retrieve({owner, repo, version});
   }
 });
