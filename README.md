@@ -72,6 +72,7 @@ Live demos:
     * :no_entry: Livereloading (would be a fantastic feature, but it's too tricky to implement)
 * :white_circle: Some tests maybe
 * :white_circle: Document with YUIDoc :trollface:
+* :no_entry: Support JSDoc (need to figure out how different YUIDoc and JSDoc formats are)
 
 
 
