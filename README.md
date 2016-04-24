@@ -2,9 +2,9 @@
 
 View YUIDoc (and probably JSDoc) documentation generated realtime from any GitHub sources.
 
-Work in progress! See the roadmap below.
+**Work in progress! See the roadmap below.**
 
-Examples:
+Live demos:
 
 * [emberjs/ember.js](https://lolmaus.github.io/ember-yuidoc-frontend/#/emberjs/ember.js/master)
 * [emberjs/data](https://lolmaus.github.io/ember-yuidoc-frontend/#/emberjs/data/master)
@@ -46,6 +46,7 @@ Examples:
   * :white_circle: Class Items component (navigate/filter class items)
   * :white_circle: Reload model when changing URL params
   * :white_circle: Versions switcher
+  * :white_circle: Project switcher
   * :white_circle: Search options
   * :white_circle: Linking to viewed project
 * :white_circle: Configuration
@@ -57,6 +58,7 @@ Examples:
     * :white_circle: Extensions
     * :white_circle: Path to JSDoc's `data.json`.
     * :white_circle: Project info: name, desc, URL.
+    * :white_circle: Disable/enable project switcher.
 * :white_circle: Styling
 * :white_circle: Authentication
   * :white_circle: GitHub auth
