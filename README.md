@@ -18,7 +18,7 @@ Live demos:
 > :white_circle: -- not implemented yet, planned  
 > :radio_button: -- in progress (leaf) or partially implemented (branch)  
 > :black_circle: -- implemented   
-> :no_entry:     -- not planned, not counted as a missing feature  
+> :no_entry:     -- blocked, has to be figured out  
 
 * :radio_button: Parsing
   * :black_circle: Models and relationships
