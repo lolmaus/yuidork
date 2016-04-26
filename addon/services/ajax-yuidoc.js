@@ -10,9 +10,9 @@ const {
 
 import AjaxService from 'ember-ajax/services/ajax';
 
-import endsWith     from 'ember-yuidoc-frontend/utils/ends-with';
-import values       from 'ember-yuidoc-frontend/utils/values';
-import YuidocParser from 'ember-yuidoc-frontend/yuidoc-parser';
+import endsWith     from 'yuidork/utils/ends-with';
+import values       from 'yuidork/utils/values';
+import YuidocParser from 'yuidork/yuidoc-parser';
 
 export default AjaxService.extend({
 

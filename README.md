@@ -1,4 +1,4 @@
-# ember-yuidoc-frontend
+# Yuidork
 
 View YUIDoc (and probably JSDoc) documentation generated realtime from any GitHub sources.
 
@@ -8,11 +8,11 @@ Allows viewing docs for *any* branch/tag/commit, does not require generated docs
 
 ## Live demos:
 
-* [emberjs/ember.js](https://lolmaus.github.io/ember-yuidoc-frontend/#/emberjs/ember.js/master)
-* [emberjs/data](https://lolmaus.github.io/ember-yuidoc-frontend/#/emberjs/data/master)
-* [simplabs/ember-simple-auth](https://lolmaus.github.io/ember-yuidoc-frontend/#/simplabs/ember-simple-auth/master)
-* [cibernox/ember-cpm](https://lolmaus.github.io/ember-yuidoc-frontend/#/cibernox/ember-cpm/master)
-* [yuidoc/master](https://lolmaus.github.io/ember-yuidoc-frontend/#/yuidoc/master/master)
+* [emberjs/ember.js](https://lolmaus.github.io/yuidork/#/emberjs/ember.js/master)
+* [emberjs/data](https://lolmaus.github.io/yuidork/#/emberjs/data/master)
+* [simplabs/ember-simple-auth](https://lolmaus.github.io/yuidork/#/simplabs/ember-simple-auth/master)
+* [cibernox/ember-cpm](https://lolmaus.github.io/yuidork/#/cibernox/ember-cpm/master)
+* [yui/yuidoc](https://lolmaus.github.io/yuidork/#/yui/yuidoc/master)
 
 
 ## Roadmap
@@ -83,15 +83,16 @@ Allows viewing docs for *any* branch/tag/commit, does not require generated docs
 
 ## Project structure
 
-ember-yuidoc-frontend is distributed as an Ember addon, you can use it to build your own app or to include documentation into an existing Ember app.
+Yuidork is distributed as an Ember addon, you can use it to build your own app or to include documentation into an existing Ember app.
 
-But ember-yuidoc-frontend also bundles a dummy app which aims to be a universal and fully functional YUIDoc@GitHub viewer.
+But the Yuidork addon also bundles a dummy app which aims to be a universal and fully functional YUIDoc@GitHub viewer.
+
 
 
 ## License
 
-This software is free to use under the MIT license. See the [LICENSE]](https://github.com/lolmaus/ember-yuidoc-frontend/blob/gen-1/LICENSE.md) file for license text and copyright information.
+This software is free to use under the MIT license. See the [LICENSE]](https://github.com/lolmaus/yuidork/blob/gen-1/LICENSE.md) file for license text and copyright information.
 
-Includes code ported from [YUIDoc](https://github.com/yui/yuidoc) (Yahoo Inc. BSD license).
+Includes code ported from [YUIDoc](https://github.com/yui/yuidoc) (distributed under Yahoo Inc. BSD license).
 
 This software tries to adhere to the [YUIDoc format](http://yui.github.io/yuidoc/syntax/index.html), but it's not endorsed by or affiliated with Yahoo or YUIDoc.

@@ -1,1 +1,1 @@
-export { default } from 'ember-yuidoc-frontend/models/yuidoc-module';
+export { default } from 'yuidork/models/yuidoc-module';
