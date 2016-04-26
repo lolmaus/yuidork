@@ -25,14 +25,14 @@ Allows viewing docs for *any* branch/tag/commit, does not require generated docs
 > :no_entry:     -- blocked, has to be figured out  
 
 * :radio_button: Parsing
-  * :black_circle: Models and relationships
+  * :radio_button: Models and relationships
     * :black_circle: Version (git tag/branch/commit/etc)
     * :black_circle: File
     * :black_circle: Module
     * :black_circle: Class
     * :black_circle: Class Item
     * :black_circle: Namespace
-    * :no_entry: Project (conflicts with the multiple versions feature, need overriding?)
+    * :white_circle: Project
     * :no_entry: Element (don't know what that is, need a reference project)
     * :no_entry: For     (don't know what that is, need a reference project)
   * :black_circle: Parse YUIDoc JSON format and populate store 
