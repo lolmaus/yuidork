@@ -6,8 +6,8 @@ Loading...
       <li>
         {{stage.name}}
 
-        {{#if stage.totalCount}}
-          {{stage.completeCount}}/{{stage.totalCount}}
+        {{#if stage.total}}
+          {{stage.current}}/{{stage.total}}
         {{/if}}
 
         {{#if stage.complete}}

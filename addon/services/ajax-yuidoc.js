@@ -57,8 +57,12 @@ export default AjaxService.extend({
     return this.request(url);
   },
 
-  filterFiles(files) {
+  discardIrrelevantFiles(files) {
     return files.filter(({path}) => this.shouldIncludeFile(path));
+  },
+
+  discardEmptyFiles(files) {
+    return files.filter(({content}) => typeof content === 'string');
   },
 
   shouldIncludeFile (path) {
@@ -68,12 +72,12 @@ export default AjaxService.extend({
     );
   },
 
-  retrieveFiles ({owner, repo, version, files, loadingStages}) {
-    let stage;
-    if (loadingStages) {
-      stage = loadingStages.get('lastObject');
-      stage.set('completeCount', 0);
-      stage.set('totalCount',    files.length);
+  retrieveFiles ({owner, repo, version, files, currentStage}) {
+    let count = 0;
+
+    if (currentStage) {
+      currentStage.set('current', count);
+      currentStage.set('total',   files.length);
     }
 
     const promises =
@@ -82,8 +86,8 @@ export default AjaxService.extend({
           this
             .retrieveFile({owner, repo, version, file})
             .then(result => {
-              const completeCount = stage.get('completeCount');
-              stage.set('completeCount', completeCount + 1);
+              count++;
+              currentStage.set('current', count);
               return result;
             })
         );
@@ -278,20 +282,6 @@ export default AjaxService.extend({
   },
 
 
-  nextLoadingStage (loadingStages, name) {
-    if (!loadingStages) {
-      return;
-    }
-
-    const last = loadingStages.get('lastObject');
-    if (last) {
-      last.set('complete', true);
-    }
-
-    loadingStages.pushObject(EObject.create({name}));
-  },
-
-
   retrieve ({owner, repo, version, loadingStages}) {
     const {versionRecord, existing} = this.getVersionRecord(version);
 
@@ -299,18 +289,36 @@ export default AjaxService.extend({
       return RSVP.resolve(versionRecord);
     }
 
-    this.nextLoadingStage(loadingStages, 'Retrieving list of files from GitHub...');
+    return loadingStages
 
-    return this
-      .requestTrees({owner, repo, version})
-      .then(({tree})        => this.filterFiles(tree))
-      .then(result          => (this.nextLoadingStage(loadingStages, 'Retrieving files from GitHub...'), result))
-      .then(files           => this.retrieveFiles({owner, repo, version, files, loadingStages}))
-      .then(result          => (this.nextLoadingStage(loadingStages, 'Filtering files...'), result))
-      .then(files           => this.laterPromise(() => files.filter(({content}) => typeof content === 'string')))
-      .then(result          => (this.nextLoadingStage(loadingStages, 'Extracting documentation...'), result))
-      .then(files           => this.laterPromise(() => this.transformFiles(files)))
-      .then(result          => (this.nextLoadingStage(loadingStages, 'Loading documentation into the store...'), result))
-      .then(({data, files}) => this.laterPromise(() => this.populateStore({data, files, versionRecord})));
+      .next(
+        'Retrieving list of files from GitHub...',
+        () => this.requestTrees({owner, repo, version})
+      )
+
+      .then(({tree: files}) => loadingStages.next(
+        'Discarding irrelevant files...',
+        () => this.discardIrrelevantFiles(files)
+      ))
+
+      .then((files) => loadingStages.next(
+        'Retrieving files from GitHub...',
+        currentStage => this.retrieveFiles({owner, repo, version, files, currentStage})
+      ))
+
+      .then((files) => loadingStages.next(
+        'Discard empty files...',
+        () => this.discardEmptyFiles(files)
+      ))
+
+      .then((files) => loadingStages.next(
+        'Extracting documentation...',
+        () => this.transformFiles(files)
+      ))
+
+      .then(({data, files}) => loadingStages.next(
+        'Loading documentation into the store...',
+        () => this.populateStore({data, files, versionRecord})
+      ));
   },
 });

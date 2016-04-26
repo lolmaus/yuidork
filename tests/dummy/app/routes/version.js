@@ -9,6 +9,8 @@ const {
   RSVP
 } = Ember;
 
+import LoadingStages from 'yuidork/misc/loading-stages';
+
 
 export default Route.extend({
 
@@ -19,9 +21,9 @@ export default Route.extend({
 
   // ----- Overridden methods -----
   model ({owner, repo, version}) {
-    const loadingStages = A();
+    const loadingStages = LoadingStages.create();
 
-    this.controllerFor('loading').set('loadingStages', loadingStages);
+    this.controllerFor('loading').set('loadingStages', loadingStages.get('stages'));
 
     return this
       .get('ajaxYuidoc')
