@@ -18,7 +18,8 @@ export default AjaxService.extend({
 
 
   // ----- Services -----
-  store: service(),
+  store:   service(),
+  routing: service(),
 
 
 
@@ -57,18 +58,24 @@ export default AjaxService.extend({
     return this.request(url);
   },
 
-  discardIrrelevantFiles(files) {
-    return files.filter(({path}) => this.shouldIncludeFile(path));
+  discardIrrelevantFiles({files, path: requestedPath}) {
+    return files.filter(({path: currentPath}) => this.shouldIncludeFile({requestedPath, currentPath}));
   },
 
   discardEmptyFiles(files) {
     return files.filter(({content}) => typeof content === 'string');
   },
 
-  shouldIncludeFile (path) {
+  shouldIncludeFile ({requestedPath, currentPath}) {
+    if (requestedPath !== '*root*' && currentPath.lastIndexOf(requestedPath, 0) !== 0) {
+      return false;
+    }
+
+    const segments = A(currentPath.split('/'));
     return (
-      this.get('extensions').any(ext => endsWith(path, `.${ext}`))
-      && !A(path.split('/')).contains('tests')
+      this.get('extensions').any(ext => endsWith(currentPath, `.${ext}`))
+      && !segments.contains('tests')
+      && !segments.contains('vendor')
     );
   },
 
@@ -110,12 +117,15 @@ export default AjaxService.extend({
   transformFiles (files) {
     const yuidocParser = YuidocParser.create();
     const data         = yuidocParser.parse(files);
-    return {data, files};
+    return data;
   },
 
-  getVersionRecord (version) {
+  getVersionRecord ({owner, repo, version}) {
     const store       = this.get('store');
-    let versionRecord = store.peekRecord('yuidoc-version', version);
+
+    const id = `${owner}/${repo}/${version}`;
+
+    let versionRecord = store.peekRecord('yuidoc-version', id);
 
     if (versionRecord) {
       return {versionRecord, existing: true};
@@ -123,8 +133,9 @@ export default AjaxService.extend({
 
     versionRecord = store.push({
       data: {
-        id:   version,
-        type: 'yuidoc-version'
+        id:         id,
+        type:       'yuidoc-version',
+        attributes: {owner, repo, version}
       }
     });
 
@@ -132,13 +143,17 @@ export default AjaxService.extend({
   },
 
   jsonApiBelongsTo (id, type) {
+    if (!id) {
+      return;
+    }
+
     return {
       data: {id, type}
     };
   },
 
   jsonApiHasMany (items, type) {
-    if (!items) {
+    if (!items || !items.length) {
       return;
     }
 
@@ -151,15 +166,9 @@ export default AjaxService.extend({
     const store = this.get('store');
 
     return store.push({
-      data: files.map(file => ({
-        id:   file.path,
+      data: values(files).map(file => ({
+        id:   file.name,
         type: 'yuidoc-file',
-        attributes: {
-          content:      file.content,
-          sha:          file.sha,
-          size:         file.size,
-          gitHubApiUrl: file.url
-        },
         relationships: {
           version: this.jsonApiBelongsTo(version, 'yuidoc-version')
         }
@@ -244,6 +253,7 @@ export default AjaxService.extend({
           name:        classItem.name,
           description: classItem.description,
           line:        classItem.line,
+          access:      classItem.access,
           itemType:    classItem.itemtype,
           params:      classItem.params,
         },
@@ -258,67 +268,202 @@ export default AjaxService.extend({
     });
   },
 
-  populateStore ({data, files, versionRecord}) {
-    console.log('Parsing result', {data, files, versionRecord});
-
-    const store = this.get('store');
+  populateStore ({data, versionRecord}) {
+    console.debug('Parsing result', data);
 
     const version = versionRecord.get('id');
+
     const {
+      files,
       modules,
       classes,
       classitems: classItems
     } = data;
 
-    return {
-      store,
-      versionRecord,
-      files:      this.populateFiles     ({files,      version}),
-      modules:    this.populateModules   ({modules,    version}),
-      classes:    this.populateClasses   ({classes,    version}),
-      classItems: this.populateClassItems({classItems, version}),
-      namespaces: store.peekAll('yuidoc-namespace').filterBy('version', versionRecord)
-    };
+    this.populateFiles     ({files,      version});
+    this.populateModules   ({modules,    version});
+    this.populateClasses   ({classes,    version});
+    this.populateClassItems({classItems, version});
+
+    return {versionRecord};
+  },
+
+  getLSBaseKey ({owner, repo, version, path}) {
+    return `yuidork/${owner}/${repo}/${version}*${path}`;
+  },
+
+  lookupCachedData({owner, repo, version, path}) {
+    const baseKey = this.getLSBaseKey({owner, repo, version, path});
+    const key     = `${baseKey}*json`;
+
+    return localStorage.getItem(key);
+  },
+
+  lookupCachedSha({owner, repo, version, path}) {
+    const baseKey = this.getLSBaseKey({owner, repo, version, path});
+    const key     = `${baseKey}*sha`;
+
+    return localStorage.getItem(key);
+  },
+
+  lookupCachedTree({owner, repo, version, path}) {
+    const baseKey = this.getLSBaseKey({owner, repo, version, path});
+    const key     = `${baseKey}*tree`;
+    return localStorage.getItem(key);
+  },
+
+  lookupAndPurgeCachedTree({owner, repo, version, path}) {
+    const baseKey = this.getLSBaseKey({owner, repo, version, path});
+    const key     = `${baseKey}*tree`;
+    const tree    =  localStorage.getItem(key);
+
+    localStorage.removeItem(key);
+    return JSON.parse(tree);
+  },
+
+  cacheData({owner, repo, version, data, sha}) {
+    const baseKey        = this.getLSBaseKey({owner, repo, version});
+    const dataKey        = `${baseKey}*json`;
+    const shaKey         = `${baseKey}*sha`;
+    const serializedData = JSON.stringify(data);
+
+    try {
+      localStorage.setItem(dataKey, serializedData);
+      localStorage.setItem(shaKey, sha);
+    } catch (e) {
+      if (e.name !== 'QuotaExceededError') {
+        throw e;
+      }
+    }
+
+    return data;
+  },
+
+  cacheTree({owner, repo, version, path, response}) {
+    const baseKey        = this.getLSBaseKey({owner, repo, version, path});
+    const dataKey        = `${baseKey}*json`;
+    const shaKey         = `${baseKey}*sha`;
+    const treeKey        = `${baseKey}*tree`;
+
+    const serializedTree = JSON.stringify(response);
+
+    localStorage.removeItem(dataKey);
+    localStorage.setItem(shaKey,  response.sha);
+    localStorage.setItem(treeKey, serializedTree);
+  },
+
+  backgroundRetrieveFromGitHub ({owner, repo, version, path, refresh}) {
+    this
+      .requestTrees({owner, repo, version})
+      .then(response => {
+        const cachedSha = this.lookupCachedSha({owner, repo, version, path});
+
+        if (cachedSha === response.sha) {
+          return;
+        }
+
+        if (!confirm("The git tree you're viewing has been updated. Reload?")) {
+          return;
+        }
+
+        this.cacheTree({owner, repo, version, path, response});
+        refresh();
+      });
   },
 
 
-  retrieve ({owner, repo, version, loadingStages}) {
-    const {versionRecord, existing} = this.getVersionRecord(version);
 
-    if (existing) {
-      return RSVP.resolve(versionRecord);
+
+  retrieve ({owner, repo, version, path, loadingStages, refresh}) {
+    const {versionRecord, existing} = this.getVersionRecord({owner, repo, version});
+
+    if (existing && !this.lookupCachedTree({owner, repo, version, path})) {
+      return RSVP.resolve({versionRecord});
     }
 
-    return loadingStages
+    return this
 
+      .retrieveFromCacheOrGitHub({owner, repo, version, path, loadingStages, refresh})
+
+      .then(data => loadingStages.next(
+        'Loading documentation into the store...',
+        () => this.populateStore({data, versionRecord})
+      ));
+  },
+
+  retrieveFromCacheOrGitHub ({owner, repo, version, path, loadingStages, refresh}) {
+    return loadingStages
       .next(
-        'Retrieving list of files from GitHub...',
-        () => this.requestTrees({owner, repo, version})
+        'Looking up cached documentation...',
+        () => {
+          return this.lookupCachedData({owner, repo, version, path});
+        }
+      )
+      .then(data => {
+        if (data) {
+          this.backgroundRetrieveFromGitHub({owner, repo, version, path, refresh});
+          return this.deserializeData({data, loadingStages});
+        }
+
+        return this.retrieveFromGitHub({owner, repo, version, path, loadingStages});
+      });
+  },
+
+  deserializeData ({data, loadingStages}) {
+    return loadingStages
+      .next(
+        'Found! Deserializing...',
+        () => {
+          return JSON.parse(data);
+        }
+      );
+  },
+
+  retrieveFromGitHub({owner, repo, version, path, loadingStages}) {
+    let _sha;
+
+    return loadingStages
+      .next(
+        'Not found! Retrieving list of files from GitHub...',
+        () => this.retrieveTreeFromCacheOrGithub({owner, repo, version, path})
       )
 
-      .then(({tree: files}) => loadingStages.next(
+      .then(({tree: files, sha}) => loadingStages.next(
         'Discarding irrelevant files...',
-        () => this.discardIrrelevantFiles(files)
+        () => {
+          _sha = sha;
+          return this.discardIrrelevantFiles({files, path});
+        }
       ))
 
-      .then((files) => loadingStages.next(
+      .then(files => loadingStages.next(
         'Retrieving files from GitHub...',
         currentStage => this.retrieveFiles({owner, repo, version, files, currentStage})
       ))
 
-      .then((files) => loadingStages.next(
-        'Discard empty files...',
+      .then(files => loadingStages.next(
+        'Discarding empty files...',
         () => this.discardEmptyFiles(files)
       ))
 
-      .then((files) => loadingStages.next(
+      .then(files => loadingStages.next(
         'Extracting documentation...',
         () => this.transformFiles(files)
       ))
 
-      .then(({data, files}) => loadingStages.next(
-        'Loading documentation into the store...',
-        () => this.populateStore({data, files, versionRecord})
+      .then(data => loadingStages.next(
+        'Caching...',
+        () => this.cacheData({owner, repo, version, data, sha: _sha})
       ));
   },
+
+  retrieveTreeFromCacheOrGithub ({owner, repo, version, path}) {
+    const tree = this.lookupAndPurgeCachedTree({owner, repo, version, path});
+
+    if (tree) {
+      return tree;
+    }
+
+    return this.requestTrees({owner, repo, version});
+  }
 });

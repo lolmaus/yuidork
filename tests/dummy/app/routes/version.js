@@ -19,15 +19,26 @@ export default Route.extend({
 
 
 
+  // ----- Overridden properties -----
+  queryParams: {
+    path: {
+      refreshModel: true
+    }
+  },
+
+
+
   // ----- Overridden methods -----
-  model ({owner, repo, version}) {
+  model ({owner, repo, version}, {queryParams: {path = '*root*'}}) {
     const loadingStages = LoadingStages.create();
 
     this.controllerFor('loading').set('loadingStages', loadingStages.get('stages'));
 
+    const refresh = this.refresh.bind(this);
+
     return this
       .get('ajaxYuidoc')
-      .retrieve({owner, repo, version, loadingStages})
+      .retrieve({owner, repo, version, path, loadingStages, refresh})
       .then(yuiStuff => ({
         ...yuiStuff,
         owner,

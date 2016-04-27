@@ -13,6 +13,7 @@ export default Model.extend({
   // ----- Attributes -----
   description: attr('string'),
   line:        attr('number'),
+  access:      attr('string'),
 
 
 

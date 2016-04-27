@@ -32,7 +32,7 @@ Allows viewing docs for *any* branch/tag/commit, does not require generated docs
     * :black_circle: Class
     * :black_circle: Class Item
     * :black_circle: Namespace
-    * :white_circle: Project
+    * :no_entry: Project (need a better way to present project info)
     * :no_entry: Element (don't know what that is, need a reference project)
     * :no_entry: For     (don't know what that is, need a reference project)
   * :black_circle: Parse YUIDoc JSON format and populate store 
@@ -70,11 +70,14 @@ Allows viewing docs for *any* branch/tag/commit, does not require generated docs
   * :white_circle: Error handling
     * :white_circle: API limit
     * :white_circle: Network failure
-* :white_circle: Advanced features
-  * Parsing docs from file system
+* :radio_button: Advanced features
+  * :black_circle: Caching
+    * :black_circle: Basic caching
+    * :black_circle: Background SHA fetching and comparing
+  * :white_circle: Parsing docs from file system
     * :white_circle: Figure out how to serve and access files on disk
     * :white_circle: Implement
-    * :no_entry: Livereloading (would be a fantastic feature, but it's too tricky to implement)
+    * :no_entry: Live-reloading (would be a fantastic feature, but it's too tricky to implement)
 * :white_circle: Some tests maybe
 * :white_circle: Document with YUIDoc :trollface:
 * :no_entry: Support JSDoc (need to figure out how different YUIDoc and JSDoc formats are)

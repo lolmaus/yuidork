@@ -16,7 +16,7 @@
   <ul>
     {{#each versionRecord.namespacesSorted as |namespace|}}
       <li>
-        {{namespace.name}}
+        {{link-to namespace.name 'version.namespace' namespace.id}}
       </li>
     {{/each}}
   </ul>
@@ -28,7 +28,7 @@
   <ul>
     {{#each versionRecord.classesSorted as |klass|}}
       <li>
-        {{klass.name}}
+        {{link-to klass.name 'version.class' klass.id}}
       </li>
     {{/each}}
   </ul>

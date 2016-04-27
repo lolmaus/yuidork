@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 const {
   A,
+  computed,
   computed: {alias},
   Object: EObject,
   RSVP: {defer},
@@ -22,7 +23,7 @@ const O = EObject.create.bind(EObject);
 export default EObject.extend({
 
   // ----- Static properties -----
-  stages: A(),
+  stages: computed(() => A()),
 
 
 
@@ -52,8 +53,6 @@ export default EObject.extend({
   },
 
   _runLaterWithPromise (currentStage, callback) {
-
-    console.log({currentStage})
     const deferred = defer();
 
     later(() => {

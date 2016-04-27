@@ -1,1 +1,20 @@
-{{outlet}}
+{{#with model.currentNamespace as |namespace|}}
+  <h1>Namespace {{namespace.name}}</h1>
+
+  <p>
+    Module: {{link-to namespace.module.name 'version.module' namespace.module.id}}
+  </p>
+
+  {{#if namespace.classes.length}}
+    <h2>Classes</h2>
+
+    <ul>
+      {{#each namespace.classes as |klass|}}
+        <li>
+          {{link-to klass.name 'version.class' klass.id}}
+        </li>
+      {{/each}}
+    </ul>
+  {{/if}}
+
+{{/with}}

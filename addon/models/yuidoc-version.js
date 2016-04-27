@@ -5,9 +5,15 @@ const {
 } = Ember;
 
 import Model     from 'ember-data/model';
+import attr      from 'ember-data/attr';
 import {hasMany} from 'ember-data/relationships';
 
 export default Model.extend({
+
+  // ----- Attributes -----
+  owner:   attr('string'),
+  repo:    attr('string'),
+  version: attr('string'),
 
 
   // ----- Relationships -----
@@ -16,9 +22,9 @@ export default Model.extend({
   files:      hasMany('yuidoc-file',       {async: false}),
   modules:    hasMany('yuidoc-module',     {async: false}),
   namespaces: hasMany('yuidoc-namespace',  {async: false}),
-  
-  
-  
+
+
+
   // ----- ComputedProperties -----
   sortOrder:        ['id'],
   classesSorted:    sort('classes',    'sortOrder'),
@@ -26,5 +32,5 @@ export default Model.extend({
   filesSorted:      sort('files',      'sortOrder'),
   modulesSorted:    sort('modules',    'sortOrder'),
   namespacesSorted: sort('namespaces', 'sortOrder'),
-  
+
 });
