@@ -18,8 +18,7 @@ export default AjaxService.extend({
 
 
   // ----- Services -----
-  store:   service(),
-  routing: service(),
+  store: service(),
 
 
 
