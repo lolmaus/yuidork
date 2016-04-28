@@ -1,60 +1,79 @@
 {{#with model.currentClass as |class|}}
-  <h1>{{class.name}}</h1>
+  <div class="page-version-class-meta">
+    <h1>{{class.name}}</h1>
 
-  {{#if class.access}}
-    <div class="classNamespace-access">
-      {{class.access}}
+    {{#if class.access}}
+      <div class="classNamespace-access">
+        {{class.access}}
+      </div>
+    {{/if}}
+
+    <div class="classNamespace-definedIn">
+      Defined in:
+
+      <a
+        href={{urlWithLine}}
+        target="_blank"
+      >
+        {{class.file.name}}:{{model.currentClass.line}}
+      </a>
     </div>
-  {{/if}}
-
-  <div class="classNamespace-definedIn">
-    Defined in:
-
-    <a
-      href={{urlWithLine}}
-      target="_blank"
-    >
-      {{class.file.name}}:{{class.line}}
-    </a>
-  </div>
 
 
-  <div class="classNamespace-module">
-    Module:
+    <div class="classNamespace-module">
+      Module:
 
-    {{link-to class.module.name 'version.module' class.module.id}}
-  </div>
-
-
-  {{#if class.extends}}
-    <div>
-      Extends:
-
-      {{link-to class.extends.name 'version.class' class.extends.id}}
+      {{link-to class.module.name 'version.module' class.module.id}}
     </div>
-  {{/if}}
 
 
-  {{#if class.extensionFor.length}}
-    <div>
-      Extended by:
+    {{#if class.extends}}
+      <div>
+        Extends:
 
-      <ul>
-        {{#each class.extensionFor as |extender|}}
-          <li>
-            {{link-to extender.name 'version.class' extender.id}}
-          </li>
-        {{/each}}
-      </ul>
-    </div>
-  {{/if}}
+        {{link-to class.extends.name 'version.class' class.extends.id}}
+      </div>
+    {{/if}}
 
 
+    {{#if class.uses.length}}
+      <div>
+        Uses:
 
-  {{#if class.description}}
-    {{md-text
-      text=class.description
-      class="classNamespace-description"
-    }}
-  {{/if}}
+        <ul>
+          {{#each class.uses as |mixin|}}
+            {{link-to mixin.name 'version.class' mixin.id}}
+          {{/each}}
+        </ul>
+      </div>
+    {{/if}}
+
+
+    {{#if class.extensionFor.length}}
+      <div>
+        Extended by:
+
+        <ul>
+          {{#each class.extensionFor as |extender|}}
+            <li>
+              {{link-to extender.name 'version.class' extender.id}}
+            </li>
+          {{/each}}
+        </ul>
+      </div>
+    {{/if}}
+
+    {{#if class.description}}
+      {{md-text
+        text=class.description
+        class="classNamespace-description"
+      }}
+    {{/if}}
+
+  </div>{{!page-version-class-meta}}
+
+  {{class-items
+    classRecord=class
+    class="page-version-class-content"
+  }}
 {{/with}}

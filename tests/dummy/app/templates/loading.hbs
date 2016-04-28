@@ -1,19 +1,27 @@
-Loading...
+{{#layout-default
+  owner       = owner
+  repo        = repo
+  versionName = versionName
+}}
 
-{{#if loadingStages.length}}
-  <ul>
-    {{#each loadingStages as |stage|}}
-      <li>
-        {{stage.name}}
+  Loading...
 
-        {{#if stage.total}}
-          {{stage.current}}/{{stage.total}}
-        {{/if}}
+  {{#if loadingStages.length}}
+    <ul>
+      {{#each loadingStages as |stage|}}
+        <li>
+          {{stage.name}}
 
-        {{#if stage.complete}}
-          ✓
-        {{/if}}
-      </li>
-    {{/each}}
-  </ul>
-{{/if}}
+          {{#if stage.total}}
+            {{stage.current}}/{{stage.total}}
+          {{/if}}
+
+          {{#if stage.complete}}
+            ✓
+          {{/if}}
+        </li>
+      {{/each}}
+    </ul>
+  {{/if}}
+
+{{/layout-default}}

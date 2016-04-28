@@ -1,0 +1,183 @@
+<div class="classItemsFilter-name">
+  {{input
+    value=filterName
+    escape-press=(action 'clearFilterName')
+  }}
+
+  <button
+    {{action 'clearFilterName'}}
+    disabled={{not filterName.length}}
+  >x</button>
+</div>{{!classItemsFilter-name}}
+
+
+<div>
+  {{#if hasMethods}}
+    <label>
+      {{input
+        type     = "checkbox"
+        checked  = showMethods
+        disabled = (not (or (and hasProperties showProperties) (and hasEvents showEvents) (and hasOtherItemTypes showOtherItemTypes)))
+      }}
+
+      Methods
+    </label>
+  {{/if}}
+
+
+  {{#if hasProperties}}
+    <label>
+      {{input
+        type     = "checkbox"
+        checked  = showProperties
+        disabled = (not (or (and hasMethods showMethods) (and hasEvents showEvents) (and hasOtherItemTypes showOtherItemTypes)))
+      }}
+
+      Properties
+    </label>
+  {{/if}}
+
+  {{#if hasEvents}}
+    <label>
+      {{input
+        type     = "checkbox"
+        checked  = showEvents
+        disabled = (not (or (and hasMethods showMethods) (and hasProperties showProperties) (and hasOtherItemTypes showOtherItemTypes)))
+      }}
+
+      Events
+    </label>
+  {{/if}}
+
+  {{#if hasOtherItemTypes}}
+    <label>
+      {{input
+        type     = "checkbox"
+        checked  = showOtherItemTypes
+        disabled = (not (or (and hasMethods showMethods) (and hasProperties showProperties) (and hasEvents showEvents)))
+      }}
+
+      Other
+    </label>
+  {{/if}}
+</div>
+
+<div>
+  {{#if hasPublic}}
+    <label>
+      {{input
+        type     = "checkbox"
+        checked  = showPublic
+        disabled = (not (or (and hasProtected showProtected) (and hasPrivate showPrivate)))
+      }}
+
+      Public
+    </label>
+  {{/if}}
+
+
+  {{#if hasProtected}}
+    <label>
+      {{input
+        type     = "checkbox"
+        checked  = showProtected
+        disabled = (not (or (and hasPublic showPublic) (and hasPrivate showPrivate)))
+      }}
+
+      Protected
+    </label>
+  {{/if}}
+
+  {{#if hasPrivate}}
+    <label>
+      {{input
+        type     = "checkbox"
+        checked  = showPrivate
+        disabled = (not (or (and hasPublic showPublic) (and hasProtected showProtected)))
+      }}
+
+      Private
+    </label>
+  {{/if}}
+</div>
+
+<div>
+  {{#if hasStatic}}
+    <label>
+      {{input
+        type     = "checkbox"
+        checked  = showStatic
+        disabled = (not (or (and hasInstance showInstance)))
+      }}
+
+      Static
+    </label>
+  {{/if}}
+
+
+  {{#if hasInstance}}
+    <label>
+      {{input
+        type     = "checkbox"
+        checked  = showInstance
+        disabled = (not (or (and hasStatic showStatic)))
+      }}
+
+      Instance
+    </label>
+  {{/if}}
+</div>
+
+<div>
+  {{#if hasDeprecated}}
+    <label>
+      {{input
+        type     = "checkbox"
+        checked  = showDeprecated
+        disabled = (not (or (and hasNonDeprecated showNonDeprecated)))
+      }}
+
+      Deprecated
+    </label>
+  {{/if}}
+
+
+  {{#if hasNonDeprecated}}
+    <label>
+      {{input
+        type     = "checkbox"
+        checked  = showNonDeprecated
+        disabled = (not (or (and hasDeprecated showDeprecated)))
+      }}
+
+      Non-Deprecated
+    </label>
+  {{/if}}
+</div>
+
+<div>
+  {{#if hasInherited}}
+    <label>
+      {{input
+        type     = "checkbox"
+        checked  = showInherited
+        disabled = (not (or (and hasNonInherited showNonInherited)))
+      }}
+
+      Inherited
+    </label>
+  {{/if}}
+
+
+  {{#if hasNonInherited}}
+    <label>
+      {{input
+        type     = "checkbox"
+        checked  = showNonInherited
+        disabled = (not (or (and hasInherited showInherited)))
+      }}
+
+      Non-Inherited
+    </label>
+  {{/if}}
+</div>

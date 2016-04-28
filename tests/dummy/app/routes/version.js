@@ -32,7 +32,10 @@ export default Route.extend({
   model ({owner, repo, version}, {queryParams: {path = '*root*'}}) {
     const loadingStages = LoadingStages.create();
 
-    this.controllerFor('loading').set('loadingStages', loadingStages.get('stages'));
+    this.controllerFor('loading').setProperties({
+      owner, repo, versionName: version,
+      loadingStages: loadingStages.get('stages')
+    });
 
     const refresh = this.refresh.bind(this);
 

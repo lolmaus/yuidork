@@ -1,16 +1,10 @@
-<h2>Viewing: {{model.owner}}/{{model.repo}}@{{model.versionName}}</h2>
+{{#layout-default
+  owner         = model.owner
+  repo          = model.repo
+  versionName   = model.versionName
+  versionRecord = model.versionRecord
+}}
 
+  {{outlet}}
 
-<div style="display: flex">
-
-  <div style="width: 300px;">
-    {{me-nu versionRecord=model.versionRecord}}
-  </div>
-
-  <div style="">
-    {{outlet}}
-  </div>
-
-</div>
-
-
+{{/layout-default}}

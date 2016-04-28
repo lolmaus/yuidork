@@ -14,10 +14,12 @@ export default Model.extend({
 
   // ----- Attributes -----
   description: attr('string'),
+  line:        attr('number'),
+  
   isMain:      attr('boolean'),
   itemType:    attr('string'),
   tag:         attr('string'),
-  line:        attr('number'),
+  deprecated:  attr('boolean'),
 
 
 

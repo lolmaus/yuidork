@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 const {
   A,
+  isArray,
   RSVP,
   inject: {service},
   Object: EObject,
@@ -156,8 +157,12 @@ export default AjaxService.extend({
       return;
     }
 
+    if (!isArray(items)) {
+      items = Object.keys(items);
+    }
+
     return {
-      data: Object.keys(items).map(id => ({id, type}))
+      data: items.map(id => ({id, type}))
     };
   },
 
@@ -196,6 +201,7 @@ export default AjaxService.extend({
               itemType:    module.itemtype,
               tag:         module.tag,
               line:        module.line,
+              deprecated:  module.deprecated,
             },
             relationships: {
               version: this.jsonApiBelongsTo(version,     'yuidoc-version'),
@@ -229,6 +235,8 @@ export default AjaxService.extend({
         attributes: {
           description: klass.description,
           line:        klass.line,
+          static:      !!klass.static,
+          deprecated:  !!klass.deprecated,
         },
         relationships: {
           version:   this.jsonApiBelongsTo(version,         'yuidoc-version'),
@@ -236,6 +244,8 @@ export default AjaxService.extend({
           module:    this.jsonApiBelongsTo(klass.module,    'yuidoc-module'),
           namespace: this.jsonApiBelongsTo(klass.namespace, 'yuidoc-namespace'),
           extends:   this.jsonApiBelongsTo(klass.extends,   'yuidoc-class'),
+
+          uses: this.jsonApiHasMany(klass.uses,   'yuidoc-class'),
         }
       }))
     });
@@ -255,6 +265,8 @@ export default AjaxService.extend({
           access:      classItem.access,
           itemType:    classItem.itemtype,
           params:      classItem.params,
+          static:      !!classItem.static,
+          deprecated:  !!classItem.deprecated,
         },
         relationships: {
           version:   this.jsonApiBelongsTo(version,             'yuidoc-version'),
@@ -320,8 +332,8 @@ export default AjaxService.extend({
     return JSON.parse(tree);
   },
 
-  cacheData({owner, repo, version, data, sha}) {
-    const baseKey        = this.getLSBaseKey({owner, repo, version});
+  cacheData({owner, repo, version, path, data, sha}) {
+    const baseKey        = this.getLSBaseKey({owner, repo, version, path});
     const dataKey        = `${baseKey}*json`;
     const shaKey         = `${baseKey}*sha`;
     const serializedData = JSON.stringify(data);
@@ -452,7 +464,7 @@ export default AjaxService.extend({
 
       .then(data => loadingStages.next(
         'Caching...',
-        () => this.cacheData({owner, repo, version, data, sha: _sha})
+        () => this.cacheData({owner, repo, version, data, path, sha: _sha})
       ));
   },
 

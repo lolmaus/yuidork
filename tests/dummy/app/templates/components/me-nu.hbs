@@ -1,11 +1,28 @@
+<div class="meNu-filter">
+  {{input
+    value=filter
+    escape-press=(action 'clearFilter')
+  }}
+
+  <button
+    {{action 'clearFilter'}}
+    disabled={{not filter.length}}
+  >x</button>
+</div>{{!meNu-filter}}
+
+
 {{#if versionRecord.modulesSorted.length}}
   <h2>Modules</h2>
 
   <ul>
-    {{#each versionRecord.modulesSorted as |module|}}
+    {{#each modulesFiltered as |module|}}
       <li>
-        {{link-to module.name 'version.module' module.id}}
+        {{link-to module.name 'version.module' module.id
+          invokeAction=closeMenuAction
+        }}
       </li>
+    {{else}}
+      Not found
     {{/each}}
   </ul>
 {{/if}}
@@ -14,10 +31,14 @@
   <h2>Namespaces</h2>
 
   <ul>
-    {{#each versionRecord.namespacesSorted as |namespace|}}
+    {{#each namespacesFiltered as |namespace|}}
       <li>
-        {{link-to namespace.name 'version.namespace' namespace.id}}
+        {{link-to namespace.name 'version.namespace' namespace.id
+          invokeAction=closeMenuAction
+        }}
       </li>
+    {{else}}
+      Not found
     {{/each}}
   </ul>
 {{/if}}
@@ -26,10 +47,14 @@
   <h2>Classes</h2>
 
   <ul>
-    {{#each versionRecord.classesSorted as |klass|}}
+    {{#each classesFiltered as |class|}}
       <li>
-        {{link-to klass.name 'version.class' klass.id}}
+        {{link-to class.name 'version.class' class.id
+          invokeAction=closeMenuAction
+        }}
       </li>
+    {{else}}
+      Not found
     {{/each}}
   </ul>
 {{/if}}

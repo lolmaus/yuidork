@@ -1,0 +1,111 @@
+@at-root
+
+  @import ../helpers/utility/eq
+
+  $header-height: 40px
+
+  ////------------------------------------------
+  .layoutDefault
+    //------------------------------------------
+
+    // ----- Layout -----
+    display:        flex
+    flex-direction: column
+    overflow:       hidden
+
+    // ----- Content layout -----
+    .layoutDefault-header
+      height: $header-height
+
+    .layoutDefault-main
+      height:   calc(100% - #{$header-height})
+      overflow: hidden
+
+    .layoutDefault-menu, .layoutDefault-content
+      overflow-y: auto
+
+    // ----- RWD -----
+    +eq-to(m)
+      .layoutDefault-header-section-about-yuidork
+        display: none
+
+      .layoutDefault-main
+        position: relative
+
+      .layoutDefault-menu
+        position:   absolute
+        left:       0
+        top:        0
+        width:      100%
+        height:     100%
+        transform:  translate3d(100%, 0, 0)
+        transition: transform 0.3s ease-in
+        z-index:    1
+
+      .layoutDefault-content
+        position:   absolute
+        left:       0
+        top:        0
+        width:      100%
+        height:     100%
+
+
+      &.-menuExpanded .layoutDefault-menu
+        transform: translate3d(0, 0, 0)
+
+
+    +eq-from(l)
+      .layoutDefault-header-section-about-menuToggle
+        display: none
+
+      .layoutDefault-main
+        display: flex
+
+      .layoutDefault-menu
+        width: 30%
+
+      .layoutDefault-content
+        width: 70%
+
+      .layoutDefault-menu-yuidork
+        display: none
+
+
+    +eq-from(xxl)
+      .layoutDefault-menu
+        width: 20%
+
+      .layoutDefault-content
+        width: 80%
+
+
+
+
+  ////------------------------------------------
+  .layoutDefault-header
+    //------------------------------------------
+
+    // ----- Layout -----
+    display:         flex
+    align-items:     center
+    justify-content: space-between
+    padding:         0 1rem
+
+
+  ////------------------------------------------
+  .layoutDefault-menu
+    //------------------------------------------
+
+    // ----- Layout -----
+    padding: 1rem
+
+    // ----- Looks -----
+    background-color: white
+
+
+  ////------------------------------------------
+  .layoutDefault-content
+    //------------------------------------------
+
+    // ----- Layout -----
+    padding: 1rem

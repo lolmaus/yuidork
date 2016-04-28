@@ -7,9 +7,14 @@ export default Model.extend({
   // ----- Attributes -----
   name:        attr('string'),
   description: attr('string'),
-  itemType:    attr('string'),
   line:        attr('number'),
+  
+  itemType:    attr('string'),
+  access:      attr('string'),
+  static:      attr('boolean'),
+  deprecated:  attr('boolean'),
   params:      attr(),
+  
 
 
 
