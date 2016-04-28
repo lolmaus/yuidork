@@ -51,6 +51,108 @@ export default Component.extend({
   actions: {
     clearFilterName () {
       this.set('filterName', '');
-    }
+    },
+    
+    enableOnlyMethods () {
+      this.setProperties({
+        showMethods:        true,
+        showProperties:     false,
+        showEvents:         false,
+        showOtherItemTypes: false,
+      });
+    },
+    
+    enableOnlyProperties () {
+      this.setProperties({
+        showMethods:        false,
+        showProperties:     true,
+        showEvents:         false,
+        showOtherItemTypes: false,
+      });
+    },
+    
+    enableOnlyEvents () {
+      this.setProperties({
+        showMethods:        false,
+        showProperties:     false,
+        showEvents:         true,
+        showOtherItemTypes: false,
+      });
+    },
+    
+    enableOnlyOtherItemTypes () {
+      this.setProperties({
+        showMethods:        false,
+        showProperties:     false,
+        showEvents:         false,
+        showOtherItemTypes: true,
+      });
+    },
+    
+    enableOnlyPublic () {
+      this.setProperties({
+        showPublic:    true,
+        showProtected: false,
+        showPrivate:   false,
+      });
+    },
+    
+    enableOnlyProtected () {
+      this.setProperties({
+        showPublic:    false,
+        showProtected: true,
+        showPrivate:   false,
+      });
+    },
+    
+    enableOnlyPrivate () {
+      this.setProperties({
+        showPublic:    false,
+        showProtected: false,
+        showPrivate:   true,
+      });
+    },
+    
+    enableOnlyStatic () {
+      this.setProperties({
+        showStatic:   true,
+        showInstance: false,
+      });
+    },
+    
+    enableOnlyInstance () {
+      this.setProperties({
+        showStatic:   false,
+        showInstance: true,
+      });
+    },
+    
+    enableOnlyDeprecated () {
+      this.setProperties({
+        showDeprecated:    true,
+        showNonDeprecated: false,
+      });
+    },
+    
+    enableOnlyNonDeprecated () {
+      this.setProperties({
+        showDeprecated:    false,
+        showNonDeprecated: true,
+      });
+    },
+    
+    enableOnlyInherited () {
+      this.setProperties({
+        showInherited:    true,
+        showNonInherited: false,
+      });
+    },
+    
+    enableOnlyNonInherited () {
+      this.setProperties({
+        showInherited:    false,
+        showNonInherited: true,
+      });
+    },
   }
 });

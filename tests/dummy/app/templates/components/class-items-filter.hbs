@@ -13,171 +13,210 @@
 
 <div>
   {{#if hasMethods}}
-    <label>
+    <span>
       {{input
         type     = "checkbox"
         checked  = showMethods
         disabled = (not (or (and hasProperties showProperties) (and hasEvents showEvents) (and hasOtherItemTypes showOtherItemTypes)))
       }}
 
-      Methods
-    </label>
+      <a
+        href={{if (or (and hasProperties showProperties) (and hasEvents showEvents) (and hasOtherItemTypes showOtherItemTypes)) true null}}
+        {{action 'enableOnlyMethods'}}
+      >Methods</a>
+    </span>
   {{/if}}
 
 
   {{#if hasProperties}}
-    <label>
+    <span>
       {{input
         type     = "checkbox"
         checked  = showProperties
         disabled = (not (or (and hasMethods showMethods) (and hasEvents showEvents) (and hasOtherItemTypes showOtherItemTypes)))
       }}
 
-      Properties
-    </label>
+      <a
+        href={{if (or (and hasMethods showMethods) (and hasEvents showEvents) (and hasOtherItemTypes showOtherItemTypes)) true null}}
+        {{action 'enableOnlyProperties'}}
+      >Properties</a>
+    </span>
   {{/if}}
 
   {{#if hasEvents}}
-    <label>
+    <span>
       {{input
         type     = "checkbox"
         checked  = showEvents
         disabled = (not (or (and hasMethods showMethods) (and hasProperties showProperties) (and hasOtherItemTypes showOtherItemTypes)))
       }}
 
-      Events
-    </label>
+      <a
+        href={{if (or (and hasMethods showMethods) (and hasProperties showProperties) (and hasOtherItemTypes showOtherItemTypes)) true null}}
+        {{action 'enableOnlyEvents'}}
+      >Events</a>
+    </span>
   {{/if}}
 
   {{#if hasOtherItemTypes}}
-    <label>
+    <span>
       {{input
         type     = "checkbox"
         checked  = showOtherItemTypes
         disabled = (not (or (and hasMethods showMethods) (and hasProperties showProperties) (and hasEvents showEvents)))
       }}
 
-      Other
-    </label>
+      <a
+        href={{if (or (and hasInstance showInstance)) true null}}
+        {{action 'enableOnlyOtherItemTypes'}}
+      >Other</a>
+    </span>
   {{/if}}
 </div>
 
 <div>
   {{#if hasPublic}}
-    <label>
+    <span>
       {{input
         type     = "checkbox"
         checked  = showPublic
         disabled = (not (or (and hasProtected showProtected) (and hasPrivate showPrivate)))
       }}
 
-      Public
-    </label>
+      <a
+        href={{if (or (and hasProtected showProtected) (and hasPrivate showPrivate)) true null}}
+        {{action 'enableOnlyPublic'}}
+      >Public</a>
+    </span>
   {{/if}}
 
 
   {{#if hasProtected}}
-    <label>
+    <span>
       {{input
         type     = "checkbox"
         checked  = showProtected
         disabled = (not (or (and hasPublic showPublic) (and hasPrivate showPrivate)))
       }}
 
-      Protected
-    </label>
+      <a
+        href={{if (or (and hasPublic showPublic) (and hasPrivate showPrivate)) true null}}
+        {{action 'enableOnlyProtected'}}
+      >Protected</a>
+    </span>
   {{/if}}
 
   {{#if hasPrivate}}
-    <label>
+    <span>
       {{input
         type     = "checkbox"
         checked  = showPrivate
         disabled = (not (or (and hasPublic showPublic) (and hasProtected showProtected)))
       }}
 
-      Private
-    </label>
+      <a
+        href={{if (or (and hasPublic showPublic) (and hasProtected showProtected)) true null}}
+        {{action 'enableOnlyPrivate'}}
+      >Private</a>
+    </span>
   {{/if}}
 </div>
 
 <div>
   {{#if hasStatic}}
-    <label>
+    <span>
       {{input
         type     = "checkbox"
         checked  = showStatic
         disabled = (not (or (and hasInstance showInstance)))
       }}
 
-      Static
-    </label>
+      <a
+        href={{if (or (and hasInstance showInstance)) true null}}
+        {{action 'enableOnlyStatic'}}
+      >Static</a>
+    </span>
   {{/if}}
 
 
   {{#if hasInstance}}
-    <label>
+    <span>
       {{input
         type     = "checkbox"
         checked  = showInstance
         disabled = (not (or (and hasStatic showStatic)))
       }}
 
-      Instance
-    </label>
+      <a
+        href={{if (or (and hasStatic showStatic)) true null}}
+        {{action 'enableOnlyInstance'}}
+      >Instance</a>
+    </span>
   {{/if}}
 </div>
 
 <div>
   {{#if hasDeprecated}}
-    <label>
+    <span>
       {{input
         type     = "checkbox"
         checked  = showDeprecated
         disabled = (not (or (and hasNonDeprecated showNonDeprecated)))
       }}
 
-      Deprecated
-    </label>
+      <a
+        href={{if (or (and hasNonDeprecated showNonDeprecated)) true null}}
+        {{action 'enableOnlyDeprecated'}}
+      >Deprecated</a>
+    </span>
   {{/if}}
 
 
   {{#if hasNonDeprecated}}
-    <label>
+    <span>
       {{input
         type     = "checkbox"
         checked  = showNonDeprecated
         disabled = (not (or (and hasDeprecated showDeprecated)))
       }}
 
-      Non-Deprecated
-    </label>
+      <a
+        href={{if (or (and hasDeprecated showDeprecated)) true null}}
+        {{action 'enableOnlyNonDeprecated'}}
+      >Non-Deprecated</a>
+    </span>
   {{/if}}
 </div>
 
 <div>
   {{#if hasInherited}}
-    <label>
+    <span>
       {{input
         type     = "checkbox"
         checked  = showInherited
         disabled = (not (or (and hasNonInherited showNonInherited)))
       }}
 
-      Inherited
-    </label>
+      <a
+        href={{if (or (and hasNonInherited showNonInherited)) true null}}
+        {{action 'enableOnlyNonInherited'}}
+      >Inherited</a>
+    </span>
   {{/if}}
 
 
   {{#if hasNonInherited}}
-    <label>
+    <span>
       {{input
         type     = "checkbox"
         checked  = showNonInherited
         disabled = (not (or (and hasInherited showInherited)))
       }}
 
-      Non-Inherited
-    </label>
+      <a
+        href={{if (or (and hasInherited showInherited)) true null}}
+        {{action 'enableOnlyNonInherited'}}
+      >Non-Inherited</a>
+    </span>
   {{/if}}
 </div>
