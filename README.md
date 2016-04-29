@@ -96,6 +96,9 @@ But the Yuidork addon also bundles a dummy app which aims to be a universal and 
 
 This software is free to use under the MIT license. See the [LICENSE]](https://github.com/lolmaus/yuidork/blob/gen-1/LICENSE.md) file for license text and copyright information.
 
-Includes code ported from [YUIDoc](https://github.com/yui/yuidoc) (distributed under Yahoo Inc. BSD license).
+Includes code ported from [YUIDoc](https://github.com/yui/yuidoc) ([Yahoo Inc. BSD license](https://github.com/yui/yuidoc/blob/master/LICENSE)).
 
 This software tries to adhere to the [YUIDoc format](http://yui.github.io/yuidoc/syntax/index.html), but it's not endorsed by or affiliated with Yahoo or YUIDoc.
+
+The dummy app uses [Fugue icons](http://p.yusukekamiyamane.com/index.html.en) by [Yusuke Kamiyamane](http://p.yusukekamiyamane.com/about/) ([Creative Commons
+Attribution 3.0 License](http://creativecommons.org/licenses/by/3.0/legalcode)).

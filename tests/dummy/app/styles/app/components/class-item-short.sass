@@ -1,0 +1,62 @@
+@at-root
+
+  $opacity: 0.2
+
+  ////------------------------------------------
+  .classItemShort
+    //------------------------------------------
+
+    // ----- Layout -----
+    display:         flex
+    justify-content: space-between
+    max-width:       300px
+
+    // ----- Content layout -----
+    .classItemShort-icons
+      min-width: 80px
+
+
+  ////------------------------------------------
+  .classItemShort-name
+    //------------------------------------------
+
+    // ----- Text -----
+    white-space:   nowrap
+    overflow:      hidden
+    text-overflow: ellipsis
+
+
+  ////------------------------------------------
+  .classItemShort-icon._itemType
+    //------------------------------------------
+
+    // ----- Behavior -----
+    .classItemShort._public &
+      opacity: $opacity
+
+
+  ////------------------------------------------
+  .classItemShort-icon._static
+    //------------------------------------------
+
+    // ----- Behavior -----
+    .classItemShort:not(._static) &
+      opacity: $opacity
+
+
+  ////------------------------------------------
+  .classItemShort-icon._deprecated
+    //------------------------------------------
+
+    // ----- Behavior -----
+    .classItemShort:not(._deprecated) &
+      opacity: $opacity
+
+
+  ////------------------------------------------
+  .classItemShort-icon._inherited
+    //------------------------------------------
+
+    // ----- Behavior -----
+    .classItemShort:not(._inherited):not(._overridden) &
+      opacity: $opacity

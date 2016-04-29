@@ -4,7 +4,6 @@ const {
   A,
   assign,
   isArray,
-  isFunction,
   Object: EmberObject,
   String: {capitalize}
 } = Ember;
@@ -417,7 +416,6 @@ export default EmberObject.extend({
     // A key bock type for declaring submodules.  subsequent class and
     // member blocks will be assigned to this submodule.
     submodule (tagname, value) {
-      //console.log('Setting current submodule: ', value, 'on class');
       this.setCurrentSubmodule(value);
 
       const MODULES = this.get('MODULES');
@@ -867,7 +865,6 @@ export default EmberObject.extend({
       }
 
       if (write) {
-        //console.log('Writing');
         assign(MODULES[name], o);
       }
     } else {

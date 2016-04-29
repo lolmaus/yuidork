@@ -31,7 +31,11 @@
       <div>
         Extends:
 
-        {{link-to class.extends.name 'version.class' class.extends.id}}
+        {{#if class.extends.foreign}}
+          {{class.extends.name}}
+        {{else}}
+          {{link-to class.extends.name 'version.class' class.extends.id}}
+        {{/if}}
       </div>
     {{/if}}
 

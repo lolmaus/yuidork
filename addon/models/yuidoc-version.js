@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 const {
-  computed: {sort}
+  computed: {filterBy, sort}
 } = Ember;
 
 import Model     from 'ember-data/model';
@@ -27,7 +27,8 @@ export default Model.extend({
 
   // ----- ComputedProperties -----
   sortOrder:        ['id'],
-  classesSorted:    sort('classes',    'sortOrder'),
+  ownClasses:       filterBy('classes', 'foreign', false),
+  classesSorted:    sort('ownClasses', 'sortOrder'),
   classItemsSorted: sort('classItems', 'sortOrder'),
   filesSorted:      sort('files',      'sortOrder'),
   modulesSorted:    sort('modules',    'sortOrder'),

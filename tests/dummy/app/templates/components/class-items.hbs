@@ -1,39 +1,70 @@
-{{class-items-filter
-  filterName         = filterName
-  showMethods        = showMethods
-  showProperties     = showProperties
-  showEvents         = showEvents
-  showOtherItemTypes = showOtherItemTypes
-  showPublic         = showPublic
-  showProtected      = showProtected
-  showPrivate        = showPrivate
-  showStatic         = showStatic
-  showInstance       = showInstance
-  showDeprecated     = showDeprecated
-  showNonDeprecated  = showNonDeprecated
-  showInherited      = showInherited
-  showNonInherited   = showNonInherited
-  hasMethods         = (gt classItemsMethods.length       0)
-  hasProperties      = (gt classItemsProperties.length    0)
-  hasEvents          = (gt classItemsEvents.length        0)
-  hasOtherItemTypes  = (gt classItemsOtherTypes.length    0)
-  hasPublic          = (gt classItemsPublic.length        0)
-  hasProtected       = (gt classItemsProtected.length     0)
-  hasPrivate         = (gt classItemsPrivate.length       0)
-  hasInstance        = (gt classItemsInstance.length      0)
-  hasStatic          = (gt classItemsStatic.length        0)
-  hasDeprecated      = (gt classItemsDeprecated.length    0)
-  hasNonDeprecated   = (gt classItemsNonDeprecated.length 0)
-  hasInherited       = (gt classItemsInherited.length     0)
-  hasNonInherited    = (gt classItemsNonInherited.length  0)
-}}
+<div class="classItems-navigation">
 
-{{#if classItems.length}}
-  <div class="classItems-list">
-    {{#each classItemsFiltered as |classItem|}}
-      <div>item: {{classItem.name}}</div>
-    {{else}}
-      Not found
-    {{/each}}
-  </div>
-{{/if}}
+  {{class-items-filter
+    filterName         = filterName
+    showMethods        = showMethods
+    showProperties     = showProperties
+    showEvents         = showEvents
+    showOtherItemTypes = showOtherItemTypes
+    showPublic         = showPublic
+    showProtected      = showProtected
+    showPrivate        = showPrivate
+    showStatic         = showStatic
+    showInstance       = showInstance
+    showDeprecated     = showDeprecated
+    showNonDeprecated  = showNonDeprecated
+    showInherited      = showInherited
+    showNonInherited   = showNonInherited
+    hasMethods         = (gt classItemsMethods.length       0)
+    hasProperties      = (gt classItemsProperties.length    0)
+    hasEvents          = (gt classItemsEvents.length        0)
+    hasOtherItemTypes  = (gt classItemsOtherTypes.length    0)
+    hasPublic          = (gt classItemsPublic.length        0)
+    hasProtected       = (gt classItemsProtected.length     0)
+    hasPrivate         = (gt classItemsPrivate.length       0)
+    hasInstance        = (gt classItemsInstance.length      0)
+    hasStatic          = (gt classItemsStatic.length        0)
+    hasDeprecated      = (gt classItemsDeprecated.length    0)
+    hasNonDeprecated   = (gt classItemsNonDeprecated.length 0)
+    hasInherited       = (gt classItemsInherited.length     0)
+    hasNonInherited    = (gt classItemsNonInherited.length  0)
+  }}
+
+  {{#if classItems.length}}
+    <div class="classItems-navigationList">
+      {{#each classItemsFiltered as |classItem|}}
+        {{class-item-short
+          classItem=classItem
+          classRecord=classRecord
+          scrollable=".layoutDefault-content"
+        }}
+      {{else}}
+        Not found
+      {{/each}}
+    </div>
+  {{/if}}
+</div>{{!classItems-navigation}}
+
+<div
+  class="classItems-items"
+>
+  {{#if classItems.length}}
+    <div class="classItems-navigationList">
+      {{#each classItemsFiltered as |classItem|}}
+        <p
+          id={{encode-class (plus 'classItem-' classItem.id)}}
+        >{{classItem.name}}</p>
+        <p></p>
+        <p></p>
+        <p></p>
+        <p></p>
+        <p></p>
+        <p></p>
+        <p></p>
+        <p></p>
+      {{else}}
+        Not found
+      {{/each}}
+    </div>
+  {{/if}}
+</div>

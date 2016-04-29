@@ -228,8 +228,39 @@ export default AjaxService.extend({
   populateClasses ({classes, version}) {
     const store = this.get('store');
 
+    const classesArr = A(values(classes));
+    const classNames = A(A(A(classesArr).mapBy('name')).compact());
+
+    const foreignClassnames =
+      A(
+        classesArr
+          .mapBy('extends')
+          .concat(
+            classesArr
+              .mapBy('uses')
+              .reduce((a, b) => a.concat(b), [])
+          )
+          .filter(cn => !classNames.contains(cn))
+      )
+        .compact();
+
+    if (foreignClassnames.length) {
+      store.push({
+        data: foreignClassnames.map(className => ({
+          id:   className,
+          type: 'yuidoc-class',
+          attributes: {
+            foreign: true
+          },
+          relationships: {
+            version: this.jsonApiBelongsTo(version, 'yuidoc-version'),
+          }
+        }))
+      });
+    }
+
     return store.push({
-      data: values(classes).map(klass => ({
+      data: classesArr.map(klass => ({
         id:   klass.name,
         type: 'yuidoc-class',
         attributes: {
@@ -262,7 +293,7 @@ export default AjaxService.extend({
           name:        classItem.name,
           description: classItem.description,
           line:        classItem.line,
-          access:      classItem.access,
+          access:      classItem.access || 'public',
           itemType:    classItem.itemtype,
           params:      classItem.params,
           static:      !!classItem.static,

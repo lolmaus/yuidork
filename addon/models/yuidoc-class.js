@@ -19,6 +19,7 @@ export default Model.extend({
   access:      attr('string'),
   static:      attr('boolean'),
   deprecated:  attr('boolean'),
+  foreign:     attr('boolean', {defaultValue: false}),
 
 
 
@@ -38,8 +39,8 @@ export default Model.extend({
 
 
   // ----- Computed properties -----
-  name:                alias('id'),
-  inheritedClassItems: alias('extends.effectiveClassItems'),
+  name:               alias('id'),
+  extendedClassItems: alias('extends.effectiveClassItems'),
 
   mixedInClassItemsArrays: mapBy('uses', 'effectiveClassItems'),
 
@@ -51,16 +52,35 @@ export default Model.extend({
     );
   }),
 
+  inheritedClassItems: computed(
+    'extendedClassItems.[]',
+    'mixedInClassItems.[]',
+    function () {
+      const extendedClassItems = (this.get('extendedClassItems') && this.get('extendedClassItems').toArray()) || [];
+      const mixedInClassItems = this.get('mixedInClassItems').toArray();
+
+      return A(
+        extendedClassItems
+          .concat(mixedInClassItems));
+    }
+  ),
+
+
+
   effectiveClassItems: computed(
     'classItems.[]',
     'inheritedClassItems.[]',
-    'mixedInClassItems.[]',
     function () {
+      const inheritedClassItems = this.get('inheritedClassItems');
       const classItems          = this.get('classItems').toArray();
-      const inheritedClassItems = (this.get('inheritedClassItems') && this.get('inheritedClassItems').toArray()) || [];
-      const mixedInClassItems   = this.get('mixedInClassItems').toArray();
 
-      return A([].concat(classItems).concat(inheritedClassItems).concat(mixedInClassItems));
+      const nonOverriddenClassItems =
+        inheritedClassItems
+          .filter(ci => {
+            return !classItems.findBy('name', ci.get('name'));
+          });
+
+      return A(classItems.concat(nonOverriddenClassItems));
     }
   )
 });

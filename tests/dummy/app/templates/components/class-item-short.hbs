@@ -1,0 +1,38 @@
+<span class="classItemShort-name">
+  {{fugue-icon
+    icon=itemTypeIconName
+    class="classItemShort-name-icon"
+  }}
+
+  {{scroll-to
+    label=classItem.name
+    href=(plus '#' (encode-class (plus 'classItem-' classItem.id)))
+    scrollable=scrollable
+  }}
+</span>
+
+<span class="classItemShort-icons">
+  {{fugue-icon
+    icon=accessIconName
+    title=accessIconTitle
+    class="classItemShort-icon _itemType"
+  }}
+
+  {{fugue-icon
+    icon='ice'
+    title=staticIconTitle
+    class="classItemShort-icon _static"
+  }}
+
+  {{fugue-icon
+    icon='broom'
+    title=deprecatedIconTitle
+    class="classItemShort-icon _deprecated"
+  }}
+
+  {{fugue-icon
+    icon=inheritedIconName
+    title=inheritedIconTitle
+    class="classItemShort-icon _inherited"
+  }}
+</span>
