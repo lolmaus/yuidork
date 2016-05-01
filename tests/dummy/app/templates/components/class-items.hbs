@@ -15,6 +15,15 @@
     showNonDeprecated  = showNonDeprecated
     showInherited      = showInherited
     showNonInherited   = showNonInherited
+
+    hasMoreThanOne = (hash
+      itemType   = hasMoreThanOneItemType
+      access     = hasMoreThanOneAccess
+      static     = hasMoreThanOneStasis
+      deprecated = hasMoreThanOneDeprecation
+      inherited  = hasMoreThanOneInheritance
+    )
+
     hasMethods         = (gt classItemsMethods.length       0)
     hasProperties      = (gt classItemsProperties.length    0)
     hasEvents          = (gt classItemsEvents.length        0)
@@ -28,19 +37,24 @@
     hasNonDeprecated   = (gt classItemsNonDeprecated.length 0)
     hasInherited       = (gt classItemsInherited.length     0)
     hasNonInherited    = (gt classItemsNonInherited.length  0)
+
+    groupBy            = groupBy
   }}
 
   {{#if classItems.length}}
     <div class="classItems-navigationList">
-      {{#each classItemsFiltered as |classItem|}}
+      {{#each-or-grouped
+        items=classItemsEffective
+        groupBySortOrder=groupBySortOrder
+        as |item|
+      }}
         {{class-item-short
-          classItem=classItem
-          classRecord=classRecord
-          scrollable=".layoutDefault-content"
+          classItem   = item
+          classRecord = classRecord
+          groupBy     = groupBy
+          scrollable  = scrollableItemListHtmlClass
         }}
-      {{else}}
-        Not found
-      {{/each}}
+      {{/each-or-grouped}}
     </div>
   {{/if}}
 </div>{{!classItems-navigation}}
@@ -50,6 +64,9 @@
 >
   {{#if classItems.length}}
     <div class="classItems-navigationList">
+
+      <p>scrollableItemListHtmlClass {{scrollableItemListHtmlClass}}</p>
+
       {{#each classItemsFiltered as |classItem|}}
         <p
           id={{encode-class (plus 'classItem-' classItem.id)}}

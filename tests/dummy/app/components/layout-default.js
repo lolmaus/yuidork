@@ -1,12 +1,13 @@
 import Ember from 'ember';
 
 const {
+  A,
   Component,
-  computed
+  computed,
 } = Ember;
 
-import eqMixin from '../mixins/e-q';
-import layout from '../templates/components/layout-default';
+import eqMixin   from '../mixins/e-q';
+import layout    from '../templates/components/layout-default';
 
 export default Component.extend(eqMixin, {
 
@@ -23,12 +24,18 @@ export default Component.extend(eqMixin, {
     ':layoutDefault',
     'menuIsExpanded:-menuExpanded:-menuCollapsed',
   ],
+
+  eqTransitionClasses: [
+    '.layoutDefault-menu',
+    '.layoutDefault-content'
+  ],
+
   layout,
 
 
 
   // ----- Overwritable properties -----
-  menuIsExpanded:  false,
+  menuIsExpanded:  true,
   closeMenuAction: null,
 
 
@@ -58,7 +65,12 @@ export default Component.extend(eqMixin, {
     toggleMenu () {
       this.toggleProperty('menuIsExpanded');
     },
-    closeMenu () {
+    closeMenu (ignoreOnSmall) {
+      console.log({ignoreOnSmall, slices: this.get('eqSlicesFrom'), contains: A(this.get('eqSlicesTo')).contains('m')})
+      if (ignoreOnSmall && A(this.get('eqSlicesFrom')).contains('m')) {
+        return;
+      }
+
       this.set('menuIsExpanded', false);
     }
   }

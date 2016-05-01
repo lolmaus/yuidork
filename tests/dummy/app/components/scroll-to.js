@@ -23,6 +23,7 @@ export default ScrollToComponent.extend({
 
   // ----- Overridden properties -----
   layout,
+  classNames: ['scrollTo'],
 
 
 

@@ -1,0 +1,92 @@
+@at-root
+
+  @import ../helpers/utility/eq
+
+  $padding: 1rem
+
+  ////------------------------------------------
+  .pageVersionClass
+    //------------------------------------------
+
+    // ----- RWD -----
+    +eq-from(xl)
+      display:  flex
+
+      position: absolute
+      left:     0
+      top:      0
+      width:    100%
+      height:   100%
+      overflow: hidden
+
+      .pageVersionClass-infoWrapper
+        width:      35%
+        overflow-x: hidden
+        overflow-y: auto
+
+      .pageVersionClass-content
+        width:      65%
+        overflow:   hidden
+
+      .classItems-navigation
+        overflow-x: hidden
+        overflow-y: auto
+
+      .classItems-items
+        overflow-x: hidden
+        overflow-y: auto
+
+
+
+
+  ////------------------------------------------
+  .pageVersionClass-title
+    //------------------------------------------
+
+    // ----- Layout -----
+    padding: 0 $padding
+      margin:  0
+
+
+
+  ////------------------------------------------
+  .pageVersionClass-info
+    //------------------------------------------
+
+    // ----- RWD -----
+    +eq-from(xl)
+      display: flex
+
+      .pageVersionClass-meta
+        width: 35%
+
+
+
+
+
+
+  ////------------------------------------------
+  .pageVersionClass-meta
+    //------------------------------------------
+
+    // ----- Layout -----
+    padding: $padding
+
+
+
+  ////------------------------------------------
+  .pageVersionClass-description
+    //------------------------------------------
+
+    // ----- Layout -----
+    padding: $padding
+
+
+
+  ////------------------------------------------
+  .pageVersionClass-content
+    //------------------------------------------
+
+    // ----- Layout -----
+    //padding: $padding
+

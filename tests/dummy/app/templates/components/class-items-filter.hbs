@@ -10,213 +10,259 @@
   >x</button>
 </div>{{!classItemsFilter-name}}
 
-
 <div>
-  {{#if hasMethods}}
-    <span>
-      {{input
-        type     = "checkbox"
-        checked  = showMethods
-        disabled = (not (or (and hasProperties showProperties) (and hasEvents showEvents) (and hasOtherItemTypes showOtherItemTypes)))
-      }}
 
-      <a
-        href={{if (or (and hasProperties showProperties) (and hasEvents showEvents) (and hasOtherItemTypes showOtherItemTypes)) true null}}
-        {{action 'enableOnlyMethods'}}
-      >Methods</a>
-    </span>
+  {{#if (and (not (eq groupBy 'itemType')) (get hasMoreThanOne 'itemType'))}}
+    <div>
+      {{#if hasMethods}}
+        <span>
+          {{input
+            type     = "checkbox"
+            checked  = showMethods
+            disabled = (not (or (and hasProperties showProperties) (and hasEvents showEvents) (and hasOtherItemTypes showOtherItemTypes)))
+          }}
+
+          <a
+            href={{if (or (and hasProperties showProperties) (and hasEvents showEvents) (and hasOtherItemTypes showOtherItemTypes)) true null}}
+            {{action 'enableOnlyMethods'}}
+          >Methods</a>
+        </span>
+      {{/if}}
+
+
+      {{#if hasProperties}}
+        <span>
+          {{input
+            type     = "checkbox"
+            checked  = showProperties
+            disabled = (not (or (and hasMethods showMethods) (and hasEvents showEvents) (and hasOtherItemTypes showOtherItemTypes)))
+          }}
+
+          <a
+            href={{if (or (and hasMethods showMethods) (and hasEvents showEvents) (and hasOtherItemTypes showOtherItemTypes)) true null}}
+            {{action 'enableOnlyProperties'}}
+          >Properties</a>
+        </span>
+      {{/if}}
+
+      {{#if hasEvents}}
+        <span>
+          {{input
+            type     = "checkbox"
+            checked  = showEvents
+            disabled = (not (or (and hasMethods showMethods) (and hasProperties showProperties) (and hasOtherItemTypes showOtherItemTypes)))
+          }}
+
+          <a
+            href={{if (or (and hasMethods showMethods) (and hasProperties showProperties) (and hasOtherItemTypes showOtherItemTypes)) true null}}
+            {{action 'enableOnlyEvents'}}
+          >Events</a>
+        </span>
+      {{/if}}
+
+      {{#if hasOtherItemTypes}}
+        <span>
+          {{input
+            type     = "checkbox"
+            checked  = showOtherItemTypes
+            disabled = (not (or (and hasMethods showMethods) (and hasProperties showProperties) (and hasEvents showEvents)))
+          }}
+
+          <a
+            href={{if (or (and hasInstance showInstance)) true null}}
+            {{action 'enableOnlyOtherItemTypes'}}
+          >Other</a>
+        </span>
+      {{/if}}
+    </div>
+  {{/if}}
+
+  {{#if (and (not (eq groupBy 'access')) (get hasMoreThanOne 'access'))}}
+    <div>
+      {{#if hasPublic}}
+        <span>
+          {{input
+            type     = "checkbox"
+            checked  = showPublic
+            disabled = (not (or (and hasProtected showProtected) (and hasPrivate showPrivate)))
+          }}
+
+          <a
+            href={{if (or (and hasProtected showProtected) (and hasPrivate showPrivate)) true null}}
+            {{action 'enableOnlyPublic'}}
+          >Public</a>
+        </span>
+      {{/if}}
+
+
+      {{#if hasProtected}}
+        <span>
+          {{input
+            type     = "checkbox"
+            checked  = showProtected
+            disabled = (not (or (and hasPublic showPublic) (and hasPrivate showPrivate)))
+          }}
+
+          <a
+            href={{if (or (and hasPublic showPublic) (and hasPrivate showPrivate)) true null}}
+            {{action 'enableOnlyProtected'}}
+          >Protected</a>
+        </span>
+      {{/if}}
+
+      {{#if hasPrivate}}
+        <span>
+          {{input
+            type     = "checkbox"
+            checked  = showPrivate
+            disabled = (not (or (and hasPublic showPublic) (and hasProtected showProtected)))
+          }}
+
+          <a
+            href={{if (or (and hasPublic showPublic) (and hasProtected showProtected)) true null}}
+            {{action 'enableOnlyPrivate'}}
+          >Private</a>
+        </span>
+      {{/if}}
+    </div>
   {{/if}}
 
 
-  {{#if hasProperties}}
-    <span>
-      {{input
-        type     = "checkbox"
-        checked  = showProperties
-        disabled = (not (or (and hasMethods showMethods) (and hasEvents showEvents) (and hasOtherItemTypes showOtherItemTypes)))
-      }}
+  {{#if (and (not (eq groupBy 'static')) (get hasMoreThanOne 'static'))}}
+    <div>
+      {{#if hasStatic}}
+        <span>
+          {{input
+            type     = "checkbox"
+            checked  = showStatic
+            disabled = (not (or (and hasInstance showInstance)))
+          }}
 
-      <a
-        href={{if (or (and hasMethods showMethods) (and hasEvents showEvents) (and hasOtherItemTypes showOtherItemTypes)) true null}}
-        {{action 'enableOnlyProperties'}}
-      >Properties</a>
-    </span>
+          <a
+            href={{if (or (and hasInstance showInstance)) true null}}
+            {{action 'enableOnlyStatic'}}
+          >Static</a>
+        </span>
+      {{/if}}
+
+
+      {{#if hasInstance}}
+        <span>
+          {{input
+            type     = "checkbox"
+            checked  = showInstance
+            disabled = (not (or (and hasStatic showStatic)))
+          }}
+
+          <a
+            href={{if (or (and hasStatic showStatic)) true null}}
+            {{action 'enableOnlyInstance'}}
+          >Instance</a>
+        </span>
+      {{/if}}
+    </div>
   {{/if}}
 
-  {{#if hasEvents}}
-    <span>
-      {{input
-        type     = "checkbox"
-        checked  = showEvents
-        disabled = (not (or (and hasMethods showMethods) (and hasProperties showProperties) (and hasOtherItemTypes showOtherItemTypes)))
-      }}
 
-      <a
-        href={{if (or (and hasMethods showMethods) (and hasProperties showProperties) (and hasOtherItemTypes showOtherItemTypes)) true null}}
-        {{action 'enableOnlyEvents'}}
-      >Events</a>
-    </span>
+  {{#if (and (not (eq groupBy 'deprecated')) (get hasMoreThanOne 'deprecated'))}}
+    <div>
+      {{#if hasDeprecated}}
+        <span>
+          {{input
+            type     = "checkbox"
+            checked  = showDeprecated
+            disabled = (not (or (and hasNonDeprecated showNonDeprecated)))
+          }}
+
+          <a
+            href={{if (or (and hasNonDeprecated showNonDeprecated)) true null}}
+            {{action 'enableOnlyDeprecated'}}
+          >Deprecated</a>
+        </span>
+      {{/if}}
+
+
+      {{#if hasNonDeprecated}}
+        <span>
+          {{input
+            type     = "checkbox"
+            checked  = showNonDeprecated
+            disabled = (not (or (and hasDeprecated showDeprecated)))
+          }}
+
+          <a
+            href={{if (or (and hasDeprecated showDeprecated)) true null}}
+            {{action 'enableOnlyNonDeprecated'}}
+          >Non-Deprecated</a>
+        </span>
+      {{/if}}
+    </div>
   {{/if}}
 
-  {{#if hasOtherItemTypes}}
-    <span>
-      {{input
-        type     = "checkbox"
-        checked  = showOtherItemTypes
-        disabled = (not (or (and hasMethods showMethods) (and hasProperties showProperties) (and hasEvents showEvents)))
-      }}
 
-      <a
-        href={{if (or (and hasInstance showInstance)) true null}}
-        {{action 'enableOnlyOtherItemTypes'}}
-      >Other</a>
-    </span>
+  {{#if (and (not (eq groupBy 'inherited')) (get hasMoreThanOne 'inherited'))}}
+    <div>
+      {{#if hasInherited}}
+        <span>
+          {{input
+            type     = "checkbox"
+            checked  = showInherited
+            disabled = (not (or (and hasNonInherited showNonInherited)))
+          }}
+
+          <a
+            href={{if (or (and hasNonInherited showNonInherited)) true null}}
+            {{action 'enableOnlyInherited'}}
+          >Inherited</a>
+        </span>
+      {{/if}}
+
+
+      {{#if hasNonInherited}}
+        <span>
+          {{input
+            type     = "checkbox"
+            checked  = showNonInherited
+            disabled = (not (or (and hasInherited showInherited)))
+          }}
+
+          <a
+            href={{if (or (and hasInherited showInherited)) true null}}
+            {{action 'enableOnlyNonInherited'}}
+          >Non-Inherited</a>
+        </span>
+      {{/if}}
+    </div>
   {{/if}}
 </div>
 
-<div>
-  {{#if hasPublic}}
-    <span>
-      {{input
-        type     = "checkbox"
-        checked  = showPublic
-        disabled = (not (or (and hasProtected showProtected) (and hasPrivate showPrivate)))
+{{#if hasMoreThanOneOfAnything}}
+  <div>
+    Group by
+
+    <select
+      onchange={{action 'setGroupBy' value="target.value"}}
+    >
+      {{#each-in
+        (hash
+          itemType   = "Type"
+          access     = "Access"
+          static     = "Instance / Static"
+          deprecated = "Deprecation"
+          inherited  = "Inheritance"
+          dont       = "Don't group"
+        )
+        as |value label|
       }}
-
-      <a
-        href={{if (or (and hasProtected showProtected) (and hasPrivate showPrivate)) true null}}
-        {{action 'enableOnlyPublic'}}
-      >Public</a>
-    </span>
-  {{/if}}
-
-
-  {{#if hasProtected}}
-    <span>
-      {{input
-        type     = "checkbox"
-        checked  = showProtected
-        disabled = (not (or (and hasPublic showPublic) (and hasPrivate showPrivate)))
-      }}
-
-      <a
-        href={{if (or (and hasPublic showPublic) (and hasPrivate showPrivate)) true null}}
-        {{action 'enableOnlyProtected'}}
-      >Protected</a>
-    </span>
-  {{/if}}
-
-  {{#if hasPrivate}}
-    <span>
-      {{input
-        type     = "checkbox"
-        checked  = showPrivate
-        disabled = (not (or (and hasPublic showPublic) (and hasProtected showProtected)))
-      }}
-
-      <a
-        href={{if (or (and hasPublic showPublic) (and hasProtected showProtected)) true null}}
-        {{action 'enableOnlyPrivate'}}
-      >Private</a>
-    </span>
-  {{/if}}
-</div>
-
-<div>
-  {{#if hasStatic}}
-    <span>
-      {{input
-        type     = "checkbox"
-        checked  = showStatic
-        disabled = (not (or (and hasInstance showInstance)))
-      }}
-
-      <a
-        href={{if (or (and hasInstance showInstance)) true null}}
-        {{action 'enableOnlyStatic'}}
-      >Static</a>
-    </span>
-  {{/if}}
-
-
-  {{#if hasInstance}}
-    <span>
-      {{input
-        type     = "checkbox"
-        checked  = showInstance
-        disabled = (not (or (and hasStatic showStatic)))
-      }}
-
-      <a
-        href={{if (or (and hasStatic showStatic)) true null}}
-        {{action 'enableOnlyInstance'}}
-      >Instance</a>
-    </span>
-  {{/if}}
-</div>
-
-<div>
-  {{#if hasDeprecated}}
-    <span>
-      {{input
-        type     = "checkbox"
-        checked  = showDeprecated
-        disabled = (not (or (and hasNonDeprecated showNonDeprecated)))
-      }}
-
-      <a
-        href={{if (or (and hasNonDeprecated showNonDeprecated)) true null}}
-        {{action 'enableOnlyDeprecated'}}
-      >Deprecated</a>
-    </span>
-  {{/if}}
-
-
-  {{#if hasNonDeprecated}}
-    <span>
-      {{input
-        type     = "checkbox"
-        checked  = showNonDeprecated
-        disabled = (not (or (and hasDeprecated showDeprecated)))
-      }}
-
-      <a
-        href={{if (or (and hasDeprecated showDeprecated)) true null}}
-        {{action 'enableOnlyNonDeprecated'}}
-      >Non-Deprecated</a>
-    </span>
-  {{/if}}
-</div>
-
-<div>
-  {{#if hasInherited}}
-    <span>
-      {{input
-        type     = "checkbox"
-        checked  = showInherited
-        disabled = (not (or (and hasNonInherited showNonInherited)))
-      }}
-
-      <a
-        href={{if (or (and hasNonInherited showNonInherited)) true null}}
-        {{action 'enableOnlyInherited'}}
-      >Inherited</a>
-    </span>
-  {{/if}}
-
-
-  {{#if hasNonInherited}}
-    <span>
-      {{input
-        type     = "checkbox"
-        checked  = showNonInherited
-        disabled = (not (or (and hasInherited showInherited)))
-      }}
-
-      <a
-        href={{if (or (and hasInherited showInherited)) true null}}
-        {{action 'enableOnlyNonInherited'}}
-      >Non-Inherited</a>
-    </span>
-  {{/if}}
-</div>
+        {{#if (get hasMoreThanOne value)}}
+          <option
+            value={{value}}
+            selected={{eq groupBy value}}
+          >
+            {{label}}
+          </option>
+        {{/if}}
+      {{/each-in}}
+    </select>
+  </div>
+{{/if}}

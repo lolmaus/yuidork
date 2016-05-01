@@ -1,10 +1,12 @@
-{{#layout-default
-  owner         = model.owner
-  repo          = model.repo
-  versionName   = model.versionName
-  versionRecord = model.versionRecord
-}}
+<div class="page-version">
+  {{#layout-default
+    owner         = model.owner
+    repo          = model.repo
+    versionName   = model.versionName
+    versionRecord = model.versionRecord
+  }}
 
-  {{outlet}}
+    {{outlet}}
 
-{{/layout-default}}
+  {{/layout-default}}
+</div>{{!page-version}}

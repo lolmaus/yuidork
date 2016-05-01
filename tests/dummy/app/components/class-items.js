@@ -4,15 +4,20 @@ const {
   A,
   Component,
   computed,
-  computed: {alias, filterBy, sort}
+  computed: {alias, filterBy, sort},
+  Object: eObject
 } = Ember;
 
-import layout from '../templates/components/class-items';
+const O = eObject.create.bind(eObject);
 
-export default Component.extend({
+import eqMixin from '../mixins/e-q';
+import layout  from '../templates/components/class-items';
+
+export default Component.extend(eqMixin, {
 
   // ----- Arguments -----
-  classRecord: null,
+  classRecord:                 null,
+  scrollableItemListHtmlClass: ".layoutDefault-content",
 
 
 
@@ -42,6 +47,41 @@ export default Component.extend({
 
   showInherited:    true,
   showNonInherited: true,
+
+  groupBy: 'itemType',
+
+
+
+  // ----- Static properties -----
+  groupBySortOrder: [
+    'method',
+    'property',
+    'event',
+
+    'public',
+    'protected',
+    'private',
+
+    'instance',
+    'static',
+
+    'non-deprecated',
+    'deprecated',
+
+    'non-inherited',
+    'inherited',
+
+    'other'
+  ],
+
+  namedGroupBys: A(['itemType', 'access']),
+
+  boolGroupBys: {
+    static: {
+      true:  'static',
+      false: 'instance'
+    }
+  },
 
 
 
@@ -165,6 +205,34 @@ export default Component.extend({
     }
   ),
 
+  classItemsEffective: computed(
+    'classItemsFiltered.@each.{name,itemType,access,static,deprecated}',
+    'groupBy',
+    function () {
+      const groupBy    = this.get('groupBy');
+      const classItems = this.get('classItemsFiltered');
+
+      if (!groupBy) {
+        return classItems;
+      }
+
+      return classItems
+        .reduce((result, item) => {
+          const value =
+            groupBy === 'inherited'
+            ? !this.get('classRecord.classItems').contains(item)
+            : item.get(groupBy);
+
+          const groupName = this.getGroupName(groupBy, value);
+          const group     = result.get(groupName) || result.set(groupName, A());
+
+          group.addObject(item);
+
+          return result;
+        }, O());
+    }
+  ),
+
   classItemsMethods:    filterBy('classItems', 'itemType', 'method'),
   classItemsProperties: filterBy('classItems', 'itemType', 'property'),
   classItemsEvents:     filterBy('classItems', 'itemType', 'event'),
@@ -195,5 +263,89 @@ export default Component.extend({
       return A(classItemsAll.filter(ci => !classItemsNative.contains(ci)));
     }
   ),
-  classItemsNonInherited: alias('classRecord.classItems')
+  classItemsNonInherited: alias('classRecord.classItems'),
+
+  hasMoreThanOneItemType: computed(
+    'classItemsSorted.@each.itemType',
+    function () {
+      return A(
+        this
+          .get('classItemsSorted')
+          .mapBy('itemType')
+      )
+        .uniq()
+        .length > 1;
+    }
+  ),
+
+  hasMoreThanOneAccess: computed(
+    'classItemsSorted.@each.access',
+    function () {
+      return A(
+        this
+          .get('classItemsSorted')
+          .mapBy('access')
+      )
+        .uniq()
+        .length > 1;
+    }
+  ),
+
+  hasMoreThanOneStasis: computed(
+    'classItemsSorted.@each.static',
+    function () {
+      return A(
+        this
+          .get('classItemsSorted')
+          .mapBy('static')
+      )
+        .uniq()
+        .length > 1;
+    }
+  ),
+
+  hasMoreThanOneDeprecation: computed(
+    'classItemsSorted.@each.deprecated',
+    function () {
+      return A(
+        this
+          .get('classItemsSorted')
+          .mapBy('deprecated')
+      )
+        .uniq()
+        .length > 1;
+    }
+  ),
+
+  hasMoreThanOneInheritance: computed(
+    'classItemsInherited.[]',
+    'classItemsNonInherited.[]',
+    function () {
+      return (
+        !!this.get('classItemsInherited.length')
+        && !!this.get('classItemsNonInherited.length')
+      );
+    }
+  ),
+
+
+
+  // ----- Methods -----
+  getGroupName (groupBy, value) {
+    const namedGroupBys = this.get('namedGroupBys');
+
+    if (namedGroupBys.contains(groupBy)) {
+      return value || 'other';
+    }
+
+    const boolGroupBys = this.get('boolGroupBys');
+
+    if (boolGroupBys[groupBy]) {
+      return boolGroupBys[groupBy][!!value];
+    }
+
+    const prefix = value ? '' : 'non-';
+
+    return prefix + groupBy;
+  }
 });

@@ -1,7 +1,9 @@
 import Ember from 'ember';
 
 const {
-  Component
+  A,
+  Component,
+  computed
 } = Ember;
 
 import layout from '../templates/components/class-items';
@@ -10,7 +12,7 @@ export default Component.extend({
 
   // ----- Arguments -----
   filterName:     '',
-  
+
   showMethods:        true,
   showProperties:     true,
   showEvents:         true,
@@ -24,7 +26,9 @@ export default Component.extend({
   showNonDeprecated:  true,
   showInherited:      true,
   showNonInherited:   true,
-  
+
+  hasMoreThanOne: null,
+
   hasMethods:         null,
   hasProperties:      null,
   hasEvents:          null,
@@ -39,11 +43,26 @@ export default Component.extend({
   hasInherited:       null,
   hasNonInherited:    null,
 
+  groupBy:            null,
+
 
 
   // ----- Overridden properties -----
   classNames: ['classItemsFilter'],
   layout,
+
+
+  // ----- Computed properties -----
+  hasMoreThanOneOfAnything: computed('hasMoreThanOne', function () {
+    const hasMoreThanOne = this.get('hasMoreThanOne');
+
+    return A(
+      Object
+        .keys(hasMoreThanOne)
+        .map(k => hasMoreThanOne[k])
+    )
+      .any(v => v);
+  }),
 
 
 
@@ -52,7 +71,7 @@ export default Component.extend({
     clearFilterName () {
       this.set('filterName', '');
     },
-    
+
     enableOnlyMethods () {
       this.setProperties({
         showMethods:        true,
@@ -61,7 +80,7 @@ export default Component.extend({
         showOtherItemTypes: false,
       });
     },
-    
+
     enableOnlyProperties () {
       this.setProperties({
         showMethods:        false,
@@ -70,7 +89,7 @@ export default Component.extend({
         showOtherItemTypes: false,
       });
     },
-    
+
     enableOnlyEvents () {
       this.setProperties({
         showMethods:        false,
@@ -79,7 +98,7 @@ export default Component.extend({
         showOtherItemTypes: false,
       });
     },
-    
+
     enableOnlyOtherItemTypes () {
       this.setProperties({
         showMethods:        false,
@@ -88,7 +107,7 @@ export default Component.extend({
         showOtherItemTypes: true,
       });
     },
-    
+
     enableOnlyPublic () {
       this.setProperties({
         showPublic:    true,
@@ -96,7 +115,7 @@ export default Component.extend({
         showPrivate:   false,
       });
     },
-    
+
     enableOnlyProtected () {
       this.setProperties({
         showPublic:    false,
@@ -104,7 +123,7 @@ export default Component.extend({
         showPrivate:   false,
       });
     },
-    
+
     enableOnlyPrivate () {
       this.setProperties({
         showPublic:    false,
@@ -112,47 +131,102 @@ export default Component.extend({
         showPrivate:   true,
       });
     },
-    
+
     enableOnlyStatic () {
       this.setProperties({
         showStatic:   true,
         showInstance: false,
       });
     },
-    
+
     enableOnlyInstance () {
       this.setProperties({
         showStatic:   false,
         showInstance: true,
       });
     },
-    
+
     enableOnlyDeprecated () {
       this.setProperties({
         showDeprecated:    true,
         showNonDeprecated: false,
       });
     },
-    
+
     enableOnlyNonDeprecated () {
       this.setProperties({
         showDeprecated:    false,
         showNonDeprecated: true,
       });
     },
-    
+
     enableOnlyInherited () {
       this.setProperties({
         showInherited:    true,
         showNonInherited: false,
       });
     },
-    
+
     enableOnlyNonInherited () {
       this.setProperties({
         showInherited:    false,
         showNonInherited: true,
       });
     },
-  }
+
+    setGroupBy (value) {
+      if (value === 'dont') {
+        value = null;
+      }
+
+      this.set('groupBy', value);
+
+      if (!value) {
+        return;
+      }
+
+      if (value === 'itemType') {
+        this.setProperties({
+          showMethods:        true,
+          showProperties:     true,
+          showEvents:         true,
+          showOtherItemTypes: true,
+        });
+        return;
+      }
+
+      if (value === 'access') {
+        this.setProperties({
+          showPublic:         true,
+          showProtected:      true,
+          showPrivate:        true,
+        });
+        return;
+      }
+
+      if (value === 'static') {
+        this.setProperties({
+          showStatic:         true,
+          showInstance:       true,
+        });
+        return;
+      }
+
+      if (value === 'deprecated') {
+        this.setProperties({
+          showDeprecated:     true,
+          showNonDeprecated:  true,
+        });
+        return;
+      }
+
+      if (value === 'inherited') {
+        this.setProperties({
+          showInherited:      true,
+          showNonInherited:   true,
+        });
+        return;
+      }
+    }
+  },
 });

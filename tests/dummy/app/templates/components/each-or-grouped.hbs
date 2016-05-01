@@ -1,0 +1,45 @@
+{{#if (is-array items)}}
+
+  <div>
+    {{#each items as |item|}}
+      {{yield item}}
+    {{else}}
+      Not found
+    {{/each}}
+  </div>
+
+{{else}}
+
+  {{#if groupBySortOrder}}
+    {{#each groupBySortOrder as |groupName|}}
+      {{#with (get items groupName) as |itemsArr|}}
+        <h2>{{groupName}}</h2>
+
+        <div>
+          {{#each itemsArr as |item|}}
+            {{yield item}}
+          {{else}}
+            Not found
+          {{/each}}
+        </div>
+      {{/with}}
+    {{/each}}
+  {{else}}
+    <div>
+      {{#each-in items as |groupName itemsArr|}}
+
+        <h2>{{groupName}}</h2>
+
+        <div>
+          {{#each itemsArr as |item|}}
+            {{yield item}}
+          {{else}}
+            Not found
+          {{/each}}
+        </div>
+
+      {{/each-in}}
+    </div>
+  {{/if}}
+
+{{/if}}

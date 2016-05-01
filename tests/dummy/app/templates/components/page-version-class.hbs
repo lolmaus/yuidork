@@ -1,0 +1,94 @@
+
+<div class="pageVersionClass-infoWrapper">
+  <h1
+    class="pageVersionClass-title"
+  >{{currentClass.name}}</h1>
+
+  {{#e-q class="pageVersionClass-info"}}
+    <div class="pageVersionClass-meta">
+
+      {{#if currentClass.access}}
+        <div class="classNamespace-access">
+          {{currentClass.access}}
+        </div>
+      {{/if}}
+
+      <div class="classNamespace-definedIn">
+        Defined in:
+
+        <a
+          href={{urlWithLine}}
+          target="_blank"
+        >
+          {{currentClass.file.name}}:{{model.currentcurrentClass.line}}
+        </a>
+      </div>
+
+
+      <div class="classNamespace-module">
+        Module:
+
+        {{link-to currentClass.module.name 'version.module' currentClass.module.id}}
+      </div>
+
+
+      {{#if currentClass.extends}}
+        <div>
+          Extends:
+
+          {{#if currentClass.extends.foreign}}
+            {{currentClass.extends.name}}
+          {{else}}
+            {{link-to currentClass.extends.name 'version.class' currentClass.extends.id}}
+          {{/if}}
+        </div>
+      {{/if}}
+
+
+      {{#if currentClass.uses.length}}
+        <div>
+          Uses:
+
+          <ul>
+            {{#each currentClass.uses as |mixin|}}
+              <li>
+                {{link-to mixin.name 'version.class' mixin.id}}
+              </li>
+            {{/each}}
+          </ul>
+        </div>
+      {{/if}}
+
+
+      {{#if currentClass.extensionFor.length}}
+        <div>
+          Extended by:
+
+          <ul>
+            {{#each currentClass.extensionFor as |extender|}}
+              <li>
+                {{link-to extender.name 'version.class' extender.id}}
+              </li>
+            {{/each}}
+          </ul>
+        </div>
+      {{/if}}
+    </div>{{!pageVersionClass-meta}}
+
+    {{#if currentClass.description}}
+      <div class="pageVersionClass-description">
+        {{md-text
+          text=currentClass.description
+        }}
+      </div>
+    {{/if}}
+
+  {{/e-q}}{{!pageVersionClass-info}}
+
+</div>{{!pageVersionClass-infoWrapper}}
+
+{{class-items
+  classRecord                 = currentClass
+  scrollableItemListHtmlClass = scrollableItemListHtmlClass
+  class                       = "pageVersionClass-content"
+}}

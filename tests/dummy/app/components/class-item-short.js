@@ -7,9 +7,10 @@ const {
   String: {capitalize}
 } = Ember;
 
-import layout from '../templates/components/class-item-short';
+import eqMixin from '../mixins/e-q';
+import layout  from '../templates/components/class-item-short';
 
-export default Component.extend({
+export default Component.extend(eqMixin, {
 
   // ----- Arguments -----
   classItem:   null,
@@ -27,6 +28,19 @@ export default Component.extend({
     'deprecatedClass',
     'inheritedClass'
   ],
+  
+  eqSlices: {
+       0:  'xxs',
+     200:   'xs',
+     250:   'ys',
+     400:    's',
+     600:    'm',
+     800:    'l',
+    1000:   'xl',
+    1200:  'xxl',
+    1400: 'xxxl',
+  },
+  
   layout,
 
 
@@ -42,7 +56,12 @@ export default Component.extend({
   isOverridden: computed(
     'classItem.class.inheritedClassItems.@each.name',
     'classItem.name',
+    'isInherited',
     function () {
+      if (this.get('isInherited')) {
+        return false;
+      }
+
       const name = this.get('classItem.name');
 
       return A(
@@ -116,8 +135,8 @@ export default Component.extend({
 
   inheritedIconTitle: computed('isInherited', 'isOverridden', function () {
     return (
-      this.get('isOverridden') ? 'Overridden'   :
       this.get('isInherited')  ? 'Inherited'    :
+      this.get('isOverridden') ? 'Overridden'   :
                                  'Non-inherited'
     );
   }),
@@ -144,8 +163,8 @@ export default Component.extend({
 
   inheritedClass: computed('isInherited', 'isOverridden', function () {
     return (
-      this.get('isOverridden') ? '_overridden'   :
       this.get('isInherited')  ? '_inherited'    :
+      this.get('isOverridden') ? '_overridden'   :
                                  '_nonInherited'
     );
   }),

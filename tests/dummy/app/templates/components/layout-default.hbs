@@ -2,6 +2,12 @@
 
   <div class="layoutDefault-header-section _project">
     <a
+      href
+      {{action 'toggleMenu'}}
+      class="layoutDefault-header-section-project-menuToggle"
+    >☰</a>
+
+    <a
       href={{ownerUrl}}
       target="_blank"
     >{{owner}}</a>/<a
@@ -14,12 +20,6 @@
   </div>{{!layoutDefault-header-section _project}}
 
   <div class="layoutDefault-header-section _about">
-    <a
-      href
-      {{action 'toggleMenu'}}
-      class="layoutDefault-header-section-about-menuToggle"
-    >Menu</a>
-
     <div class="layoutDefault-header-section-about-yuidork">
       Powered by
       {{link-to 'Yuidork' 'index'}}
@@ -40,13 +40,13 @@
     {{#if versionRecord}}
       {{me-nu
         versionRecord=versionRecord
-        closeMenuAction=(action 'closeMenu')
+        closeMenuAction=(action 'closeMenu' true)
       }}
     {{/if}}
 
   </div>{{!layoutDefault-content}}
 
   <div class="layoutDefault-content">
-    {{yield}}
+    {{yield scrollableItemListHtmlClass}}
   </div>{{!layoutDefault-content}}
 </div>{{!layoutDefault-main}}

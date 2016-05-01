@@ -1,38 +1,55 @@
-<span class="classItemShort-name">
-  {{fugue-icon
-    icon=itemTypeIconName
-    class="classItemShort-name-icon"
-  }}
+{{#scroll-to
+  href=(plus '#' (encode-class (plus 'classItem-' classItem.id)))
+  scrollable=scrollable
+  class="classItemShort-link"
+}}
 
-  {{scroll-to
-    label=classItem.name
-    href=(plus '#' (encode-class (plus 'classItem-' classItem.id)))
-    scrollable=scrollable
-  }}
-</span>
+  <span class="classItemShort-meta">
+    {{#unless (eq groupBy 'itemType')}}
+      {{fugue-icon
+        type='itemType'
+        value=classItem.itemType
+        class="classItemShort-type-icon"
+      }}
+    {{/unless}}
 
-<span class="classItemShort-icons">
-  {{fugue-icon
-    icon=accessIconName
-    title=accessIconTitle
-    class="classItemShort-icon _itemType"
-  }}
+    <span class="classItemShort-name">
+      {{classItem.name}}
+    </span>
+  </span>
 
-  {{fugue-icon
-    icon='ice'
-    title=staticIconTitle
-    class="classItemShort-icon _static"
-  }}
+  <span class="classItemShort-icons">
 
-  {{fugue-icon
-    icon='broom'
-    title=deprecatedIconTitle
-    class="classItemShort-icon _deprecated"
-  }}
+    {{#unless (eq groupBy 'access')}}
+      {{fugue-icon
+        type='access'
+        value=classItem.access
+        class="classItemShort-icon _access"
+      }}
+    {{/unless}}
 
-  {{fugue-icon
-    icon=inheritedIconName
-    title=inheritedIconTitle
-    class="classItemShort-icon _inherited"
-  }}
-</span>
+    {{#unless (eq groupBy 'static')}}
+      {{fugue-icon
+        type='static'
+        value=classItem.static
+        class="classItemShort-icon _static"
+      }}
+    {{/unless}}
+
+    {{#unless (eq groupBy 'deprecated')}}
+      {{fugue-icon
+        type='deprecated'
+        value=classItem.deprecated
+        class="classItemShort-icon _deprecated"
+      }}
+    {{/unless}}
+
+    {{#unless (eq groupBy 'inherited')}}
+      {{fugue-icon
+        type='inherited'
+        value=(if isInherited 'inherited' (if isOverridden 'overridden' false))
+        class="classItemShort-icon _inherited"
+      }}
+    {{/unless}}
+  </span>
+{{/scroll-to}}

@@ -7,8 +7,10 @@ const {
   computed,
   Mixin,
   on,
-  run: {scheduleOnce}
+  run: {later, next, scheduleOnce}
 } = Ember;
+
+import eqTrigger from '../utils/eq-trigger';
 
 export default Mixin.create({
 
@@ -28,10 +30,10 @@ export default Mixin.create({
 
   // ----- Overridden properties -----
   attributeBindings: [
-     'eqSliceCurrent:data-eq-current',
-       'eqSlicesFrom:data-eq-from',
-         'eqSlicesTo:data-eq-to',
-    'eqSlicesBetween:data-eq-between'
+          'eqSliceCurrent:data-eq-current',
+       'eqSlicesFromClass:data-eq-from',
+         'eqSlicesToClass:data-eq-to',
+    'eqSlicesBetweenClass:data-eq-between',
   ],
 
 
@@ -180,8 +182,36 @@ export default Mixin.create({
         const slice2 = this.eqSliceForBP(bp2);
 
         return `${slice1}-${slice2}`;
-      })
-      .join(' ');
+      });
+  }),
+
+  eqSlicesFromClass: computed('eqSlicesFrom', function () {
+    return (this.get('eqSlicesFrom') || []).join(' ');
+  }),
+
+  eqSlicesToClass: computed('eqSlicesTo', function () {
+    return (this.get('eqSlicesTo') || []).join(' ');
+  }),
+
+  eqSlicesBetweenClass: computed('eqSlicesBetween', function () {
+    return (this.get('eqSlicesBetween') || []).join(' ');
+  }),
+
+  eqTransitionEventName: computed(function (){
+    const el = document.createElement('fakeelement');
+    const transitions = {
+      'transition':       'transitionend',
+      'OTransition':      'oTransitionEnd',
+      'MozTransition':    'transitionend',
+      'WebkitTransition': 'webkitTransitionEnd'
+    };
+
+    const transitionKey =
+      Object
+        .keys(transitions)
+        .find(t => el.style[t] !== undefined);
+
+    return transitions[transitionKey];
   }),
 
 
@@ -192,8 +222,7 @@ export default Mixin.create({
 
   eqSlicesForBPs (bps) {
     return bps
-      .map(bp => this.eqSliceForBP(bp))
-      .join(' ');
+      .map(bp => this.eqSliceForBP(bp));
   },
 
   updateEqWidth() {
@@ -207,19 +236,62 @@ export default Mixin.create({
   _setupEqResize: on('didInsertElement', function () {
     const _eqResizeHandler = () => {
       scheduleOnce('afterRender', this, this.updateEqWidth);
+      next(this, this.updateEqWidth);
     };
 
     this.setProperties({_eqResizeHandler});
     window.addEventListener('resize',    _eqResizeHandler, true);
     window.addEventListener('eq-update', _eqResizeHandler, true);
+  }),
 
-    _eqResizeHandler();
+  asdf: on('didRender', function () {
+    this.get('_eqResizeHandler')();
   }),
 
   _teardownEqResize: on('willDestroyElement', function () {
     const _eqResizeHandler = this.get('_eqResizeHandler');
     window.removeEventListener('resize',    _eqResizeHandler, true);
     window.removeEventListener('eq-update', _eqResizeHandler, true);
+  }),
+
+  setupTransitions: on('didInsertElement', function () {
+    const eqTransitionEventName = this.get('eqTransitionEventName');
+    const eqTransitionClasses   = this.get('eqTransitionClasses');
+
+    if (
+      !eqTransitionEventName
+      || !eqTransitionClasses
+      || !eqTransitionClasses.length
+    ) {
+      return;
+    }
+
+    eqTransitionClasses
+      .forEach(className => {
+        this
+          .$(className)[0]
+          .addEventListener(eqTransitionEventName, eqTrigger);
+      });
+  }),
+
+  teardownTransitions: on('willDestroyElement', function () {
+    const eqTransitionEventName = this.get('eqTransitionEventName');
+    const eqTransitionClasses   = this.get('eqTransitionClasses');
+
+    if (
+      !eqTransitionEventName
+      || !eqTransitionClasses
+      || !eqTransitionClasses.length
+    ) {
+      return;
+    }
+
+    eqTransitionClasses
+      .forEach(className => {
+        this
+          .$(className)[0]
+          .removeEventListener(eqTransitionEventName, eqTrigger);
+      });
   }),
 
 });

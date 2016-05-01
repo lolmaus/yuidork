@@ -286,27 +286,30 @@ export default AjaxService.extend({
     const store = this.get('store');
 
     return store.push({
-      data: classItems.map(classItem => ({
-        id:   `${classItem.class}--${classItem.name}`,
-        type: 'yuidoc-class-item',
-        attributes: {
-          name:        classItem.name,
-          description: classItem.description,
-          line:        classItem.line,
-          access:      classItem.access || 'public',
-          itemType:    classItem.itemtype,
-          params:      classItem.params,
-          static:      !!classItem.static,
-          deprecated:  !!classItem.deprecated,
-        },
-        relationships: {
-          version:   this.jsonApiBelongsTo(version,             'yuidoc-version'),
-          file:      this.jsonApiBelongsTo(classItem.file,      'yuidoc-file'),
-          module:    this.jsonApiBelongsTo(classItem.module,    'yuidoc-module'),
-          namespace: this.jsonApiBelongsTo(classItem.namespace, 'yuidoc-namespace'),
-          class:     this.jsonApiBelongsTo(classItem.class,     'yuidoc-class'),
-        }
-      }))
+      data:
+        classItems
+          .filter(ci => ci.name && ci.itemtype)
+          .map(classItem => ({
+            id:   `${classItem.class}--${classItem.name}`,
+            type: 'yuidoc-class-item',
+            attributes: {
+              name:        classItem.name,
+              description: classItem.description,
+              line:        classItem.line,
+              access:      classItem.access || 'public',
+              itemType:    classItem.itemtype,
+              params:      classItem.params,
+              static:      !!classItem.static,
+              deprecated:  !!classItem.deprecated,
+            },
+            relationships: {
+              version:   this.jsonApiBelongsTo(version,             'yuidoc-version'),
+              file:      this.jsonApiBelongsTo(classItem.file,      'yuidoc-file'),
+              module:    this.jsonApiBelongsTo(classItem.module,    'yuidoc-module'),
+              namespace: this.jsonApiBelongsTo(classItem.namespace, 'yuidoc-namespace'),
+              class:     this.jsonApiBelongsTo(classItem.class,     'yuidoc-class'),
+            }
+          }))
     });
   },
 
@@ -430,6 +433,11 @@ export default AjaxService.extend({
       .then(data => loadingStages.next(
         'Loading documentation into the store...',
         () => this.populateStore({data, versionRecord})
+      ))
+
+      .then(data => loadingStages.next(
+        'Rendering...',
+        () => data
       ));
   },
 
