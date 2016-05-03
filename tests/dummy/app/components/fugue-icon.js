@@ -51,8 +51,9 @@ export default Component.extend({
     final:      'stamp',
     computed:   'gear',
     observer:   'eye',
-    on:         'calendar--arrow',
+    on:         'service-bell',
     optional:   'ghost',
+    mixin:      'water',
   },
 
   titles: {
@@ -70,7 +71,7 @@ export default Component.extend({
     },
 
     inherited: {
-      overridden: 'Own (overridden)',
+      overridden: 'Own (overridding)',
       inherited:  'Inherited',
       false:      'Own',
     },
@@ -104,6 +105,10 @@ export default Component.extend({
 
     optional: {
       true:  'Optional',
+    },
+
+    mixin: {
+      true:  'Mixin',
     },
   },
 

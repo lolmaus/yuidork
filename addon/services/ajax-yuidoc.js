@@ -271,8 +271,10 @@ export default AjaxService.extend({
         attributes: {
           description: klass.description,
           line:        klass.line,
+          access:      klass.access || 'public',
           static:      !!klass.static,
           deprecated:  !!klass.deprecated,
+          mixin:       klass.mixin != null,
         },
         relationships: {
           version:   this.jsonApiBelongsTo(version,         'yuidoc-version'),
@@ -309,15 +311,16 @@ export default AjaxService.extend({
               return:      classItem.return,
               default:     classItem.default,
               example:     classItem.example,
-              
+
               static:      !!classItem.static,
               deprecated:  !!classItem.deprecated,
               final:       !!classItem.final,
               optional:    !!classItem.optional,
-              
+
               computed:    classItem.computed != null,
               observer:    classItem.observer != null,
               on:          classItem.on       != null,
+              mixin:       classItem.mixin    != null,
             },
             relationships: {
               version:   this.jsonApiBelongsTo(version,             'yuidoc-version'),

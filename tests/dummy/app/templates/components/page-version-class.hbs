@@ -7,10 +7,31 @@
   {{#e-q class="pageVersionClass-info"}}
     <div class="pageVersionClass-meta">
 
-      {{#if currentClass.access}}
-        <div class="pageVersionClass-access">
-          {{currentClass.access}}
-        </div>
+      {{#unless (eq currentClass.access 'public')}}
+        {{fugue-icon
+          type     =  'access'
+          value    = currentClass.access
+          withText = true
+          class    = "pageVersionClass-icon _access"
+        }}
+      {{/unless}}
+
+      {{#if currentClass.mixin}}
+        {{fugue-icon
+          type     =  'mixin'
+          value    = currentClass.mixin
+          withText = true
+          class    = "pageVersionClass-icon _mixin"
+        }}
+      {{/if}}
+
+      {{#if currentClass.deprecated}}
+        {{fugue-icon
+          type     = 'deprecated'
+          value    = currentClass.deprecated
+          withText = true
+          class    = "pageVersionClass-icon _deprecated"
+        }}
       {{/if}}
 
       <div class="pageVersionClass-definedIn">

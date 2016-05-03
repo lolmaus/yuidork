@@ -31,6 +31,15 @@
     }}
   {{/unless}}
 
+  {{#if classItem.mixin}}
+    {{fugue-icon
+      type     =  'mixin'
+      value    = classItem.mixin
+      withText = true
+      class    = "classItemLong-icon _mixin"
+    }}
+  {{/if}}
+
   {{#if classItem.deprecated}}
     {{fugue-icon
       type     = 'deprecated'
@@ -104,6 +113,7 @@
     {{fugue-icon
       type     = 'inherited'
       value    = classItem.inherited
+      withText = true
       class    = "classItemLong-icon _inherited"
     }}
   {{/if}}

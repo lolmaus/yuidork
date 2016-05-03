@@ -19,9 +19,10 @@ export default Model.extend({
   line:        attr('number'),
 
   access:      attr('string'),
-  static:      attr('boolean'),
-  deprecated:  attr('boolean'),
+  static:      attr('boolean', {defaultValue: false}),
+  deprecated:  attr('boolean', {defaultValue: false}),
   foreign:     attr('boolean', {defaultValue: false}),
+  mixin:       attr('boolean', {defaultValue: false}),
 
 
 

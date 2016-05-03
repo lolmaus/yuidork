@@ -1042,7 +1042,6 @@ export default EmberObject.extend({
 
   // http://yui.github.io/yuidoc/api/files/lib_docparser.js.html#l1220
   handleComment ({commentRaw, path, lineNum}) {
-    console.log('handlecommment', {path, lineNum, commentRaw})
     const extension         = this.getExtension(path);
     const IGNORE_TAGS       = this.get('IGNORE_TAGS');
     const REGEX_LINES       = this.get('REGEX_LINES');
