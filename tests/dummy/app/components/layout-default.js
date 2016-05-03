@@ -65,9 +65,10 @@ export default Component.extend(eqMixin, {
     toggleMenu () {
       this.toggleProperty('menuIsExpanded');
     },
+
     closeMenu (ignoreOnSmall) {
       console.log({ignoreOnSmall, slices: this.get('eqSlicesFrom'), contains: A(this.get('eqSlicesTo')).contains('m')})
-      if (ignoreOnSmall && A(this.get('eqSlicesFrom')).contains('m')) {
+      if (ignoreOnSmall && A(this.get('eqSlicesFrom')).contains('l')) {
         return;
       }
 

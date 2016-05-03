@@ -5,21 +5,23 @@ const {
   computed
 } = Ember;
 
+import layout from '../templates/components/fugue-icon';
+
 export default Component.extend({
 
   // ----- Argumnents -----
-  type:  null,
-  value: null,
+  type:     null,
+  value:    null,
+  withText: false,
 
 
 
   // ----- Overridden properties -----
-  attributeBindings: ['src', 'title'],
   classNameBindings: [
     ':fugueIcon',
     'dimmedClass'
   ],
-  tagName:           'img',
+  layout,
 
 
 
@@ -46,6 +48,11 @@ export default Component.extend({
 
     static:     'ice',
     deprecated: 'broom',
+    final:      'stamp',
+    computed:   'gear',
+    observer:   'eye',
+    on:         'calendar--arrow',
+    optional:   'ghost',
   },
 
   titles: {
@@ -76,6 +83,27 @@ export default Component.extend({
     deprecated: {
       true:  'Deprecated',
       false: 'Not deprecated'
+    },
+
+    final: {
+      true:  'Final',
+      false: 'Not final'
+    },
+
+    computed: {
+      true:  'Computed',
+    },
+
+    observer: {
+      true:  'Observer',
+    },
+
+    on: {
+      true:  'Ember.on',
+    },
+
+    optional: {
+      true:  'Optional',
     },
   },
 

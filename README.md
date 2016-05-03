@@ -44,21 +44,23 @@ Allows viewing docs for *any* branch/tag/commit, does not require generated docs
 * :radio_button: UI
   * :black_circle: Menu
   * :black_circle: Module page
-  * :white_circle: Class page
   * :white_circle: Namespace page
-  * :white_circle: Class Item component (method/property/event/etc)
-  * :white_circle: Class Items component (navigate/filter class items)
+  * :radio_button: Class page
+    * :radio_button: Basic class info
+    * :black_circle: Class Items component (navigate/filter class items)
+    * :white_circle: Class Item component (method/property/event)
   * :white_circle: Reload model when changing URL params
   * :white_circle: Versions switcher
   * :white_circle: Project switcher
   * :white_circle: Search options
-  * :white_circle: Linking to viewed project
-* :white_circle: Configuration
-  * :white_circle: Source
-    * :white_circle: Via query params
+  * :black_circle: Linking to viewed project on GitHub
+  * :white_circle: Linking to viewed project's website (from config)
+* :radio_button: Configuration
+  * :radio_button: Source
+    * :black_circle: Via query params
     * :white_circle: Via dotfile
   * :white_circle: Options
-    * :white_circle: Versions
+    * :black_circle: Versions
     * :white_circle: Extensions
     * :white_circle: Path to JSDoc's `data.json`
     * :white_circle: Project info: name, desc, URL
@@ -67,6 +69,7 @@ Allows viewing docs for *any* branch/tag/commit, does not require generated docs
 * :white_circle: Styling
 * :white_circle: Authentication
   * :white_circle: GitHub auth
+    * :white_circle: Viewing private repos
   * :white_circle: Error handling
     * :white_circle: API limit
     * :white_circle: Network failure
@@ -74,10 +77,12 @@ Allows viewing docs for *any* branch/tag/commit, does not require generated docs
   * :black_circle: Caching
     * :black_circle: Basic caching
     * :black_circle: Background SHA fetching and comparing
-  * :white_circle: Parsing docs from file system
-    * :white_circle: Figure out how to serve and access files on disk
-    * :white_circle: Implement
-    * :no_entry: Live-reloading (would be a fantastic feature, but it's too tricky to implement)
+  * :radio_button: Parsing docs from file system
+    * :black_circle: Figure out how to serve and access files on disk
+    * :black_circle: Implement
+    * :white_circle: Document
+    * :no_entry: Live-reloading (would be a fantastic to have, but too tricky to implement)
+  * :white_circle: Cross-linking
 * :white_circle: Some tests maybe
 * :white_circle: Document with YUIDoc :trollface:
 * :no_entry: Support JSDoc (need to figure out how different YUIDoc and JSDoc formats are)

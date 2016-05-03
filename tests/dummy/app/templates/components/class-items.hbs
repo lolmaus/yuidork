@@ -17,71 +17,51 @@
     showNonInherited   = showNonInherited
 
     hasMoreThanOne = (hash
-      itemType   = hasMoreThanOneItemType
       access     = hasMoreThanOneAccess
-      static     = hasMoreThanOneStasis
       deprecated = hasMoreThanOneDeprecation
       inherited  = hasMoreThanOneInheritance
     )
 
-    hasMethods         = (gt classItemsMethods.length       0)
-    hasProperties      = (gt classItemsProperties.length    0)
-    hasEvents          = (gt classItemsEvents.length        0)
-    hasOtherItemTypes  = (gt classItemsOtherTypes.length    0)
     hasPublic          = (gt classItemsPublic.length        0)
     hasProtected       = (gt classItemsProtected.length     0)
     hasPrivate         = (gt classItemsPrivate.length       0)
-    hasInstance        = (gt classItemsInstance.length      0)
-    hasStatic          = (gt classItemsStatic.length        0)
     hasDeprecated      = (gt classItemsDeprecated.length    0)
     hasNonDeprecated   = (gt classItemsNonDeprecated.length 0)
     hasInherited       = (gt classItemsInherited.length     0)
     hasNonInherited    = (gt classItemsNonInherited.length  0)
-
-    groupBy            = groupBy
   }}
 
   {{#if classItems.length}}
-    <div class="classItems-navigationList">
-      {{#each-or-grouped
-        items=classItemsEffective
-        groupBySortOrder=groupBySortOrder
-        as |item|
-      }}
-        {{class-item-short
-          classItem   = item
-          classRecord = classRecord
-          groupBy     = groupBy
-          scrollable  = scrollableItemListHtmlClass
-        }}
-      {{/each-or-grouped}}
-    </div>
+    {{class-items-list
+      classItems                     = classItems
+      classItemsFiltered             = classItemsFiltered
+      type                           = 'short'
+      classRecord                    = classRecord
+      scrollableItemListHtmlClass    = scrollableItemListHtmlClass
+      staticMethodsAreCollapsed      = staticMethodsAreCollapsed
+      staticPropertiesAreCollapsed   = staticPropertiesAreCollapsed
+      staticEventsAreCollapsed       = staticEventsAreCollapsed
+      instanceMethodsAreCollapsed    = instanceMethodsAreCollapsed
+      instancePropertiesAreCollapsed = instancePropertiesAreCollapsed
+      instanceEventsAreCollapsed     = instanceEventsAreCollapsed
+      class                          = "classItems-navigationList"
+    }}
   {{/if}}
 </div>{{!classItems-navigation}}
 
-<div
-  class="classItems-items"
->
-  {{#if classItems.length}}
-    <div class="classItems-navigationList">
-
-      <p>scrollableItemListHtmlClass {{scrollableItemListHtmlClass}}</p>
-
-      {{#each classItemsFiltered as |classItem|}}
-        <p
-          id={{encode-class (plus 'classItem-' classItem.id)}}
-        >{{classItem.name}}</p>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-      {{else}}
-        Not found
-      {{/each}}
-    </div>
-  {{/if}}
-</div>
+{{#if classItems.length}}
+  {{class-items-list
+    classItems                     = classItems
+    classItemsFiltered             = classItemsFiltered
+    classRecord                    = classRecord
+    type                           = 'long'
+    scrollableItemListHtmlClass    = scrollableItemListHtmlClass
+    staticMethodsAreCollapsed      = staticMethodsAreCollapsed
+    staticPropertiesAreCollapsed   = staticPropertiesAreCollapsed
+    staticEventsAreCollapsed       = staticEventsAreCollapsed
+    instanceMethodsAreCollapsed    = instanceMethodsAreCollapsed
+    instancePropertiesAreCollapsed = instancePropertiesAreCollapsed
+    instanceEventsAreCollapsed     = instanceEventsAreCollapsed
+    class                          = "classItems-items"
+  }}
+{{/if}}

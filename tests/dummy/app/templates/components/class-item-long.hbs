@@ -1,0 +1,214 @@
+<div
+  id={{encode-class (plus 'classItem-' classItem.id)}}
+>
+  {{fugue-icon
+    type     = 'itemType'
+    value    = classItem.itemType
+    class    = "classItemLong-icon _itemType"
+  }}
+
+  <strong>
+    {{classItem.name}}
+  </strong>
+
+  {{#if classItem.params.length}}
+    ({{#each classItem.params as |param|}}{{param.name}}{{unless (eq param classItem.params.lastObject) ', '}}{{/each}})
+  {{/if}}
+
+  {{#if classItem.type}}
+    {{link-to-class
+      className=classItem.type
+      versionRecord=classItem.version
+    }}
+  {{/if}}
+
+  {{#unless (eq classItem.access 'public')}}
+    {{fugue-icon
+      type     =  'access'
+      value    = classItem.access
+      withText = true
+      class    = "classItemLong-icon _access"
+    }}
+  {{/unless}}
+
+  {{#if classItem.deprecated}}
+    {{fugue-icon
+      type     = 'deprecated'
+      value    = classItem.deprecated
+      withText = true
+      class    = "classItemLong-icon _deprecated"
+    }}
+  {{/if}}
+
+  {{#if classItem.static}}
+    {{fugue-icon
+      type     = 'static'
+      value    = classItem.static
+      withText = true
+      class    = "classItemLong-icon _static"
+    }}
+  {{/if}}
+  {{#if classItem.computed}}
+    {{fugue-icon
+      type     = 'computed'
+      value    = classItem.computed
+      withText = true
+      class    = "classItemLong-icon _computed"
+    }}
+  {{/if}}
+
+  {{#if classItem.observer}}
+    {{fugue-icon
+      type     = 'computed'
+      value    = classItem.observer
+      withText = true
+      class    = "classItemLong-icon _observer"
+    }}
+  {{/if}}
+
+  {{#if classItem.on}}
+    {{fugue-icon
+      type     = 'on'
+      value    = classItem.on
+      withText = true
+      class    = "classItemLong-icon _on"
+    }}
+  {{/if}}
+
+  {{#if classItem.final}}
+    {{fugue-icon
+      type     = 'final'
+      value    = classItem.final
+      withText = true
+      class    = "classItemLong-icon _final"
+    }}
+  {{/if}}
+
+  {{#if classItem.optional}}
+    {{fugue-icon
+      type     = 'optional'
+      value    = classItem.optional
+      withText = true
+      class    = "classItemLong-icon _optional"
+    }}
+  {{/if}}
+
+
+</div>
+
+
+
+<div class="classItemLong-definedIn">
+
+  {{#if (or isOverridden isInherited)}}
+    {{fugue-icon
+      type     = 'inherited'
+      value    = classItem.inherited
+      class    = "classItemLong-icon _inherited"
+    }}
+  {{/if}}
+
+  {{#if isInherited}}
+    Inherited from
+
+    <a
+      href={{classItem.urlWithLine}}
+      target="_blank"
+    >
+      {{classItem.file.name}}:{{classItem.line}}
+    </a>
+  {{else}}
+    {{#if isOverridden}}
+      Inherited from
+
+      <a
+        href={{overriddenClass.urlWithLine}}
+        target="_blank"
+      >
+        {{overriddenClass.file.name}}:{{overriddenClass.line}}
+      </a>,
+
+      but overridden in
+    {{else}}
+      Defined in
+    {{/if}}
+
+    <a
+      href={{classItem.urlWithLine}}
+      target="_blank"
+    >
+      {{classItem.file.name}}:{{classItem.line}}
+    </a>
+  {{/if}}
+</div>{{!classItemLong-definedIn}}
+
+{{#if classItem.params.length}}
+
+  <div class="classItemLong-params">
+    Params:
+
+    <ul class="classItemLong-params-list">
+      {{#each classItem.params as |param|}}
+        <li>
+          {{param.name}}
+
+          {{link-to-class
+            className=param.type
+            versionRecord=classItem.version
+          }}
+
+          {{param.description}}
+        </li>
+      {{/each}}
+    </ul>{{!classItemLong-params-list}}
+  </div>{{!classItemLong-params}}
+{{/if}}
+
+{{#if classItem.description}}
+  <div class="classItemLong-description">
+    {{md-text
+      text=classItem.description
+    }}
+  </div>
+{{/if}}
+
+{{#if classItem.return}}
+  <div class="classItemLong-return">
+    Returns:
+
+    {{link-to-class
+      className=classItem.return.type
+      versionRecord=classItem.version
+    }}
+
+    {{md-text
+      text=(plus "```
+" classItem.return.description "
+```")
+    }}
+  </div>
+{{/if}}
+
+{{#if classItem.default}}
+  <div class="classItemLong-default">
+    Default:
+
+    {{md-text
+      text=(plus "```
+" classItem.default "
+```")
+    }}
+  </div>
+{{/if}}
+
+{{#if classItem.example}}
+  <div class="classItemLong-example">
+    Example:
+
+    {{md-text
+      text=(plus "```
+" classItem.example "
+```")
+    }}
+  </div>
+{{/if}}

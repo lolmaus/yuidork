@@ -14,51 +14,23 @@
     overflow: hidden
     position: relative
 
+    // ----- Content layout -----
+    .classItemShort-link
+      display: block
+
     // ----- Looks -----
     &:nth-child(even)
       background-color: $even-bg
     &:hover
       background-color: $hover-bg
 
-    // ----- RWD -----
-    +eq-to(xs)
-      .classItemShort-icons
-        position: absolute
-        top:      0
-        right:    0
-        height:   $line-height
-
-      .classItemShort-icon
-        background-color: white
-
-        &.-dimmed
-          display: none
-
-      &:nth-child(even) .classItemShort-icon
-        background-color: $even-bg
-
-      &:hover .classItemShort-icon
-        background-color: $hover-bg
-
-      &:not(:hover) .classItemShort-icons
-        display: none
-
-    +eq-from(ys)
-      $icons-width: (16px + 2px) * 4 - 2px
-
-      .classItemShort-meta
-        width: calc(100% - #{$icons-width})
-
-      .classItemShort-icons
-        width: $icons-width
-
   ////------------------------------------------
   .classItemShort-icons
     //------------------------------------------
 
     // ----- Layout -----
-    display:  flex
-    align-items: center
+    display:         inline-flex
+    align-items:     center
     justify-content: flex-end
 
     // ----- Content layout -----
@@ -70,25 +42,12 @@
   .classItemShort-link
     //------------------------------------------
 
-    // ----- Layout -----
-    display:         flex
-    justify-content: space-between
-
-    //max-width:       300px
-
     // ----- Text -----
     text-decoration: none
 
-
-
-  ////------------------------------------------
-  .classItemShort-meta
-    //------------------------------------------
-
-    // ----- Text -----
-    white-space:           nowrap
-    overflow:              hidden
-    text-overflow:         ellipsis
+    // ----- Content layout -----
+    .classItemShort-icons
+        vertical-align: middle
 
 
 
@@ -97,6 +56,9 @@
     //------------------------------------------
 
     // ----- Text -----
+    white-space:           nowrap
+    overflow:              hidden
+    text-overflow:         ellipsis
     text-decoration:       underline
     text-decoration-style: dashed
     line-height:           $line-height

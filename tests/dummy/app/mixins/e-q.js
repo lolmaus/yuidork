@@ -7,7 +7,7 @@ const {
   computed,
   Mixin,
   on,
-  run: {later, next, scheduleOnce}
+  run: {next, scheduleOnce}
 } = Ember;
 
 import eqTrigger from '../utils/eq-trigger';
@@ -39,7 +39,8 @@ export default Mixin.create({
 
 
   // ----- Static properties -----
-  eqWidth: null,
+  eqWidth:          null,
+  _eqResizeHandler: null,
 
 
 
@@ -226,8 +227,13 @@ export default Mixin.create({
   },
 
   updateEqWidth() {
-    const eqWidth = this.get('element').offsetWidth;
-    this.setProperties({eqWidth});
+    const element = this.get('element');
+
+    if (!element) {
+      return;
+    }
+
+    this.set('eqWidth', element.offsetWidth);
   },
 
 
@@ -244,7 +250,7 @@ export default Mixin.create({
     window.addEventListener('eq-update', _eqResizeHandler, true);
   }),
 
-  asdf: on('didRender', function () {
+  _handleRender: on('didRender', function () {
     this.get('_eqResizeHandler')();
   }),
 

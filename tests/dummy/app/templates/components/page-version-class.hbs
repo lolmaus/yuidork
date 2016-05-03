@@ -8,24 +8,24 @@
     <div class="pageVersionClass-meta">
 
       {{#if currentClass.access}}
-        <div class="classNamespace-access">
+        <div class="pageVersionClass-access">
           {{currentClass.access}}
         </div>
       {{/if}}
 
-      <div class="classNamespace-definedIn">
+      <div class="pageVersionClass-definedIn">
         Defined in:
 
         <a
-          href={{urlWithLine}}
+          href={{currentClass.urlWithLine}}
           target="_blank"
         >
-          {{currentClass.file.name}}:{{model.currentcurrentClass.line}}
+          {{currentClass.file.name}}:{{currentClass.line}}
         </a>
       </div>
 
 
-      <div class="classNamespace-module">
+      <div class="pageVersionClass-module">
         Module:
 
         {{link-to currentClass.module.name 'version.module' currentClass.module.id}}

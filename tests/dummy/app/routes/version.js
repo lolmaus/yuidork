@@ -21,15 +21,14 @@ export default Route.extend({
 
   // ----- Overridden properties -----
   queryParams: {
-    path: {
-      refreshModel: true
-    }
+    githubApiURL: {refreshModel: true},
+    path:         {refreshModel: true},
   },
 
 
 
   // ----- Overridden methods -----
-  model ({owner, repo, version}, {queryParams: {path = '*root*'}}) {
+  model ({owner, repo, version}, {queryParams: {path = '*root*', githubApiURL}}) {
     const loadingStages = LoadingStages.create();
 
     this.controllerFor('loading').setProperties({
@@ -41,7 +40,7 @@ export default Route.extend({
 
     return this
       .get('ajaxYuidoc')
-      .retrieve({owner, repo, version, path, loadingStages, refresh})
+      .retrieve({owner, repo, version, path, githubApiURL, loadingStages, refresh})
       .then(yuiStuff => ({
         ...yuiStuff,
         owner,

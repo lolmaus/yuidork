@@ -11,73 +11,7 @@
 </div>{{!classItemsFilter-name}}
 
 <div>
-
-  {{#if (and (not (eq groupBy 'itemType')) (get hasMoreThanOne 'itemType'))}}
-    <div>
-      {{#if hasMethods}}
-        <span>
-          {{input
-            type     = "checkbox"
-            checked  = showMethods
-            disabled = (not (or (and hasProperties showProperties) (and hasEvents showEvents) (and hasOtherItemTypes showOtherItemTypes)))
-          }}
-
-          <a
-            href={{if (or (and hasProperties showProperties) (and hasEvents showEvents) (and hasOtherItemTypes showOtherItemTypes)) true null}}
-            {{action 'enableOnlyMethods'}}
-          >Methods</a>
-        </span>
-      {{/if}}
-
-
-      {{#if hasProperties}}
-        <span>
-          {{input
-            type     = "checkbox"
-            checked  = showProperties
-            disabled = (not (or (and hasMethods showMethods) (and hasEvents showEvents) (and hasOtherItemTypes showOtherItemTypes)))
-          }}
-
-          <a
-            href={{if (or (and hasMethods showMethods) (and hasEvents showEvents) (and hasOtherItemTypes showOtherItemTypes)) true null}}
-            {{action 'enableOnlyProperties'}}
-          >Properties</a>
-        </span>
-      {{/if}}
-
-      {{#if hasEvents}}
-        <span>
-          {{input
-            type     = "checkbox"
-            checked  = showEvents
-            disabled = (not (or (and hasMethods showMethods) (and hasProperties showProperties) (and hasOtherItemTypes showOtherItemTypes)))
-          }}
-
-          <a
-            href={{if (or (and hasMethods showMethods) (and hasProperties showProperties) (and hasOtherItemTypes showOtherItemTypes)) true null}}
-            {{action 'enableOnlyEvents'}}
-          >Events</a>
-        </span>
-      {{/if}}
-
-      {{#if hasOtherItemTypes}}
-        <span>
-          {{input
-            type     = "checkbox"
-            checked  = showOtherItemTypes
-            disabled = (not (or (and hasMethods showMethods) (and hasProperties showProperties) (and hasEvents showEvents)))
-          }}
-
-          <a
-            href={{if (or (and hasInstance showInstance)) true null}}
-            {{action 'enableOnlyOtherItemTypes'}}
-          >Other</a>
-        </span>
-      {{/if}}
-    </div>
-  {{/if}}
-
-  {{#if (and (not (eq groupBy 'access')) (get hasMoreThanOne 'access'))}}
+  {{#if (get hasMoreThanOne 'access')}}
     <div>
       {{#if hasPublic}}
         <span>
@@ -127,44 +61,7 @@
     </div>
   {{/if}}
 
-
-  {{#if (and (not (eq groupBy 'static')) (get hasMoreThanOne 'static'))}}
-    <div>
-      {{#if hasStatic}}
-        <span>
-          {{input
-            type     = "checkbox"
-            checked  = showStatic
-            disabled = (not (or (and hasInstance showInstance)))
-          }}
-
-          <a
-            href={{if (or (and hasInstance showInstance)) true null}}
-            {{action 'enableOnlyStatic'}}
-          >Static</a>
-        </span>
-      {{/if}}
-
-
-      {{#if hasInstance}}
-        <span>
-          {{input
-            type     = "checkbox"
-            checked  = showInstance
-            disabled = (not (or (and hasStatic showStatic)))
-          }}
-
-          <a
-            href={{if (or (and hasStatic showStatic)) true null}}
-            {{action 'enableOnlyInstance'}}
-          >Instance</a>
-        </span>
-      {{/if}}
-    </div>
-  {{/if}}
-
-
-  {{#if (and (not (eq groupBy 'deprecated')) (get hasMoreThanOne 'deprecated'))}}
+  {{#if (get hasMoreThanOne 'deprecated')}}
     <div>
       {{#if hasDeprecated}}
         <span>
@@ -200,7 +97,7 @@
   {{/if}}
 
 
-  {{#if (and (not (eq groupBy 'inherited')) (get hasMoreThanOne 'inherited'))}}
+  {{#if (get hasMoreThanOne 'inherited')}}
     <div>
       {{#if hasInherited}}
         <span>
@@ -235,34 +132,3 @@
     </div>
   {{/if}}
 </div>
-
-{{#if hasMoreThanOneOfAnything}}
-  <div>
-    Group by
-
-    <select
-      onchange={{action 'setGroupBy' value="target.value"}}
-    >
-      {{#each-in
-        (hash
-          itemType   = "Type"
-          access     = "Access"
-          static     = "Instance / Static"
-          deprecated = "Deprecation"
-          inherited  = "Inheritance"
-          dont       = "Don't group"
-        )
-        as |value label|
-      }}
-        {{#if (get hasMoreThanOne value)}}
-          <option
-            value={{value}}
-            selected={{eq groupBy value}}
-          >
-            {{label}}
-          </option>
-        {{/if}}
-      {{/each-in}}
-    </select>
-  </div>
-{{/if}}

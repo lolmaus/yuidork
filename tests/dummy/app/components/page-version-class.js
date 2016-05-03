@@ -20,20 +20,6 @@ export default Component.extend(eqMixin, {
   classNames: ['pageVersionClass'],
   layout,
 
-
-
-  // ----- Computed properties -----
-  urlWithLine: computed(
-    'currentClass.line',
-    'currentClass.file.gitHubUrl',
-    function () {
-      const line      = this.get('currentClass.line');
-      const gitHubUrl = this.get('currentClass.file.gitHubUrl');
-
-      return `${gitHubUrl}#L${line}`;
-    }
-  ),
-
   scrollableItemListHtmlClass: computed('eqSlicesFrom.[]', function () {
     const eqSlicesFrom = this.get('eqSlicesFrom');
 

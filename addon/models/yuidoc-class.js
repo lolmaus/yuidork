@@ -10,6 +10,8 @@ import Model                from 'ember-data/model';
 import attr                 from 'ember-data/attr';
 import {belongsTo, hasMany} from 'ember-data/relationships';
 
+import urlWithLine from 'yuidork/macros/url-with-line';
+
 export default Model.extend({
 
   // ----- Attributes -----
@@ -39,6 +41,7 @@ export default Model.extend({
 
 
   // ----- Computed properties -----
+  urlWithLine:        urlWithLine(),
   name:               alias('id'),
   extendedClassItems: alias('extends.effectiveClassItems'),
 

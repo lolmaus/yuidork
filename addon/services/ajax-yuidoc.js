@@ -33,7 +33,7 @@ export default AjaxService.extend({
 
 
   // ----- Custom properties -----
-  extensions:  A(['js', 'jsx', 'coffee']),
+  extensions:  A(['js', 'jsx', 'coffee', 'sass', 'scss']),
 
 
 
@@ -53,8 +53,9 @@ export default AjaxService.extend({
 
 
 
-  requestTrees ({owner, repo, version}) {
-    const url = `/repos/${owner}/${repo}/git/trees/${version}?recursive=1`;
+  requestTrees ({owner, repo, version, githubApiURL}) {
+    githubApiURL = githubApiURL || this.get('host');
+    const url = `${githubApiURL}/repos/${owner}/${repo}/git/trees/${version}?recursive=1`;
     return this.request(url);
   },
 
@@ -79,7 +80,7 @@ export default AjaxService.extend({
     );
   },
 
-  retrieveFiles ({owner, repo, version, files, currentStage}) {
+  retrieveFiles ({owner, repo, version, files, githubApiURL, currentStage}) {
     let count = 0;
 
     if (currentStage) {
@@ -91,7 +92,7 @@ export default AjaxService.extend({
       files
         .map(file =>
           this
-            .retrieveFile({owner, repo, version, file})
+            .retrieveFile({owner, repo, version, file, githubApiURL})
             .then(result => {
               count++;
               currentStage.set('current', count);
@@ -102,8 +103,12 @@ export default AjaxService.extend({
     return RSVP.all(promises);
   },
 
-  retrieveFile ({owner, repo, version, file}) {
-    const url     = `https://cdn.rawgit.com/${owner}/${repo}/${version}/${file.path}`;
+  retrieveFile ({owner, repo, version, file, githubApiURL}) {
+    const host =
+      githubApiURL
+      ? `${githubApiURL}/file`
+      : `https://cdn.rawgit.com/${owner}/${repo}/${version}`;
+    const url     = `${host}/${file.path}`;
     const content = this.request(url, {dataType: 'text'});
 
     return RSVP
@@ -283,12 +288,13 @@ export default AjaxService.extend({
   },
 
   populateClassItems ({classItems, version}) {
-    const store = this.get('store');
+    const store     = this.get('store');
+    const itemTypes = A(['method', 'property', 'event']);
 
     return store.push({
       data:
         classItems
-          .filter(ci => ci.name && ci.itemtype)
+          .filter(ci => ci &&ci.name && itemTypes.contains(ci.itemtype))
           .map(classItem => ({
             id:   `${classItem.class}--${classItem.name}`,
             type: 'yuidoc-class-item',
@@ -298,9 +304,20 @@ export default AjaxService.extend({
               line:        classItem.line,
               access:      classItem.access || 'public',
               itemType:    classItem.itemtype,
-              params:      classItem.params,
+              params:      A(classItem.params),
+              type:        classItem.type,
+              return:      classItem.return,
+              default:     classItem.default,
+              example:     classItem.example,
+              
               static:      !!classItem.static,
               deprecated:  !!classItem.deprecated,
+              final:       !!classItem.final,
+              optional:    !!classItem.optional,
+              
+              computed:    classItem.computed != null,
+              observer:    classItem.observer != null,
+              on:          classItem.on       != null,
             },
             relationships: {
               version:   this.jsonApiBelongsTo(version,             'yuidoc-version'),
@@ -397,9 +414,9 @@ export default AjaxService.extend({
     localStorage.setItem(treeKey, serializedTree);
   },
 
-  backgroundRetrieveFromGitHub ({owner, repo, version, path, refresh}) {
+  backgroundRetrieveFromGitHub ({owner, repo, version, path, githubApiURL, refresh}) {
     this
-      .requestTrees({owner, repo, version})
+      .requestTrees({owner, repo, version, githubApiURL})
       .then(response => {
         const cachedSha = this.lookupCachedSha({owner, repo, version, path});
 
@@ -419,7 +436,7 @@ export default AjaxService.extend({
 
 
 
-  retrieve ({owner, repo, version, path, loadingStages, refresh}) {
+  retrieve ({owner, repo, version, path, githubApiURL, loadingStages, refresh}) {
     const {versionRecord, existing} = this.getVersionRecord({owner, repo, version});
 
     if (existing && !this.lookupCachedTree({owner, repo, version, path})) {
@@ -428,7 +445,7 @@ export default AjaxService.extend({
 
     return this
 
-      .retrieveFromCacheOrGitHub({owner, repo, version, path, loadingStages, refresh})
+      .retrieveFromCacheOrGitHub({owner, repo, version, path, githubApiURL, loadingStages, refresh})
 
       .then(data => loadingStages.next(
         'Loading documentation into the store...',
@@ -441,7 +458,7 @@ export default AjaxService.extend({
       ));
   },
 
-  retrieveFromCacheOrGitHub ({owner, repo, version, path, loadingStages, refresh}) {
+  retrieveFromCacheOrGitHub ({owner, repo, version, path, githubApiURL, loadingStages, refresh}) {
     return loadingStages
       .next(
         'Looking up cached documentation...',
@@ -450,12 +467,12 @@ export default AjaxService.extend({
         }
       )
       .then(data => {
-        if (data) {
+        if (data && !githubApiURL) {
           this.backgroundRetrieveFromGitHub({owner, repo, version, path, refresh});
           return this.deserializeData({data, loadingStages});
         }
 
-        return this.retrieveFromGitHub({owner, repo, version, path, loadingStages});
+        return this.retrieveFromGitHub({owner, repo, version, githubApiURL, path, loadingStages});
       });
   },
 
@@ -469,13 +486,13 @@ export default AjaxService.extend({
       );
   },
 
-  retrieveFromGitHub({owner, repo, version, path, loadingStages}) {
+  retrieveFromGitHub({owner, repo, version, githubApiURL, path, loadingStages}) {
     let _sha;
 
     return loadingStages
       .next(
         'Not found! Retrieving list of files from GitHub...',
-        () => this.retrieveTreeFromCacheOrGithub({owner, repo, version, path})
+        () => this.retrieveTreeFromCacheOrGithub({owner, repo, version, path, githubApiURL})
       )
 
       .then(({tree: files, sha}) => loadingStages.next(
@@ -488,7 +505,7 @@ export default AjaxService.extend({
 
       .then(files => loadingStages.next(
         'Retrieving files from GitHub...',
-        currentStage => this.retrieveFiles({owner, repo, version, files, currentStage})
+        currentStage => this.retrieveFiles({owner, repo, version, files, githubApiURL, currentStage})
       ))
 
       .then(files => loadingStages.next(
@@ -507,13 +524,13 @@ export default AjaxService.extend({
       ));
   },
 
-  retrieveTreeFromCacheOrGithub ({owner, repo, version, path}) {
+  retrieveTreeFromCacheOrGithub ({owner, repo, version, githubApiURL, path}) {
     const tree = this.lookupAndPurgeCachedTree({owner, repo, version, path});
 
     if (tree) {
       return tree;
     }
 
-    return this.requestTrees({owner, repo, version});
+    return this.requestTrees({owner, repo, version, githubApiURL});
   }
 });

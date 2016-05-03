@@ -1,0 +1,12 @@
+<h3
+  class="collapsibleBlock-title"
+  {{action 'toggleCollapse'}}
+>
+  {{if isCollapsed '▼' '▲'}}
+
+  {{title}}
+</h3>
+
+<div class="collapsibleBlock-content">
+  {{yield}}
+</div>

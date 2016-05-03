@@ -43,26 +43,11 @@ export default Component.extend({
   hasInherited:       null,
   hasNonInherited:    null,
 
-  groupBy:            null,
-
 
 
   // ----- Overridden properties -----
   classNames: ['classItemsFilter'],
   layout,
-
-
-  // ----- Computed properties -----
-  hasMoreThanOneOfAnything: computed('hasMoreThanOne', function () {
-    const hasMoreThanOne = this.get('hasMoreThanOne');
-
-    return A(
-      Object
-        .keys(hasMoreThanOne)
-        .map(k => hasMoreThanOne[k])
-    )
-      .any(v => v);
-  }),
 
 
 
@@ -173,60 +158,5 @@ export default Component.extend({
         showNonInherited: true,
       });
     },
-
-    setGroupBy (value) {
-      if (value === 'dont') {
-        value = null;
-      }
-
-      this.set('groupBy', value);
-
-      if (!value) {
-        return;
-      }
-
-      if (value === 'itemType') {
-        this.setProperties({
-          showMethods:        true,
-          showProperties:     true,
-          showEvents:         true,
-          showOtherItemTypes: true,
-        });
-        return;
-      }
-
-      if (value === 'access') {
-        this.setProperties({
-          showPublic:         true,
-          showProtected:      true,
-          showPrivate:        true,
-        });
-        return;
-      }
-
-      if (value === 'static') {
-        this.setProperties({
-          showStatic:         true,
-          showInstance:       true,
-        });
-        return;
-      }
-
-      if (value === 'deprecated') {
-        this.setProperties({
-          showDeprecated:     true,
-          showNonDeprecated:  true,
-        });
-        return;
-      }
-
-      if (value === 'inherited') {
-        this.setProperties({
-          showInherited:      true,
-          showNonInherited:   true,
-        });
-        return;
-      }
-    }
   },
 });

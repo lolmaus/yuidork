@@ -1,0 +1,5 @@
+{{#if (and classRecord (not classRecord.foreign))}}
+  {{link-to className 'version.class' classRecord.id}}
+{{else}}
+  {{className}}
+{{/if}}

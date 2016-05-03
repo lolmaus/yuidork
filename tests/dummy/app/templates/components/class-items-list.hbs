@@ -1,0 +1,114 @@
+{{#if classItemsStatic.length}}
+
+  <div>
+    {{#if classItemsStaticMethods.length}}
+      {{#collapsible-block
+        title       = "Static Methods"
+        isCollapsed = staticMethodsAreCollapsed
+      }}
+        {{#each classItemsStaticMethodsFiltered as |item|}}
+          {{component componentName
+            classItem   = item
+            classRecord = classRecord
+            scrollable  = scrollableItemListHtmlClass
+          }}
+        {{else}}
+          Not found
+        {{/each}}{{!classItemsStaticMethodsFiltered}}
+      {{/collapsible-block}}
+    {{/if}}
+
+    {{#if classItemsStaticProperties.length}}
+      {{#collapsible-block
+        title       = "Static Properties"
+        isCollapsed = staticPropertiesAreCollapsed
+      }}
+        {{#each classItemsStaticPropertiesFiltered as |item|}}
+          {{component componentName
+            classItem   = item
+            classRecord = classRecord
+            scrollable  = scrollableItemListHtmlClass
+          }}
+        {{else}}
+          Not found
+        {{/each}}{{!classItemsStaticPropertiesFiltered}}
+      {{/collapsible-block}}
+    {{/if}}
+
+    {{#if classItemsStaticEvents.length}}
+      {{#collapsible-block
+        title       = "Static Events"
+        isCollapsed = staticEventsAreCollapsed
+      }}
+        {{#each classItemsStaticEventsFiltered as |item|}}
+          {{component componentName
+            classItem   = item
+            classRecord = classRecord
+            scrollable  = scrollableItemListHtmlClass
+          }}
+        {{else}}
+          Not found
+        {{/each}}{{!classItemsStaticEventsFiltered}}
+      {{/collapsible-block}}
+    {{/if}}
+  </div>
+
+{{/if}}{{!classItemsStatic.length}}
+
+{{#if classItemsInstance.length}}
+
+  <div>
+
+    {{#if classItemsInstanceMethods.length}}
+      {{#collapsible-block
+        title       = "Instance Methods"
+        isCollapsed = instanceMethodsAreCollapsed
+      }}
+        {{#each classItemsInstanceMethodsFiltered as |item|}}
+          {{component componentName
+            classItem   = item
+            classRecord = classRecord
+            scrollable  = scrollableItemListHtmlClass
+          }}
+        {{else}}
+          Not found
+        {{/each}}{{!classItemsInstanceMethodsFiltered}}
+      {{/collapsible-block}}
+    {{/if}}
+
+    {{#if classItemsInstanceProperties.length}}
+      {{#collapsible-block
+        title       = "Instance Properties"
+        isCollapsed = instancePropertiesAreCollapsed
+      }}
+        {{#each classItemsInstancePropertiesFiltered as |item|}}
+          {{component componentName
+            classItem   = item
+            classRecord = classRecord
+            scrollable  = scrollableItemListHtmlClass
+          }}
+        {{else}}
+          Not found
+        {{/each}}{{!classItemsInstancePropertiesFiltered}}
+      {{/collapsible-block}}
+    {{/if}}
+
+    {{#if classItemsInstanceEvents.length}}
+      {{#collapsible-block
+        title       = "Instance Events"
+        isCollapsed = instanceEventsAreCollapsed
+      }}
+        {{#each classItemsInstanceEventsFiltered as |item|}}
+          {{component componentName
+            classItem   = item
+            classRecord = classRecord
+            scrollable  = scrollableItemListHtmlClass
+          }}
+        {{else}}
+          Not found
+        {{/each}}{{!classItemsInstanceEventsFiltered}}
+      {{/collapsible-block}}
+    {{/if}}
+  </div>
+
+{{/if}}{{!classItemsInstance.length}}
