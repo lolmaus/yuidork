@@ -10,7 +10,7 @@ const {
 
 const O = eObject.create.bind(eObject);
 
-import eqMixin from '../mixins/e-q';
+import eqMixin from 'ember-element-query/mixin';
 import layout  from '../templates/components/class-items';
 
 export default Component.extend(eqMixin, {

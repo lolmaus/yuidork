@@ -1,13 +1,12 @@
 import Ember from 'ember';
 
 const {
-  A,
   Component,
   computed,
   String: {capitalize}
 } = Ember;
 
-import eqMixin from '../mixins/e-q';
+import eqMixin from 'ember-element-query/mixin';
 
 export default Component.extend(eqMixin, {
 
@@ -60,11 +59,8 @@ export default Component.extend(eqMixin, {
 
       const name = this.get('classItem.name');
 
-      return A(
-        this
-          .get('classItem.class.inheritedClassItems')
-          .mapBy('name')
-      )
+      return this
+        .get('classItem.class.inheritedClassItemNames')
         .contains(name);
     }
   ),
@@ -74,14 +70,17 @@ export default Component.extend(eqMixin, {
     'classItem.name',
     'classItem.class.extends',
     function () {
-      if (!this.get('isOverridden')) {
+      // return false
+      if (
+        this.get('isInherited')
+        || !this.get('isOverridden')
+      ) {
         return null;
       }
 
-      const name   = this.get('classItem.name');
-      const parent = this.get('classItem.class.extends');
+      const classItem = this.get('classItem');
 
-      return this.getParentRecursively(name, parent);
+      return this.getParentRecursively(classItem);
     }
   ),
 
@@ -168,24 +167,17 @@ export default Component.extend(eqMixin, {
 
 
   // ----- Custom methods -----
-  getParentRecursively (classItemName, parent) {
-    const classItemNames =
-      A(
-        parent
-          .get('classItems')
-          .mapBy('name')
-      );
+  getParentRecursively (classItem) {
+    const name                = classItem.get('name');
+    const inheritedClassItems = classItem.get('class.inheritedClassItems');
+    const parentClassItem     = inheritedClassItems.findBy('name', name);
 
-    if (classItemNames.contains(classItemName)) {
-      return parent;
+    if (!parentClassItem) {
+      return null;
     }
 
-    const nextParent = parent.get('extends');
+    const parentClassItemParent = this.getParentRecursively(parentClassItem);
 
-    if (nextParent) {
-      return this.getParentRecursively(classItemName, parent);
-    }
-
-    return false;
+    return parentClassItemParent || parentClassItem.get('class');
   }
 });

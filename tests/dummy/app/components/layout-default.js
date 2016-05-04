@@ -6,7 +6,7 @@ const {
   computed,
 } = Ember;
 
-import eqMixin   from '../mixins/e-q';
+import eqMixin   from 'ember-element-query/mixin';
 import layout    from '../templates/components/layout-default';
 
 export default Component.extend(eqMixin, {
@@ -25,7 +25,7 @@ export default Component.extend(eqMixin, {
     'menuIsExpanded:-menuExpanded:-menuCollapsed',
   ],
 
-  eqTransitionClasses: [
+  eqTransitionSelectors: [
     '.layoutDefault-menu',
     '.layoutDefault-content'
   ],
@@ -67,7 +67,6 @@ export default Component.extend(eqMixin, {
     },
 
     closeMenu (ignoreOnSmall) {
-      console.log({ignoreOnSmall, slices: this.get('eqSlicesFrom'), contains: A(this.get('eqSlicesTo')).contains('m')})
       if (ignoreOnSmall && A(this.get('eqSlicesFrom')).contains('l')) {
         return;
       }

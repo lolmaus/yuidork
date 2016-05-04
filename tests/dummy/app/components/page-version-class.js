@@ -6,7 +6,7 @@ const {
   computed,
 } = Ember;
 
-import eqMixin from '../mixins/e-q';
+import eqMixin from 'ember-element-query/mixin';
 import layout  from '../templates/components/page-version-class';
 
 export default Component.extend(eqMixin, {
@@ -22,8 +22,7 @@ export default Component.extend(eqMixin, {
 
   scrollableItemListHtmlClass: computed('eqSlicesFrom.[]', function () {
     const eqSlicesFrom = this.get('eqSlicesFrom');
-
-    console.log({eqSlicesFrom})
+    
     return (
       A(eqSlicesFrom).contains('xl')
       ? ".classItems-items"

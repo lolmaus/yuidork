@@ -71,7 +71,7 @@ export default Component.extend({
     },
 
     inherited: {
-      overridden: 'Own (overridding)',
+      overridden: 'Inherited but overridden',
       inherited:  'Inherited',
       false:      'Own',
     },
@@ -118,8 +118,7 @@ export default Component.extend({
     },
 
     inherited: {
-      overridden: true,
-      false:      true,
+      false: true,
     },
 
     static: {

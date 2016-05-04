@@ -16,6 +16,12 @@ module.exports = function(environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
+    },
+
+    webFontConfig: {
+      google: {
+        families: ['Ubuntu:400,700,400italic,700italic&subset=latin,cyrillic']
+      }
     }
   };
 

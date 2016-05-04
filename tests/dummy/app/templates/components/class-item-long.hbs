@@ -112,7 +112,7 @@
   {{#if (or isOverridden isInherited)}}
     {{fugue-icon
       type     = 'inherited'
-      value    = classItem.inherited
+      value    = (if isInherited 'inherited' (if isOverridden 'overridden' false))
       withText = true
       class    = "classItemLong-icon _inherited"
     }}
@@ -120,6 +120,11 @@
 
   {{#if isInherited}}
     Inherited from
+
+    {{link-to-class
+      className=classItem.class.name
+      versionRecord=classItem.version
+    }}
 
     <a
       href={{classItem.urlWithLine}}
@@ -131,12 +136,10 @@
     {{#if isOverridden}}
       Inherited from
 
-      <a
-        href={{overriddenClass.urlWithLine}}
-        target="_blank"
-      >
-        {{overriddenClass.file.name}}:{{overriddenClass.line}}
-      </a>,
+      {{link-to-class
+        className=overriddenClass.name
+        versionRecord=classItem.version
+      }}
 
       but overridden in
     {{else}}

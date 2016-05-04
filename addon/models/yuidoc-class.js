@@ -68,6 +68,8 @@ export default Model.extend({
           .concat(mixedInClassItems));
     }
   ),
+  
+  inheritedClassItemNames: mapBy('inheritedClassItems', 'name'),
 
 
 

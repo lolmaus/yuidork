@@ -99,7 +99,7 @@ But the Yuidork addon also bundles a dummy app which aims to be a universal and 
 
 ## License
 
-This software is free to use under the MIT license. See the [LICENSE]](https://github.com/lolmaus/yuidork/blob/gen-1/LICENSE.md) file for license text and copyright information.
+This software is free to use under the MIT license. See the [LICENSE](https://github.com/lolmaus/yuidork/blob/gen-1/LICENSE.md) file for license text and copyright information.
 
 Includes code ported from [YUIDoc](https://github.com/yui/yuidoc) ([Yahoo Inc. BSD license](https://github.com/yui/yuidoc/blob/master/LICENSE)).
 
