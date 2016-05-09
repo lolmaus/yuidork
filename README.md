@@ -8,11 +8,11 @@ Allows viewing docs for *any* branch/tag/commit, does not require generated docs
 
 ## Live demos:
 
-* [emberjs/ember.js](https://lolmaus.github.io/yuidork/#/emberjs/ember.js/master)
-* [emberjs/data](https://lolmaus.github.io/yuidork/#/emberjs/data/master)
-* [simplabs/ember-simple-auth](https://lolmaus.github.io/yuidork/#/simplabs/ember-simple-auth/master)
-* [cibernox/ember-cpm](https://lolmaus.github.io/yuidork/#/cibernox/ember-cpm/master)
-* [yui/yuidoc](https://lolmaus.github.io/yuidork/#/yui/yuidoc/master)
+* [emberjs/ember.js](http://lolma.us/yuidork/#/emberjs/ember.js/master)
+* [emberjs/data](http://lolma.us/yuidork/#/emberjs/data/master)
+* [simplabs/ember-simple-auth](http://lolma.us/yuidork/#/simplabs/ember-simple-auth/master)
+* [cibernox/ember-cpm](http://lolma.us/yuidork/#/cibernox/ember-cpm/master)
+* [yui/yuidoc](http://lolma.us/yuidork/#/yui/yuidoc/master)
 
 
 ## Roadmap
