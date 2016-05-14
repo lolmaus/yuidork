@@ -1,5 +1,5 @@
 {{#scroll-to
-  href=(plus '#' (encode-class (plus 'classItem-' classItem.id)))
+  target=(plus '#' (encode-class (plus 'classItem-' classItem.id)))
   scrollable=scrollable
   class="classItemShort-link"
 }}
@@ -28,7 +28,7 @@
     {{#if isInherited}}
       {{fugue-icon
         type='inherited'
-        value=(if isInherited 'inherited' (if isOverridden 'overridden' false))
+        value=(if isInherited 'inherited' (if classItem.isOverriding 'overridden' false))
         class="classItemShort-icon _inherited"
       }}
     {{/if}}

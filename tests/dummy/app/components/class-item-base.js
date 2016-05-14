@@ -48,41 +48,41 @@ export default Component.extend(eqMixin, {
     }
   ),
 
-  isOverridden: computed(
-    'classItem.class.inheritedClassItems.@each.name',
-    'classItem.name',
-    'isInherited',
-    function () {
-      if (this.get('isInherited')) {
-        return false;
-      }
-
-      const name = this.get('classItem.name');
-
-      return this
-        .get('classItem.class.inheritedClassItemNames')
-        .contains(name);
-    }
-  ),
-
-  overriddenClass: computed(
-    'isOverridden',
-    'classItem.name',
-    'classItem.class.extends',
-    function () {
-      // return false
-      if (
-        this.get('isInherited')
-        || !this.get('isOverridden')
-      ) {
-        return null;
-      }
-
-      const classItem = this.get('classItem');
-
-      return this.getParentRecursively(classItem);
-    }
-  ),
+  // isOverridden: computed(
+  //   'classItem.class.inheritedClassItems.@each.name',
+  //   'classItem.name',
+  //   'isInherited',
+  //   function () {
+  //     if (this.get('isInherited')) {
+  //       return false;
+  //     }
+  //
+  //     const name = this.get('classItem.name');
+  //
+  //     return this
+  //       .get('classItem.class.inheritedClassItemNames')
+  //       .contains(name);
+  //   }
+  // ),
+  //
+  // overriddenClass: computed(
+  //   'isOverridden',
+  //   'classItem.name',
+  //   'classItem.class.extends',
+  //   function () {
+  //     // return false
+  //     if (
+  //       this.get('isInherited')
+  //       || !this.get('isOverridden')
+  //     ) {
+  //       return null;
+  //     }
+  //
+  //     const classItem = this.get('classItem');
+  //
+  //     return this.getParentRecursively(classItem);
+  //   }
+  // ),
 
   itemTypeIconName: computed('classItem.itemType', function () {
     const itemType = this.get('classItem.itemType');
@@ -167,17 +167,17 @@ export default Component.extend(eqMixin, {
 
 
   // ----- Custom methods -----
-  getParentRecursively (classItem) {
-    const name                = classItem.get('name');
-    const inheritedClassItems = classItem.get('class.inheritedClassItems');
-    const parentClassItem     = inheritedClassItems.findBy('name', name);
-
-    if (!parentClassItem) {
-      return null;
-    }
-
-    const parentClassItemParent = this.getParentRecursively(parentClassItem);
-
-    return parentClassItemParent || parentClassItem.get('class');
-  }
+  // getParentRecursively (classItem) {
+  //   const name                = classItem.get('name');
+  //   const inheritedClassItems = classItem.get('class.inheritedClassItems');
+  //   const parentClassItem     = inheritedClassItems.findBy('name', name);
+  //
+  //   if (!parentClassItem) {
+  //     return null;
+  //   }
+  //
+  //   const parentClassItemParent = this.getParentRecursively(parentClassItem);
+  //
+  //   return parentClassItemParent || parentClassItem.get('class');
+  // }
 });

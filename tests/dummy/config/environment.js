@@ -20,9 +20,12 @@ module.exports = function(environment) {
 
     webFontConfig: {
       google: {
-        families: ['Ubuntu:400,700,400italic,700italic&subset=latin,cyrillic']
+        families: [
+          'Ubuntu+Condensed::latin,cyrillic',
+          'Ubuntu+Mono::latin,cyrillic',
+          'Ubuntu:400,700,400italic,700italic:latin,cyrillic' ]
       }
-    }
+    } 
   };
 
   if (environment === 'development') {

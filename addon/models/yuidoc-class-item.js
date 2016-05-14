@@ -1,3 +1,9 @@
+import Ember from 'ember';
+
+const {
+  computed
+} = Ember;
+
 import Model       from 'ember-data/model';
 import attr        from 'ember-data/attr';
 import {belongsTo} from 'ember-data/relationships';
@@ -40,6 +46,46 @@ export default Model.extend({
 
 
   // ----- Computed properties -----
-  urlWithLine: urlWithLine()
+  urlWithLine: urlWithLine(),
 
+  isOverriding: computed(
+    'class.inheritedClassItems.@each.name',
+    'name',
+    function () {
+      const name = this.get('name');
+
+      return this
+        .get('class.inheritedClassItemNames')
+        .contains(name);
+    }
+  ),
+
+  overridingClass: computed(
+    'isOverriding',
+    'name',
+    'class.extends',
+    function () {
+      if (
+        !this.get('isOverriding')
+      ) {
+        return null;
+      }
+
+      return this.getParentRecursively(this);
+    }
+  ),
+
+  getParentRecursively (classItem) {
+    const name                = classItem.get('name');
+    const inheritedClassItems = classItem.get('class.inheritedClassItems');
+    const parentClassItem     = inheritedClassItems.findBy('name', name);
+
+    if (!parentClassItem) {
+      return null;
+    }
+
+    const parentClassItemParent = this.getParentRecursively(parentClassItem);
+
+    return parentClassItemParent || parentClassItem.get('class');
+  }
 });

@@ -200,6 +200,6 @@ export default Component.extend({
   src: computed('icon', 'type', function () {
     const icon = this.get('icon');
 
-    return `https://lolmaus.github.io/fugue-icons/icons/${icon}.png`;
+    return `http://lolma.us/fugue-icons/icons/${icon}.png`;
   }),
 });

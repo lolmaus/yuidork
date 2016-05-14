@@ -109,10 +109,10 @@
 
 <div class="classItemLong-definedIn">
 
-  {{#if (or isOverridden isInherited)}}
+  {{#if (or classItem.isOverriding isInherited)}}
     {{fugue-icon
       type     = 'inherited'
-      value    = (if isInherited 'inherited' (if isOverridden 'overridden' false))
+      value    = (if isInherited 'inherited' (if classItem.isOverriding 'overridden' false))
       withText = true
       class    = "classItemLong-icon _inherited"
     }}
@@ -133,11 +133,11 @@
       {{classItem.file.name}}:{{classItem.line}}
     </a>
   {{else}}
-    {{#if isOverridden}}
+    {{#if classItem.isOverriding}}
       Inherited from
 
       {{link-to-class
-        className=overriddenClass.name
+        className=classItem.overridingClass.name
         versionRecord=classItem.version
       }}
 

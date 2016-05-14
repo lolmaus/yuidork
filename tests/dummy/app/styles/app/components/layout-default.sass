@@ -127,8 +127,8 @@
     font-weight:     bold
 
     // ----- Behavior -----
-    $c:          black
-    $s:          1px
+    $c:          #d82e38
+    $s:          1.4px
     color:       $c
     text-shadow: none
     transition:  color 0.3s ease, text-shadow 0.3s ease
@@ -138,6 +138,10 @@
       text-shadow: #{-$s} #{-$s} 0 $c, #{-$s} #{$s} 0 $c, #{$s} #{-$s} 0 $c, #{$s} #{$s} 0 $c
 
       margin-right: 2rem
+  
+      &:hover
+        $c: #ff8d48
+        text-shadow: #{-$s} #{-$s} 0 $c, #{-$s} #{$s} 0 $c, #{$s} #{-$s} 0 $c, #{$s} #{$s} 0 $c
 
 
 
