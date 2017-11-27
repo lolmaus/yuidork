@@ -1,60 +1,94 @@
-<div class="meNu-filter">
-  {{input
-    value=filter
-    escape-press=(action 'clearFilter')
-  }}
+{{#if groupedPages.length}}
+  {{#each groupedPages as |group groupIndex|}}
+    {{#if (and (not-eq group.group 'default') (not-eq group.group 'undefined'))}}
+      <h2>{{group.group}}</h2>
+    {{/if}}
 
-  <button
-    {{action 'clearFilter'}}
-    disabled={{not filter.length}}
-  >x</button>
-</div>{{!meNu-filter}}
+    {{#if (and (eq group.group 'undefined') (gt groupIndex 0))}}
+      <h2>Other pages</h2>
+    {{/if}}
 
-
-{{#if versionRecord.modulesSorted.length}}
-  <h2>Modules</h2>
-
-  <ul>
-    {{#each modulesFiltered as |module|}}
-      <li>
-        {{link-to module.name 'version.module' module.id
-          invokeAction=closeMenuAction
-        }}
-      </li>
-    {{else}}
-      Not found
-    {{/each}}
-  </ul>
+    <ul>
+      {{#each group.pages as |page|}}
+        <li>
+          {{link-to page.name 'version.page' (serialize page.id)
+            invokeAction=closeMenuAction
+          }}
+        </li>
+      {{/each}}
+    </ul>
+  {{/each}}
 {{/if}}
 
-{{#if versionRecord.namespacesSorted.length}}
-  <h2>Namespaces</h2>
 
-  <ul>
-    {{#each namespacesFiltered as |namespace|}}
-      <li>
-        {{link-to namespace.name 'version.namespace' namespace.id
-          invokeAction=closeMenuAction
-        }}
-      </li>
-    {{else}}
-      Not found
-    {{/each}}
-  </ul>
-{{/if}}
+{{#if (or
+  versionRecord.modulesSorted.length
+  versionRecord.namespacesSorted.length
+  versionRecord.classesSorted.length
+)}}
 
-{{#if versionRecord.classesSorted.length}}
-  <h2>Classes</h2>
+  <h2>API Docs</h2>
 
-  <ul>
-    {{#each classesFiltered as |class|}}
-      <li>
-        {{link-to class.name 'version.class' class.id
-          invokeAction=closeMenuAction
-        }}
-      </li>
-    {{else}}
-      Not found
-    {{/each}}
-  </ul>
+
+  <div class="meNu-filter">
+    {{input
+      value=filter
+      escape-press=(action 'clearFilter')
+    }}
+
+    <button
+      {{action 'clearFilter'}}
+      disabled={{not filter.length}}
+    >x</button>
+  </div>{{!meNu-filter}}
+
+
+  {{#if versionRecord.modulesSorted.length}}
+    <h3>Modules</h3>
+
+    <ul>
+      {{#each modulesFiltered as |module|}}
+        <li>
+          {{link-to module.name 'version.module' (serialize module.id)
+            invokeAction=closeMenuAction
+          }}
+        </li>
+      {{else}}
+        Not found
+      {{/each}}
+    </ul>
+  {{/if}}
+
+  {{#if versionRecord.namespacesSorted.length}}
+    <h3>Namespaces</h3>
+
+    <ul>
+      {{#each namespacesFiltered as |namespace|}}
+        <li>
+          {{link-to namespace.name 'version.namespace' (serialize namespace.id)
+            invokeAction=closeMenuAction
+          }}
+        </li>
+      {{else}}
+        Not found
+      {{/each}}
+    </ul>
+  {{/if}}
+
+  {{#if versionRecord.classesSorted.length}}
+    <h3>Classes</h3>
+
+    <ul>
+      {{#each classesFiltered as |class|}}
+        <li>
+          {{link-to class.name 'version.class' (serialize class.id)
+            invokeAction=closeMenuAction
+          }}
+        </li>
+      {{else}}
+        Not found
+      {{/each}}
+    </ul>
+  {{/if}}
+
 {{/if}}

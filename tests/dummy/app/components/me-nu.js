@@ -1,11 +1,14 @@
 import Ember from 'ember';
 
 const {
+  A,
   Component,
   computed
 } = Ember;
 
 import layout from '../templates/components/me-nu';
+
+import _ from 'npm:lodash';
 
 export default Component.extend({
 
@@ -38,7 +41,7 @@ export default Component.extend({
       m.get('name') && m.get('name').indexOf(filter) > -1
     );
   }),
-  
+
   namespacesFiltered: computed('versionRecord.namespacesSorted', 'filter', function() {
 
     const filter  = this.get('filter');
@@ -52,7 +55,7 @@ export default Component.extend({
       n.get('name') && n.get('name').indexOf(filter) > -1
     );
   }),
-  
+
   classesFiltered: computed('versionRecord.classesSorted', 'filter', function() {
 
     const filter  = this.get('filter');
@@ -65,6 +68,27 @@ export default Component.extend({
     return classes.filter(c =>
       c.get('name') && c.get('name').indexOf(filter) > -1
     );
+  }),
+
+  groupedPages: computed('versionRecord.pages.@each.{group,title}', function () {
+    const pages =
+      this
+        .get('versionRecord.pages')
+        .filterBy('title')
+        .toArray();
+
+    return _(pages)
+      .groupBy(page => page.get('group'))
+      .map((pages, group) => ({
+        group,
+        pages: A(pages).sortBy('position', 'title').toArray()
+      }))
+      .sortBy(({group}) => (
+        group === 'default'   ? '' :
+        group === 'undefined' ? 'Ј' :
+                                group
+      ))
+      .value();
   }),
 
 

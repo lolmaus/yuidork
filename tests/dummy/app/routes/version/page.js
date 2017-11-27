@@ -9,8 +9,9 @@ const {
   RSVP
 } = Ember;
 
-import {deserialize} from 'yuidork/utils/de-serialize';
+import _ from 'npm:lodash';
 
+import {deserialize} from 'yuidork/utils/de-serialize';
 
 export default Route.extend({
 
@@ -20,20 +21,20 @@ export default Route.extend({
 
 
   // ----- Overridden methods -----
-  model ({classId}) {
+  model ({pageId}) {
     const parentModel   = this.modelFor('version');
-    
-    classId = deserialize(classId);
 
-    const currentClass =
+    pageId = deserialize(pageId);
+
+    const currentPage =
       parentModel
         .versionRecord
-        .get('classes')
-        .findBy('id', classId);
+        .get('pages')
+        .findBy('id', pageId);
 
     return RSVP.hash({
       ...parentModel,
-      currentClass
+      currentPage
     })
-  }
+  },
 });

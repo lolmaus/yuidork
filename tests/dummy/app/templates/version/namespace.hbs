@@ -2,7 +2,7 @@
   <h1>Namespace {{namespace.name}}</h1>
 
   <p>
-    Module: {{link-to namespace.module.name 'version.module' namespace.module.id}}
+    Module: {{link-to namespace.module.name 'version.module' (serialize namespace.module.id)}}
   </p>
 
   {{#if namespace.classes.length}}
@@ -11,7 +11,7 @@
     <ul>
       {{#each namespace.classes as |klass|}}
         <li>
-          {{link-to klass.name 'version.class' klass.id}}
+          {{link-to klass.name 'version.class' (serialize klass.id)}}
         </li>
       {{/each}}
     </ul>

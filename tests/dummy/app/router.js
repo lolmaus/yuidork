@@ -10,6 +10,7 @@ Router.map(function() {
     this.route('module',    {path: 'modules/:moduleId'});
     this.route('namespace', {path: 'namespaces/:namespaceId'});
     this.route('class',     {path: 'classes/:classId'});
+    this.route('page',      {path: 'pages/:pageId'});
   });
   this.route('loading');
 });

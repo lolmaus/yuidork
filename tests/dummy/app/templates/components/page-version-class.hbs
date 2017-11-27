@@ -49,7 +49,7 @@
       <div class="pageVersionClass-module">
         Module:
 
-        {{link-to currentClass.module.name 'version.module' currentClass.module.id}}
+        {{link-to currentClass.module.name 'version.module' (serialize currentClass.module.id)}}
       </div>
 
 
@@ -60,7 +60,7 @@
           {{#if currentClass.extends.foreign}}
             {{currentClass.extends.name}}
           {{else}}
-            {{link-to currentClass.extends.name 'version.class' currentClass.extends.id}}
+            {{link-to currentClass.extends.name 'version.class' (serialize currentClass.extends.id)}}
           {{/if}}
         </div>
       {{/if}}
@@ -73,7 +73,7 @@
           <ul>
             {{#each currentClass.uses as |mixin|}}
               <li>
-                {{link-to mixin.name 'version.class' mixin.id}}
+                {{link-to mixin.name 'version.class' (serialize mixin.id)}}
               </li>
             {{/each}}
           </ul>
@@ -88,7 +88,7 @@
           <ul>
             {{#each currentClass.extensionFor as |extender|}}
               <li>
-                {{link-to extender.name 'version.class' extender.id}}
+                {{link-to extender.name 'version.class' (serialize extender.id)}}
               </li>
             {{/each}}
           </ul>

@@ -7,12 +7,16 @@ const {
   RSVP
 } = Ember;
 
+import {deserialize} from 'yuidork/utils/de-serialize';
+
 
 export default Route.extend({
 
   // ----- Overridden methods -----
   model ({moduleId}) {
     const parentModel   = this.modelFor('version');
+    
+    moduleId = deserialize(moduleId);
     
     const currentModule =
       parentModel

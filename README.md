@@ -21,68 +21,78 @@ Allows viewing docs for *any* branch/tag/commit, does not require generated docs
 >
 > :white_circle: -- not implemented yet, planned  
 > :radio_button: -- in progress (leaf) or partially implemented (branch)  
-> :black_circle: -- implemented   
+> :black_circle: -- implemented  
 > :no_entry:     -- blocked, has to be figured out  
 
 * :radio_button: Parsing
-  * :radio_button: Models and relationships
-    * :black_circle: Version (git tag/branch/commit/etc)
-    * :black_circle: File
-    * :black_circle: Module
-    * :black_circle: Class
-    * :black_circle: Class Item
-    * :black_circle: Namespace
-    * :no_entry: Project (need a better way to present project info)
-    * :no_entry: Element (don't know what that is, need a reference project)
-    * :no_entry: For     (don't know what that is, need a reference project)
-  * :black_circle: Parse YUIDoc JSON format and populate store 
-  * :black_circle: Generate documentation live for any project on GitHub
-    * :black_circle: Port YUIDoc.DocParser (aww yiss! :sunglasses:)
-    * :black_circle: Custom AJAX service
-    * :black_circle: Loading screen with stages display
-  * :white_circle: Display documentation from existing JSON files
+    * :black_circle: Models and relationships
+        * :black_circle: YUIDoc models
+            * :black_circle: Version (git tag/branch/commit/etc)
+            * :black_circle: File
+            * :black_circle: Module
+            * :black_circle: Class
+            * :black_circle: Class Item
+            * :black_circle: Namespace
+            * :no_entry: Project (need a better way to present project info)
+            * :no_entry: Element (don't know what that is, need a reference project)
+            * :no_entry: For     (don't know what that is, need a reference project)
+        * :black_circle: Custom models
+            * :black_circle: Page (Markdown file)
+    * :black_circle: Parse YUIDoc JSON format and populate store 
+    * :black_circle: Generate API documentation live for any project on GitHub
+        * :black_circle: Port YUIDoc.DocParser (aww yiss! :sunglasses:)
+        * :black_circle: Custom AJAX service
+        * :black_circle: Loading screen with stages display
+    * :radio_button: Generate textual documentation from Markdown files (pages)
 * :radio_button: UI
-  * :black_circle: Menu
-  * :black_circle: Module page
-  * :white_circle: Namespace page
-  * :radio_button: Class page
-    * :radio_button: Basic class info
-    * :black_circle: Class Items component (navigate/filter class items)
-    * :white_circle: Class Item component (method/property/event)
-  * :white_circle: Reload model when changing URL params
-  * :white_circle: Versions switcher
-  * :white_circle: Project switcher
-  * :white_circle: Search options
-  * :black_circle: Linking to viewed project on GitHub
-  * :white_circle: Linking to viewed project's website (from config)
+    * :black_circle: Menu
+    * :black_circle: Module page
+    * :white_circle: Namespace page
+    * :radio_button: Class page
+        * :radio_button: Basic class info
+        * :black_circle: Class Items component (navigate/filter class items)
+        * :white_circle: Class Item component (method/property/event)
+    * :radio_button: Markdown pages
+        * :black_circle: Pages
+        * :black_circle: Hierarchical menu
+        * :white_circle: Navigation (crosslinks from `<a>` tags)
+    * :white_circle: Reload model when changing URL params
+    * :white_circle: Versions switcher
+    * :white_circle: Project switcher
+    * :white_circle: Search options
+    * :black_circle: Linking to viewed project on GitHub
+    * :white_circle: Linking to viewed project's website (from config)
 * :radio_button: Configuration
-  * :radio_button: Source
-    * :black_circle: Via query params
-    * :white_circle: Via dotfile
-  * :white_circle: Options
-    * :black_circle: Versions
-    * :white_circle: Extensions
-    * :white_circle: Path to JSDoc's `data.json`
-    * :white_circle: Project info: name, desc, URL
-    * :white_circle: Disable/enable project switcher
-    * :white_circle: Hide menu sections
+    * :radio_button: Source
+        * :black_circle: Via query params
+        * :white_circle: Via dotfile
+    * :white_circle: Options
+        * :black_circle: Versions
+        * :white_circle: Extensions
+        * :white_circle: Path to JSDoc's `data.json`
+        * :white_circle: Project info: name, desc, URL
+        * :white_circle: Disable/enable project switcher
+        * :white_circle: Hide menu sections
 * :white_circle: Styling
 * :white_circle: Authentication
-  * :white_circle: GitHub auth
-    * :white_circle: Viewing private repos
-  * :white_circle: Error handling
-    * :white_circle: API limit
-    * :white_circle: Network failure
+    * :white_circle: GitHub auth
+        * :white_circle: Viewing private repos
+    * :white_circle: Error handling
+        * :white_circle: API limit
+        * :white_circle: Network failure
 * :radio_button: Advanced features
-  * :black_circle: Caching
-    * :black_circle: Basic caching
-    * :black_circle: Background SHA fetching and comparing
-  * :radio_button: Parsing docs from file system
-    * :black_circle: Figure out how to serve and access files on disk
-    * :black_circle: Implement
-    * :white_circle: Document
-    * :no_entry: Live-reloading (would be a fantastic to have, but too tricky to implement)
-  * :white_circle: Cross-linking
+    * :black_circle: Caching
+        * :black_circle: Basic caching
+        * :black_circle: Background SHA fetching and comparing
+    * :radio_button: Parsing docs from file system
+        * :black_circle: Figure out how to serve and access files on disk
+        * :black_circle: Implement
+        * :white_circle: Document
+        * :no_entry: Live-reloading (would be a fantastic to have, but too tricky to implement)
+    * :white_circle: Cross-linking
+      * :white_circle: In Markdown pages
+      * :white_circle: In API docs
+    * :white_circle: Loading additional projects in order to display inheritance (e. g. `DS.Adapter` inherits from `Ember.Object`)
 * :white_circle: Some tests maybe
 * :white_circle: Document with YUIDoc :trollface:
 * :no_entry: Support JSDoc (need to figure out how different YUIDoc and JSDoc formats are)

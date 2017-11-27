@@ -22,6 +22,7 @@ export default Model.extend({
   files:      hasMany('yuidoc-file',       {async: false}),
   modules:    hasMany('yuidoc-module',     {async: false}),
   namespaces: hasMany('yuidoc-namespace',  {async: false}),
+  pages:      hasMany('yuidork-page',      {async: false}),
 
 
 

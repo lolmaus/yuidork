@@ -15,6 +15,9 @@ import endsWith     from 'yuidork/utils/ends-with';
 import values       from 'yuidork/utils/values';
 import YuidocParser from 'yuidork/yuidoc-parser';
 
+import _            from 'npm:lodash';
+import FM           from 'npm:front-matter';
+
 export default AjaxService.extend({
 
 
@@ -33,7 +36,7 @@ export default AjaxService.extend({
 
 
   // ----- Custom properties -----
-  extensions:  A(['js', 'jsx', 'coffee', 'sass', 'scss']),
+  extensions:  A(['js', 'jsx', 'coffee', 'sass', 'scss', 'md']),
 
 
 
@@ -64,7 +67,25 @@ export default AjaxService.extend({
   },
 
   discardEmptyFiles(files) {
-    return files.filter(({content}) => typeof content === 'string');
+    return files
+      .reduce((result, file) => {
+        if (typeof file.content === 'string') {
+          if (!endsWith(file.path, '.md')) {
+            result.push(file);
+          } else {
+            const fm = FM(_.trim(file.content));
+
+            if (Object.keys(fm.attributes).length) {
+              file.content     = fm.body;
+              file.frontmatter = fm.attributes;
+
+              result.push(file);
+            }
+          }
+        }
+
+        return result;
+      }, []);
   },
 
   shouldIncludeFile ({requestedPath, currentPath}) {
@@ -119,7 +140,22 @@ export default AjaxService.extend({
       });
   },
 
-  transformFiles (files) {
+
+
+  extractDocumentation (files) {
+    const [
+      pages,
+      yuidocFiles
+    ] = _.partition(files, f =>  endsWith(f.path, '.md'));
+
+    const data = this.parseYuidocFiles(yuidocFiles);
+
+    data.yuidork = {pages};
+
+    return data;
+  },
+
+  parseYuidocFiles (files) {
     const yuidocParser = YuidocParser.create();
     const data         = yuidocParser.parse(files);
     return data;
@@ -333,6 +369,26 @@ export default AjaxService.extend({
     });
   },
 
+  populatePages ({pages, version}) {
+    const store = this.get('store');
+
+    return store.push({
+      data: pages.map(page => ({
+        id:   page.path,
+        type: 'yuidork-page',
+        attributes: {
+          content:  page.content,
+          title:    page.frontmatter.title,
+          group:    page.frontmatter.group,
+          position: page.frontmatter.position,
+        },
+        relationships: {
+          version: this.jsonApiBelongsTo(version, 'yuidoc-version')
+        }
+      }))
+    });
+  },
+
   populateStore ({data, versionRecord}) {
     console.debug('Parsing result', data);
 
@@ -342,13 +398,15 @@ export default AjaxService.extend({
       files,
       modules,
       classes,
-      classitems: classItems
+      classitems: classItems,
+      yuidork: {pages}
     } = data;
 
     this.populateFiles     ({files,      version});
     this.populateModules   ({modules,    version});
     this.populateClasses   ({classes,    version});
     this.populateClassItems({classItems, version});
+    this.populatePages     ({pages,      version});
 
     return {versionRecord};
   },
@@ -518,8 +576,13 @@ export default AjaxService.extend({
 
       .then(files => loadingStages.next(
         'Extracting documentation...',
-        () => this.transformFiles(files)
+        () => this.extractDocumentation(files)
       ))
+
+      // .then(files => loadingStages.next(
+      //   'Extracting documentation...',
+      //   () => this.parseYuidocFiles(files)
+      // ))
 
       .then(data => loadingStages.next(
         'Caching...',

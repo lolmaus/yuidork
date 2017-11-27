@@ -3,6 +3,9 @@ import Resolver from './resolver';
 import loadInitializers from 'ember-load-initializers';
 import config from './config/environment';
 
+import _  from 'npm:lodash';       // jshint ignore:line
+import fm from 'npm:front-matter'; // jshint ignore:line
+
 let App;
 
 Ember.MODEL_FACTORY_INJECTIONS = true;

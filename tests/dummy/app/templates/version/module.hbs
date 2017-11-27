@@ -3,7 +3,7 @@
 
   {{#with module.parentModule as |parent|}}
     <p>
-      Parent: {{link-to parent.name 'version.module' parent.id}}
+      Parent: {{link-to parent.name 'version.module' (serialize parent.id)}}
     </p>
   {{/with}}
 
@@ -19,7 +19,7 @@
     <ul>
       {{#each module.submodules as |submodule|}}
         <li>
-          {{link-to submodule.name 'version.module' submodule.id}}
+          {{link-to submodule.name 'version.module' (serialize submodule.id)}}
         </li>
       {{/each}}
     </ul>
@@ -32,7 +32,7 @@
     <ul>
       {{#each module.namespaces as |namespace|}}
         <li>
-          {{link-to namespace.name 'version.namespace' namespace.id}}
+          {{link-to namespace.name 'version.namespace' (serialize namespace.id)}}
         </li>
       {{/each}}
     </ul>
@@ -45,7 +45,7 @@
     <ul>
       {{#each module.classes as |klass|}}
         <li>
-          {{link-to klass.name 'version.class' klass.id}}
+          {{link-to klass.name 'version.class' (serialize klass.id)}}
         </li>
       {{/each}}
     </ul>
