@@ -2,64 +2,66 @@
   "name": "yuidork",
   "version": "0.0.0",
   "description": "The default blueprint for ember-cli addons.",
+  "keywords": [
+    "ember-addon"
+  ],
+  "license": "MIT",
+  "author": "",
   "directories": {
     "doc": "doc",
     "test": "tests"
   },
+  "repository": "",
   "scripts": {
     "build": "ember build",
-    "start": "ember server",
-    "test": "ember try:testall"
+    "start": "ember serve",
+    "test": "ember try:each"
   },
-  "repository": "",
-  "engines": {
-    "node": ">= 0.10.0"
+  "dependencies": {
+    "ember-cli-babel": "^6.6.0"
   },
-  "author": "",
-  "license": "MIT",
   "devDependencies": {
-    "broccoli-asset-rev": "^2.4.2",
-    "ember-ajax": "2.0.1",
-    "ember-autoserve": "0.0.4",
-    "ember-browserify": "1.1.8",
-    "ember-cli": "2.6.0-beta.2",
-    "ember-cli-app-version": "^1.0.0",
-    "ember-cli-dependency-checker": "^1.2.0",
-    "ember-cli-htmlbars": "^1.0.3",
-    "ember-cli-htmlbars-inline-precompile": "^0.3.1",
-    "ember-cli-inject-live-reload": "^1.4.0",
-    "ember-cli-jshint": "^1.0.0",
-    "ember-cli-qunit": "^1.4.0",
-    "ember-cli-release": "0.2.8",
-    "ember-cli-sass": "5.3.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "broccoli-asset-rev": "^2.4.5",
+    "ember-ajax": "^3.0.0",
+    "ember-browserify": "^1.2.0",
+    "ember-cli": "~2.18.0-beta.1",
+    "ember-cli-dependency-checker": "^2.0.0",
+    "ember-cli-eslint": "^4.2.1",
+    "ember-cli-htmlbars": "^2.0.1",
+    "ember-cli-htmlbars-inline-precompile": "^1.0.0",
+    "ember-cli-inject-live-reload": "^1.4.1",
+    "ember-cli-qunit": "^4.1.1",
+    "ember-cli-release": "^1.0.0-beta.2",
+    "ember-cli-sass": "^7.1.1",
+    "ember-cli-shims": "^1.2.0",
     "ember-cli-sri": "^2.1.0",
-    "ember-cli-uglify": "^1.2.0",
-    "ember-cli-webfontloader": "0.2.1",
-    "ember-data": "2.6.0-beta.3",
-    "ember-disable-prototype-extensions": "^1.1.0",
+    "ember-cli-uglify": "^2.0.0",
+    "ember-cli-webfontloader": "^0.4.0",
+    "ember-data": "~2.13.0",
+    "ember-disable-prototype-extensions": "^1.1.2",
     "ember-element-query": "lolmaus/ember-element-query#gen-3",
-    "ember-export-application-global": "^1.0.5",
-    "ember-link-action": "0.0.34",
-    "ember-load-initializers": "^0.5.1",
-    "ember-remarkable": "3.0.0",
-    "ember-resolver": "^2.0.3",
-    "ember-scroll-to-mk2": "1.0.2",
-    "ember-truth-helpers": "1.2.0",
-    "ember-try": "^0.2.2",
+    "ember-export-application-global": "^2.0.0",
+    "ember-link-action": "^0.0.37",
+    "ember-load-initializers": "^1.0.0",
+    "ember-remarkable": "^3.6.1",
+    "ember-resolver": "^4.0.0",
+    "ember-scroll-to-mk2": "^1.1.0",
+    "ember-source": "~2.18.0-beta.1",
+    "ember-truth-helpers": "^2.0.0",
+    "eslint-plugin-ember": "^5.0.0",
     "express": "^4.13.4",
     "front-matter": "^2.0.7",
-    "glob": "^4.5.3",
-    "loader.js": "^4.0.1",
+    "glob": "^7.1.2",
+    "loader.js": "^4.2.3",
     "lodash": "^4.12.0",
     "morgan": "^1.7.0",
     "node-sass": ">=3.7.0",
-    "recursive-readdir": "^2.0.0"
+    "recursive-readdir": "^2.0.0",
+    "webfontloader": "^1.6.28"
   },
-  "keywords": [
-    "ember-addon"
-  ],
-  "dependencies": {
-    "ember-cli-babel": "^5.1.6"
+  "engines": {
+    "node": "^4.5 || 6.* || >= 7.*"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"

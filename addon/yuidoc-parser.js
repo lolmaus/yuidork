@@ -1165,12 +1165,12 @@ export default EmberObject.extend({
       let value = this.trim(tag.value);
 
       //Convert empty values to a 1 for JSON data parsing later
-      if (SHORT_TAGS.contains(name) && value === '') {
+      if (SHORT_TAGS.includes(name) && value === '') {
         value = 1;
       }
 
       if (tag && tag.tag) {
-        if (!TAGS.contains(name)) {
+        if (!TAGS.includes(name)) {
           if (CORRECTIONS[name]) {
             name = CORRECTIONS[name];
           } else {

@@ -96,8 +96,8 @@ export default AjaxService.extend({
     const segments = A(currentPath.split('/'));
     return (
       this.get('extensions').any(ext => endsWith(currentPath, `.${ext}`))
-      && !segments.contains('tests')
-      && !segments.contains('vendor')
+      && !segments.includes('tests')
+      && !segments.includes('vendor')
     );
   },
 
@@ -281,7 +281,7 @@ export default AjaxService.extend({
               .mapBy('uses')
               .reduce((a, b) => a.concat(b), [])
           )
-          .filter(cn => !classNames.contains(cn))
+          .filter(cn => !classNames.includes(cn))
       )
         .compact();
 
@@ -332,7 +332,7 @@ export default AjaxService.extend({
     return store.push({
       data:
         classItems
-          .filter(ci => ci &&ci.name && itemTypes.contains(ci.itemtype))
+          .filter(ci => ci &&ci.name && itemTypes.includes(ci.itemtype))
           .map(classItem => ({
             id:   `${classItem.class}--${classItem.name}`,
             type: 'yuidoc-class-item',

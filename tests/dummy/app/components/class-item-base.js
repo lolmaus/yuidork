@@ -49,7 +49,7 @@ export default Component.extend({
   //
   //     return this
   //       .get('classItem.class.inheritedClassItemNames')
-  //       .contains(name);
+  //       .includes(name);
   //   }
   // ),
   //

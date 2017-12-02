@@ -25,10 +25,10 @@ export default Component.extend(ElementQueryMixin, {
     'menuIsExpanded:-menuExpanded:-menuCollapsed',
   ],
 
-  eqTransitionSelectors: [
+  eqTransitionSelectors: computed(() => [
     '.layoutDefault-menu',
     '.layoutDefault-content'
-  ],
+  ]),
 
   layout,
 

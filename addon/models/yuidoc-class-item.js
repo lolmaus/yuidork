@@ -56,7 +56,7 @@ export default Model.extend({
 
       return this
         .get('class.inheritedClassItemNames')
-        .contains(name);
+        .includes(name);
     }
   ),
 

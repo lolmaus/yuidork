@@ -115,23 +115,23 @@ export default Component.extend(ElementQueryMixin, {
           && (
             !(
               this.get('classItemsNonInherited')
-              && this.get('classItemsNonInherited').contains(classItem)
+              && this.get('classItemsNonInherited').includes(classItem)
             )
             || (
               showNonInherited
               && this.get('classItemsNonInherited')
-              && this.get('classItemsNonInherited').contains(classItem)
+              && this.get('classItemsNonInherited').includes(classItem)
             )
           )
           && (
             !(
               this.get('classItemsInherited')
-              && this.get('classItemsInherited').contains(classItem)
+              && this.get('classItemsInherited').includes(classItem)
             )
             || (
               showInherited
               && this.get('classItemsInherited')
-              && this.get('classItemsInherited').contains(classItem)
+              && this.get('classItemsInherited').includes(classItem)
             )
           )
         ));
@@ -152,7 +152,7 @@ export default Component.extend(ElementQueryMixin, {
       const classItemsAll    = this.get('classRecord.effectiveClassItems');
       const classItemsNative = this.get('classRecord.classItems');
 
-      return A(classItemsAll.filter(ci => !classItemsNative.contains(ci)));
+      return A(classItemsAll.filter(ci => !classItemsNative.includes(ci)));
     }
   ),
   classItemsNonInherited: alias('classRecord.classItems'),

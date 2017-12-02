@@ -7,16 +7,18 @@
       class="layoutDefault-header-section-project-menuToggle"
     >☰</a>
 
-    <a
-      href={{ownerUrl}}
-      target="_blank"
-    >{{owner}}</a>/<a
-      href={{repoUrl}}
-      target="_blank"
-    >{{repo}}</a>@<a
-      href={{versionUrl}}
-      target="_blank"
-    >{{versionName}}</a>
+    <div>
+      <a
+        href={{ownerUrl}}
+        target="_blank"
+      >{{owner}}</a>/<a
+        href={{repoUrl}}
+        target="_blank"
+      >{{repo}}</a>@<a
+        href={{versionUrl}}
+        target="_blank"
+      >{{versionName}}</a>
+    </div>
   </div>{{!layoutDefault-header-section _project}}
 
   <div class="layoutDefault-header-section _about">
@@ -31,10 +33,16 @@
   <div class="layoutDefault-menu">
 
     <div class="layoutDefault-menu-yuidork">
-      Powered by
-      {{link-to 'Yuidork' 'index'
-        invokeAction=(action 'closeMenu')
-      }}
+      <p>
+        &nbsp;🠅 Close the menu
+      </p>
+
+      <p>
+        Powered by
+        {{link-to 'Yuidork' 'index'
+          invokeAction=(action 'closeMenu')
+        }}
+      </p>
     </div>{{!layoutDefault-header-section-about-yuidork}}
 
     {{#if versionRecord}}
