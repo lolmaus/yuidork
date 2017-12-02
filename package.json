@@ -37,7 +37,7 @@
     "ember-cli-webfontloader": "0.2.1",
     "ember-data": "2.6.0-beta.3",
     "ember-disable-prototype-extensions": "^1.1.0",
-    "ember-element-query": "1.0.1",
+    "ember-element-query": "lolmaus/ember-element-query#gen-3",
     "ember-export-application-global": "^1.0.5",
     "ember-link-action": "0.0.34",
     "ember-load-initializers": "^0.5.1",

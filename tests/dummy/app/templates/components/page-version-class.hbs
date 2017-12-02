@@ -4,7 +4,7 @@
     class="pageVersionClass-title"
   >{{currentClass.name}}</h1>
 
-  {{#e-q class="pageVersionClass-info"}}
+  <div class="pageVersionClass-info">
     <div class="pageVersionClass-meta">
 
       {{#unless (eq currentClass.access 'public')}}
@@ -104,7 +104,7 @@
       </div>
     {{/if}}
 
-  {{/e-q}}{{!pageVersionClass-info}}
+  </div>{{!pageVersionClass-info}}
 
 </div>{{!pageVersionClass-infoWrapper}}
 

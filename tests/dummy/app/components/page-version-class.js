@@ -1,15 +1,14 @@
 import Ember from 'ember';
 
 const {
-  A,
   Component,
   computed,
 } = Ember;
 
-import eqMixin from 'ember-element-query/mixin';
+import ElementQueryMixin from 'ember-element-query/mixins/element-query';
 import layout  from '../templates/components/page-version-class';
 
-export default Component.extend(eqMixin, {
+export default Component.extend(ElementQueryMixin, {
 
   // ----- Arguments -----
   currentClass: null,
@@ -20,13 +19,11 @@ export default Component.extend(eqMixin, {
   classNames: ['pageVersionClass'],
   layout,
 
-  scrollableItemListHtmlClass: computed('eqSlicesFrom.[]', function () {
-    const eqSlicesFrom = this.get('eqSlicesFrom');
-    
-    return (
-      A(eqSlicesFrom).contains('xl')
+  scrollableItemListHtmlClass: computed('eqWidth', function () {
+    const eqWidth = this.get('eqWidth');
+
+    return eqWidth >= 1000
       ? ".classItems-items"
-      : ".layoutDefault-content"
-    );
+      : ".layoutDefault-content";
   }),
 });

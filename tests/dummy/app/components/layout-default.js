@@ -1,15 +1,14 @@
 import Ember from 'ember';
 
 const {
-  A,
   Component,
   computed,
 } = Ember;
 
-import eqMixin   from 'ember-element-query/mixin';
+import ElementQueryMixin from 'ember-element-query/mixins/element-query';
 import layout    from '../templates/components/layout-default';
 
-export default Component.extend(eqMixin, {
+export default Component.extend(ElementQueryMixin, {
 
   // ----- Arguments -----
   owner:         null,
@@ -20,8 +19,9 @@ export default Component.extend(eqMixin, {
 
 
   // ----- Overridden properties -----
+  classNames: ['layoutDefault'],
+
   classNameBindings: [
-    ':layoutDefault',
     'menuIsExpanded:-menuExpanded:-menuCollapsed',
   ],
 
@@ -67,7 +67,7 @@ export default Component.extend(eqMixin, {
     },
 
     closeMenu (ignoreOnSmall) {
-      if (ignoreOnSmall && A(this.get('eqSlicesFrom')).contains('l')) {
+      if (ignoreOnSmall && this.get('eqWidth') >= 800 ) {
         return;
       }
 

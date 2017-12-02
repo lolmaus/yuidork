@@ -10,10 +10,10 @@ const {
 
 const O = eObject.create.bind(eObject);
 
-import eqMixin from 'ember-element-query/mixin';
+import ElementQueryMixin from 'ember-element-query/mixins/element-query';
 import layout  from '../templates/components/class-items';
 
-export default Component.extend(eqMixin, {
+export default Component.extend(ElementQueryMixin, {
 
   // ----- Arguments -----
   classRecord:                 null,
@@ -47,7 +47,7 @@ export default Component.extend(eqMixin, {
 
   showInherited:    true,
   showNonInherited: true,
-  
+
   staticMethodsAreCollapsed:      false,
   staticPropertiesAreCollapsed:   false,
   staticEventsAreCollapsed:       false,

@@ -1,15 +1,17 @@
 @at-root
 
-  @import node_modules/ember-element-query/addon/mixins
+  @import node_modules/ember-element-query/addon/styles/mixins
 
+  $breakpoint: 1000
   $padding: 1rem
+
 
   ////------------------------------------------
   .pageVersionClass
     //------------------------------------------
 
     // ----- RWD -----
-    +eq-from(xl)
+    +eq-from($breakpoint)
       display:  flex
 
       position: absolute
@@ -35,6 +37,12 @@
       .classItems-items
         overflow-x: hidden
         overflow-y: auto
+  
+      .pageVersionClass-info
+        display: flex
+
+      .pageVersionClass-meta
+        width: 35%
 
 
 
@@ -46,19 +54,6 @@
     // ----- Layout -----
     padding: 0 $padding
     margin:  0
-
-
-
-  ////------------------------------------------
-  .pageVersionClass-info
-    //------------------------------------------
-
-    // ----- RWD -----
-    +eq-from(xl)
-      display: flex
-
-      .pageVersionClass-meta
-        width: 35%
 
 
 

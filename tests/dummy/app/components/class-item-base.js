@@ -6,9 +6,9 @@ const {
   String: {capitalize}
 } = Ember;
 
-import eqMixin from 'ember-element-query/mixin';
+// import {ElementQueryMixin} from 'ember-element-query';
 
-export default Component.extend(eqMixin, {
+export default Component.extend({
 
   // ----- Arguments -----
   classItem:   null,
@@ -25,18 +25,6 @@ export default Component.extend(eqMixin, {
     'deprecatedClass',
     'inheritedClass'
   ],
-
-  eqSlices: {
-       0:  'xxs',
-     200:   'xs',
-     250:   'ys',
-     400:    's',
-     600:    'm',
-     800:    'l',
-    1000:   'xl',
-    1200:  'xxl',
-    1400: 'xxxl',
-  },
 
 
   // ----- Computed properties -----
